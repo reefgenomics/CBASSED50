@@ -1,0 +1,31 @@
+---
+title: "CBASS Demo"
+author: "Yulia Iakovleva"
+format: html
+editor: visual
+---
+
+## About CBASS
+
+CBASS allows you to process CBASS data. To learn more about CBASS see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
+
+## Load Packages
+
+```{r library-packages}
+library(CBASS)
+```
+
+## Load Data
+
+Load the provided example dataset:
+
+```{r load-data}
+data("cbass_dataset")
+head(cbass_dataset)
+```
+
+Make your data tidy and validate:
+
+```{r process-and-validate-cbass-dataset}
+cbass_dataset <- process_and_validate_cbass_dataset(cbass_dataset)
+```

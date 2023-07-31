@@ -1,0 +1,24 @@
+#' Sample Dataset: A dataset containing experimental data.
+#'
+#' This dataset provides experimental data with various attributes for demonstration and testing purposes.
+#'
+#' @format A data frame with 7 observations and 10 variables:
+#'   \describe{
+#'     \item{Date}{A character vector representing the date of the observation.}
+#'     \item{Country}{A character vector representing the country of the observation.}
+#'     \item{Site}{A character vector representing the site of the observation.}
+#'     \item{Condition}{A character vector representing the treatment or condition of the observation.}
+#'     \item{Species}{A character vector representing the species of the observation.}
+#'     \item{Genotype}{An integer vector representing the genotype of the observation.}
+#'     \item{Temp}{An integer vector representing the temperature of the observation.}
+#'     \item{Timepoint}{An integer vector representing the timepoint of the observation.}
+#'     \item{PAM}{A numeric vector representing the PAM value of the observation.}
+#'   }
+#'
+#' @usage data(sample_dataset)
+#'
+#' @examples
+#' # Load the sample dataset
+#' data(sample_dataset)
+#'
+"cbass_dataset"
