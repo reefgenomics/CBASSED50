@@ -24,7 +24,7 @@ data("cbass_dataset")
 head(cbass_dataset)
 ```
 
-Make your data tidy and validate:
+Make your data tidy and validate.
 
 ```{r process-and-validate-cbass-dataset}
 cbass_dataset <- process_and_validate_cbass_dataset(cbass_dataset)
