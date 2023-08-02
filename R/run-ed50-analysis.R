@@ -1,4 +1,30 @@
-# Create a new column 'GroupingProperty' by merging the specified columns
+#' Define Grouping Property Column
+#'
+#' This function creates a new column 'GroupingProperty' in the provided dataset by merging specified columns using a specified separator.
+#' The new column is created as a factor variable.
+#'
+#' @param dataset A data frame where the new 'GroupingProperty' column will be added.
+#' @param grouping_properties A character vector containing the names of the columns to be merged.
+#' @param sep A character string used as a separator when merging columns (default is "_").
+#'
+#' @return A data frame with the added 'GroupingProperty' column.
+#'
+#' @export
+#'
+#' @examples
+#' # Create a sample data frame
+#' data <- data.frame(Category = c("A", "B", "C"),
+#'                    Subcategory = c("X", "Y", "Z"),
+#'                    Value = c(10, 20, 30))
+#'
+#' # Define grouping property using 'Category' and 'Subcategory'
+#' new_data <- define_grouping_property(data, c("Category", "Subcategory"), sep = "-")
+#'
+#' # Resulting data frame:
+#' #   Category Subcategory Value GroupingProperty
+#' # 1        A           X    10              A-X
+#' # 2        B           Y    20              B-Y
+#' # 3        C           Z    30              C-Z
 define_grouping_property <-
   function(dataset, grouping_properties, sep = "_") {
     dataset$GroupingProperty <- as.factor(do.call(paste, c(dataset[grouping_properties], sep = sep)))
