@@ -36,7 +36,6 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 
   models <- lapply(unique(dataset[[grouping_property]]), function(group_value) {
     subset_data <- dataset[dataset[[grouping_property]] == group_value, ]
-    print(subset_data)
     model <- drm(formula, data = subset_data, fct = LL.3(names = c('Slope', 'Max', 'ED50')))
     # Attach the group value to the model for reference
     model$group_value <- group_value
