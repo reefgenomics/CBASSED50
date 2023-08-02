@@ -59,7 +59,7 @@ mandatory_columns <- function() {
 #' # Output: FALSE
 #'
 dataset_has_mandatory_columns <- function(dataset) {
-  result <- all(mandatory_columns() %in% colnames(dataset))
+  result <- all(mandatory_columns() %in% names(dataset))
   return(result)
 }
 
@@ -160,6 +160,8 @@ check_enough_unique_temperature_values <- function(dataset) {
 #' preprocessed_data <- preprocess_data(cbass_dataset)
 preprocess_dataset <- function(dataset) {
   dataset <- convert_columns(dataset)
+  rlog::log_info("Removing rows with missing data...")
+  dataset <- dataset[complete.cases(dataset), ]
   return(dataset)
 }
 
@@ -205,5 +207,14 @@ validate_cbass_dataset <- function(dataset) {
     ))
   }
   rlog::log_info("Your dataset passes all checks!")
+  rlog::log_info(
+    glue::glue(
+      "The dataset contains:\n",
+      " * {length(unique(dataset$Site))} unique Sites\n",
+      " * {length(unique(dataset$Condition))} unique Conditions\n",
+      " * {length(unique(dataset$Species))} unique Species\n",
+      " * {length(unique(dataset$Genotype))} unique Genotypes",
+    )
+  )
   return(TRUE)
 }
