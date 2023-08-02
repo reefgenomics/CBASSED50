@@ -377,6 +377,19 @@
       ],
       "Hash": "93762d0a34d78e6a025efdbfb5c6bb41"
     },
+    "crosstalk": {
+      "Package": "crosstalk",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R6",
+        "htmltools",
+        "jsonlite",
+        "lazyeval"
+      ],
+      "Hash": "6aa54f69598c32177e920eb3402e8293"
+    },
     "curl": {
       "Package": "curl",
       "Version": "5.0.1",
@@ -386,6 +399,17 @@
         "R"
       ],
       "Hash": "2118af9cb164c8d2dddc7b89eaf732d9"
+    },
+    "data.table": {
+      "Package": "data.table",
+      "Version": "1.14.8",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "b4c06e554f33344e044ccd7fdca750a9"
     },
     "desc": {
       "Package": "desc",
@@ -890,6 +914,16 @@
       ],
       "Hash": "0b8a6d63c8770f02a8b5635f3c431e6b"
     },
+    "lazyeval": {
+      "Package": "lazyeval",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "d908914ae53b04d4c0c0fd72ecc35370"
+    },
     "lifecycle": {
       "Package": "lifecycle",
       "Version": "1.0.3",
@@ -1205,6 +1239,38 @@
         "withr"
       ],
       "Hash": "a7f498a1b2a4a6816148e498509f6e1d"
+    },
+    "plotly": {
+      "Package": "plotly",
+      "Version": "4.10.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "RColorBrewer",
+        "base64enc",
+        "crosstalk",
+        "data.table",
+        "digest",
+        "dplyr",
+        "ggplot2",
+        "htmltools",
+        "htmlwidgets",
+        "httr",
+        "jsonlite",
+        "lazyeval",
+        "magrittr",
+        "promises",
+        "purrr",
+        "rlang",
+        "scales",
+        "tibble",
+        "tidyr",
+        "tools",
+        "vctrs",
+        "viridisLite"
+      ],
+      "Hash": "6c00a09ba7d34917d9a3e28b15dd74e3"
     },
     "plotrix": {
       "Package": "plotrix",

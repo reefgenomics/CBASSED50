@@ -1,5 +1,3 @@
-library(drc)
-
 # Create a new column 'GroupingProperty' by merging the specified columns
 define_grouping_property <-
   function(dataset, grouping_properties, sep = "_") {
@@ -51,7 +49,7 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 
   models <- lapply(unique(dataset[[grouping_property]]), function(group_value) {
     subset_data <- dataset[dataset[[grouping_property]] == group_value, ]
-    model <- drm(formula, data = subset_data, fct = LL.3(names = c('Slope', 'Max', 'ED50')))
+    model <- drc::drm(formula, data = subset_data, fct = LL.3(names = c('Slope', 'Max', 'ED50')))
     # Attach the group value to the model for reference
     model$group_value <- group_value
     model
