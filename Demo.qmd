@@ -22,6 +22,9 @@ devtools::install_github("greenjune-ship-it/CBASS", quiet = TRUE, force = TRUE)
 ## Load Packages
 
 ```{r library-packages}
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
 library(CBASS)
 ```
 
@@ -47,15 +50,32 @@ First you need to decide which grouping property you want to use. For example, I
 
 Create models:
 
-```{r fititng-dose-responce-models}
+```{r fititng-dose-responce-models, warning=FALSE}
 grouping_properties <- c("Site", "Condition", "Species", "Genotype")
 drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
 ```
 
-Get ED50:
+Get ED50 from models
 
-```{r explore-ed50}
+```{r get-ed50}
 ed50 <- get_ed50_by_grouping_property(models)
-ed50
+cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties)
+
+ed50_df <- 
+  inner_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
+  select(all_of(colnames(ed50)),
+         all_of(grouping_properties))
+```
+
+ED50 Box-plot.
+
+You can choose colorblind-friendly palettes with `display.brewer.all(colorblindFriendly = T)`.
+
+```{r display-ed50}
+ggplot(
+  ed50_df, aes(x=Species, y=ED50, color = Species)) +
+  geom_boxplot() + 
+  facet_grid(~Site) +
+  scale_color_brewer(palette = "Set2")
 ```
