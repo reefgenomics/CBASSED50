@@ -10,6 +10,21 @@ define_grouping_property <-
     return(dataset)
   }
 
+#' Fit Dynamic Regression Models (DRMs)
+#'
+#' This function fits dynamic regression models (DRMs) to a given dataset using the specified grouping properties and DRM formula.
+#'
+#' @param dataset A data frame containing the dataset on which to fit the DRMs.
+#' @param grouping_properties A character vector specifying the names of columns in the dataset that will be used as grouping properties for fitting separate DRMs.
+#' @param drm_formula A formula specifying the dynamic regression model to be fitted. This formula should follow the standard R formula syntax (e.g., y ~ x1 + x2).
+#'
+#' @return A list of fitted DRM models, with each element corresponding to a unique combination of grouping property values.
+#' @export
+#'
+#' @examples
+#' fit_drms(data, c("Site", "Condition", "Species", "Genotype"), "PAM ~ Temperature")
+#'
+#' @keywords modeling
 fit_drms <- function(dataset, grouping_properties, drm_formula) {
   # Input validation
   if (!is.data.frame(dataset)) {
