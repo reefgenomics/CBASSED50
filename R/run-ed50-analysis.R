@@ -61,15 +61,35 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
   return(models)
 }
 
+#' Get ED50 by Grouping Property
+#'
+#' This function takes a list of models and extracts the ED50 value for each model based on a specified grouping property.
+#' The ED50 value is extracted from the model's coefficients and is associated with the intercept term.
+#'
+#' @param models A list of models where each element represents a model object containing coefficients.
+#'
+#' @return A data frame containing the ED50 values along with their corresponding grouping property.
+#'         Each row represents a model's ED50 value and its associated grouping property.
+#'
+#' @export
+#'
+#' @examples
+#' #' ed50_data <- get_ed50_by_grouping_property(model_list)
+#'
+#' # Resulting data frame structure:
+#' #   ED50     GroupingProperty
+#' # 1 ED50_value_1 Group1
+#' # 2 ED50_value_2 Group2
 get_ed50_by_grouping_property <- function(models) {
   # Extract the model name and intercept using lapply
   results <- lapply(names(models), function(model_name) {
     coefficients <- models[[model_name]]$coefficients
     intercept <- coefficients["ED50:(Intercept)"]
-    data.frame(ED50 = intercept, GroupingProperty = model_name, row.names = model_name)
+    data.frame(ED50 = intercept, GroupingProperty = model_name)
   })
 
   # Combine the results into a single dataframe
   df <- do.call(rbind, results)
+  rownames(df) <- NULL
   return(df)
 }
