@@ -16,7 +16,7 @@ if(!require(devtools)){
     install.packages("devtools")
 }
 
-devtools::install_github()
+devtools::install_github("greenjune-ship-it/CBASS", quiet = TRUE, force = TRUE)
 ```
 
 ## Load Packages
@@ -43,10 +43,13 @@ validate_cbass_dataset(cbass_dataset)
 
 ## Explore ED50
 
-First you need to decide which grouping property you want to use. For example, I want to use `Site` , `Species`, `Genotype`:
+First you need to decide which grouping property you want to use. For example, I want to merge `Site` , `Condition`, `Species`, `Genotype` as one merged grouping property:
 
 ```{r fititng-dose-responce-models}
-grouping_properties <- c("Site", "Species", "Genotype")
+# load_all()
+grouping_properties <- c("Site", "Condition", "Species", "Genotype")
 drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
+
+ed50 <- get_ed50_by_grouping_property(models)
 ```
