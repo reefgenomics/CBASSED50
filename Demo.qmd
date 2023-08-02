@@ -9,15 +9,25 @@ editor: visual
 
 CBASS allows you to process CBASS data. To learn more about CBASS see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
 
+## Install CBASS
+
+```{r install-cbass}
+if(!require(devtools)){
+    install.packages("devtools")
+}
+
+devtools::install_github()
+```
+
 ## Load Packages
 
 ```{r library-packages}
 library(CBASS)
 ```
 
-## Load Data
+## Preprocess and Validate Data
 
-Load the provided example dataset:
+Load the provided example data set:
 
 ```{r load-data}
 data("cbass_dataset")
@@ -27,5 +37,16 @@ head(cbass_dataset)
 Make your data tidy and validate.
 
 ```{r process-and-validate-cbass-dataset}
-cbass_dataset <- process_and_validate_cbass_dataset(cbass_dataset)
+cbass_dataset <- preprocess_dataset(cbass_dataset)
+validate_cbass_dataset(cbass_dataset)
+```
+
+## Explore ED50
+
+First you need to decide which grouping property you want to use. For example, I want to use `Site` , `Species`, `Genotype`:
+
+```{r fititng-dose-responce-models}
+grouping_properties <- c("Site", "Species", "Genotype")
+drm_formula <- "PAM ~ Temperature"
+models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
 ```
