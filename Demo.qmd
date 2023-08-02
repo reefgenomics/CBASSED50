@@ -43,13 +43,19 @@ validate_cbass_dataset(cbass_dataset)
 
 ## Explore ED50
 
-First you need to decide which grouping property you want to use. For example, I want to merge `Site` , `Condition`, `Species`, `Genotype` as one merged grouping property:
+First you need to decide which grouping property you want to use. For example, I want to merge `Site` , `Condition`, `Species`, `Genotype` as one merged grouping property.
+
+Create models:
 
 ```{r fititng-dose-responce-models}
-# load_all()
 grouping_properties <- c("Site", "Condition", "Species", "Genotype")
 drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
+```
 
+Get ED50:
+
+```{r explore-ed50}
 ed50 <- get_ed50_by_grouping_property(models)
+ed50
 ```
