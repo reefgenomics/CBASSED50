@@ -66,6 +66,8 @@ ed50_df <-
   inner_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
   select(all_of(colnames(ed50)),
          all_of(grouping_properties))
+
+head(ed50_df)
 ```
 
 ED50 Box-plot.
@@ -74,7 +76,7 @@ You can choose colorblind-friendly palettes with `display.brewer.all(colorblindF
 
 ```{r display-ed50}
 ggplot(
-  ed50_df, aes(x=Species, y=ED50, color = Species)) +
+  ed50_df, aes(x=Condition, y=ED50, color = Species)) +
   geom_boxplot() + 
   facet_grid(~Site) +
   scale_color_brewer(palette = "Set2")
