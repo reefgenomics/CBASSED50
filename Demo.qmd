@@ -83,3 +83,25 @@ ggplot(
 ```
 
 ## Temperature Response Curve
+
+Check ED50 distribution for normality:
+
+```{r plot-ed50-dist}
+ggplot(data = ed50_df, aes(x = ED50)) +
+  geom_histogram(bins = 6, fill = "#8DA0CB") +
+  ylab("Count")
+```
+
+Shapiro-Wilk normality test:
+
+```{r check-ed50-dist-normality}
+shapiro.test(ed50_df$ED50)
+```
+
+Based on the very low p-value, we have evidence to suggest that the **`ED50`** data does not follow a normal distribution. Let's try to transform the data and check again:
+
+```{r transform-ed50-and-check-normality}
+shapiro.test(
+  sqrt(max(1 + ed50_df$ED50) - ed50_df$ED50)
+)
+```
