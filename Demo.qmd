@@ -11,7 +11,7 @@ CBASS allows you to process CBASS data. To learn more about CBASS see <https://o
 
 ## Install CBASS
 
-```{r install-cbass}
+```{r install-cbass, message=FALSE}
 if(!require(devtools)){
     install.packages("devtools")
 }
@@ -21,7 +21,7 @@ devtools::install_github("greenjune-ship-it/CBASS", quiet = TRUE, force = TRUE)
 
 ## Load Packages
 
-```{r library-packages}
+```{r library-packages, message=FALSE}
 library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
@@ -63,9 +63,9 @@ ed50 <- get_ed50_by_grouping_property(models)
 cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties)
 
 ed50_df <- 
-  inner_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
-  select(all_of(colnames(ed50)),
-         all_of(grouping_properties))
+  left_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
+  select(names(ed50), all_of(grouping_properties)) %>%
+  distinct()
 
 head(ed50_df)
 ```
@@ -84,24 +84,24 @@ ggplot(
 
 ## Temperature Response Curve
 
-Check ED50 distribution for normality:
+Predict PAM values for
 
-```{r plot-ed50-dist}
-ggplot(data = ed50_df, aes(x = ED50)) +
-  geom_histogram(bins = 6, fill = "#8DA0CB") +
-  ylab("Count")
+```{r predict-PAM-values}
+# the default number of values for range of temperatures is 100
+temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
+predictions <- get_predicted_pam_values(models, temp_ranges)
+head(predictions)
 ```
 
-Shapiro-Wilk normality test:
+Preprocess data for visualization
 
-```{r check-ed50-dist-normality}
-shapiro.test(ed50_df$ED50)
-```
+```{r preprocess-pam-predictions}
+predictions_df <- 
+  left_join(predictions,
+            cbass_dataset %>% select(c(all_of(grouping_properties), GroupingProperty)),
+            by = "GroupingProperty",
+            relationship = "many-to-many") %>%
+  distinct()
 
-Based on the very low p-value, we have evidence to suggest that the **`ED50`** data does not follow a normal distribution. Let's try to transform the data and check again:
-
-```{r transform-ed50-and-check-normality}
-shapiro.test(
-  sqrt(max(1 + ed50_df$ED50) - ed50_df$ED50)
-)
+head(predictions_df)
 ```
