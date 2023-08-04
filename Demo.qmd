@@ -37,7 +37,7 @@ data("cbass_dataset")
 head(cbass_dataset)
 ```
 
-Make your data tidy and validate.
+Make your data tidy and validate:
 
 ```{r process-and-validate-cbass-dataset}
 cbass_dataset <- preprocess_dataset(cbass_dataset)
@@ -56,7 +56,7 @@ drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
 ```
 
-Get ED50 from models
+Get ED50 from models:
 
 ```{r get-ed50}
 ed50 <- get_ed50_by_grouping_property(models)
@@ -70,7 +70,7 @@ ed50_df <-
 head(ed50_df)
 ```
 
-ED50 Box-plot.
+ED50 Boxplot.
 
 You can choose colorblind-friendly palettes with `display.brewer.all(colorblindFriendly = T)`.
 
@@ -81,3 +81,5 @@ ggplot(
   facet_grid(~Site) +
   scale_color_brewer(palette = "Set2")
 ```
+
+## Temperature Response Curve
