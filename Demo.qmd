@@ -84,16 +84,15 @@ ggplot(
 
 ## Temperature Response Curve
 
-Predict PAM values for
+Predict PAM values for selected temperature range:
 
 ```{r predict-PAM-values}
 # the default number of values for range of temperatures is 100
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
 predictions <- get_predicted_pam_values(models, temp_ranges)
-head(predictions)
 ```
 
-Preprocess data for visualization
+Preprocess data for visualization:
 
 ```{r preprocess-pam-predictions}
 predictions_df <- 
@@ -102,6 +101,44 @@ predictions_df <-
             by = "GroupingProperty",
             relationship = "many-to-many") %>%
   distinct()
+```
 
-head(predictions_df)
+Get means of ED50:
+
+```{r get-ed50-means}
+summary_ed50_df <- ed50_df %>%
+  group_by(Site, Condition, Species) %>%
+  summarise(Mean_ED50 = mean(ED50),
+            SD_ED50 = sd(ED50))
+```
+
+Join predictions and mean ED50 data:
+
+```{r join-predicitons-and-mean-ed50}
+result_df <- predictions_df %>%
+  left_join(summary_ed50_df, by = c("Site", "Condition", "Species")) %>%
+  mutate(Temperature = as.numeric(as.character(Temperature)))
+```
+
+Plot data:
+
+```{r plot-temperature-responce-curve}
+ggplot(result_df,
+       aes(x = Temperature,
+           y = PredictedPAM,
+           group = GroupingProperty)) +
+  geom_line(aes(color = Species)) +
+  geom_segment(aes(x = Mean_ED50,
+                   y = 0,
+                   xend = Mean_ED50,
+                   yend = max(PredictedPAM),
+                   color = Species),
+               linetype = 3) +
+  geom_text(mapping=aes(x = Mean_ED50,
+                        y = max(PredictedPAM) + 0.01,
+                        label = round(Mean_ED50, 2),
+                        color = Species),
+            size = 3, angle = 90, check_overlap = T) +
+  facet_grid(Condition ~ Site) +
+  scale_color_brewer(palette = "Set2") # colorblind-friendly palette
 ```

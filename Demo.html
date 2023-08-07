@@ -144,19 +144,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cbass_dataset <span class="ot">&lt;-</span> <span class="fu">preprocess_dataset</span>(cbass_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2023-08-04 18:11:56.798548 [INFO] `Site` column was converted to factor.
-2023-08-04 18:11:56.798867 [INFO] `Condition` column was converted to factor.
-2023-08-04 18:11:56.799068 [INFO] `Species` column was converted to factor.
-2023-08-04 18:11:56.79926 [INFO] `Genotype` column was converted to factor.
-2023-08-04 18:11:56.799402 [INFO] `PAM` column was converted to numeric.
-2023-08-04 18:11:56.799541 [INFO] Removing rows with missing data...</code></pre>
+<pre><code>2023-08-07 19:22:05.455585 [INFO] `Site` column was converted to factor.
+2023-08-07 19:22:05.455917 [INFO] `Condition` column was converted to factor.
+2023-08-07 19:22:05.456128 [INFO] `Species` column was converted to factor.
+2023-08-07 19:22:05.456317 [INFO] `Genotype` column was converted to factor.
+2023-08-07 19:22:05.45646 [INFO] `PAM` column was converted to numeric.
+2023-08-07 19:22:05.456602 [INFO] Removing rows with missing data...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_cbass_dataset</span>(cbass_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2023-08-04 18:11:56.800963 [INFO] Checking if the dataset has all mandatory columns...
-2023-08-04 18:11:56.801179 [INFO] Checking if the dataset has enough temperature values...
-2023-08-04 18:11:56.801335 [INFO] Your dataset passes all checks!
-2023-08-04 18:11:56.801433 [INFO] The dataset contains:
+<pre><code>2023-08-07 19:22:05.458036 [INFO] Checking if the dataset has all mandatory columns...
+2023-08-07 19:22:05.458246 [INFO] Checking if the dataset has enough temperature values...
+2023-08-07 19:22:05.4584 [INFO] Your dataset passes all checks!
+2023-08-07 19:22:05.458503 [INFO] The dataset contains:
 * 3 unique Sites
 * 2 unique Conditions
 * 2 unique Species
@@ -212,40 +212,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="temperature-response-curve" class="level2">
 <h2 class="anchored" data-anchor-id="temperature-response-curve">Temperature Response Curve</h2>
-<p>Predict PAM values for</p>
+<p>Predict PAM values for selected temperature range:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the default number of values for range of temperatures is 100</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>temp_ranges <span class="ot">&lt;-</span> <span class="fu">define_temperature_ranges</span>(cbass_dataset<span class="sc">$</span>Temperature)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">get_predicted_pam_values</span>(models, temp_ranges)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    GroupingProperty Temperature PredictedPAM
-1 URU_Nursery_Apul_1          29    0.6234863
-2 URU_Nursery_Apul_2          29    0.6615207
-3 URU_Nursery_Apul_3          29    0.6291624
-4 URU_Nursery_Apul_4          29    0.6513039
-5 URU_Nursery_Apul_5          29    0.6311735
-6 URU_Nursery_Apul_6          29    0.6167916</code></pre>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">get_predicted_pam_values</span>(models, temp_ranges)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>Preprocess data for visualization</p>
+<p>Preprocess data for visualization:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>predictions_df <span class="ot">&lt;-</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(predictions,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>            cbass_dataset <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(<span class="fu">all_of</span>(grouping_properties), GroupingProperty)),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"GroupingProperty"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predictions_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    GroupingProperty Temperature PredictedPAM Site Condition Species Genotype
-1 URU_Nursery_Apul_1          29    0.6234863  URU   Nursery    Apul        1
-2 URU_Nursery_Apul_2          29    0.6615207  URU   Nursery    Apul        2
-3 URU_Nursery_Apul_3          29    0.6291624  URU   Nursery    Apul        3
-4 URU_Nursery_Apul_4          29    0.6513039  URU   Nursery    Apul        4
-5 URU_Nursery_Apul_5          29    0.6311735  URU   Nursery    Apul        5
-6 URU_Nursery_Apul_6          29    0.6167916  URU   Nursery    Apul        6</code></pre>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predictions_df <span class="ot">&lt;-</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(predictions,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>            cbass_dataset <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(<span class="fu">all_of</span>(grouping_properties), GroupingProperty)),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"GroupingProperty"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Get means of ED50:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_ed50_df <span class="ot">&lt;-</span> ed50_df <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Site, Condition, Species) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_ED50 =</span> <span class="fu">mean</span>(ED50),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">SD_ED50 =</span> <span class="fu">sd</span>(ED50))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Site', 'Condition'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+</div>
+<p>Join predictions and mean ED50 data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>result_df <span class="ot">&lt;-</span> predictions_df <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(summary_ed50_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"Condition"</span>, <span class="st">"Species"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temperature =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Temperature)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(result_df,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Temperature,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> PredictedPAM,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">group =</span> GroupingProperty)) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Species)) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> Mean_ED50,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xend =</span> Mean_ED50,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">yend =</span> <span class="fu">max</span>(PredictedPAM),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> Species),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x =</span> Mean_ED50,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y =</span> <span class="fu">max</span>(PredictedPAM) <span class="sc">+</span> <span class="fl">0.01</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label =</span> <span class="fu">round</span>(Mean_ED50, <span class="dv">2</span>),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">color =</span> Species),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">check_overlap =</span> T) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Condition <span class="sc">~</span> Site) <span class="sc">+</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="co"># colorblind-friendly palette</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Demo_files/figure-html/plot-temperature-responce-curve-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
