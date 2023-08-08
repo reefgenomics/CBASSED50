@@ -1,0 +1,108 @@
+---
+title: "MultivariateAnalysis"
+author: "Yulia Iakovleva"
+format: html
+editor: visual
+---
+
+## Install CBASS
+
+```{r install-cbass, message=FALSE}
+if(!require(devtools)){
+    install.packages("devtools")
+}
+
+devtools::install_github("greenjune-ship-it/CBASS", quiet = TRUE, force = TRUE)
+```
+
+## Load Packages
+
+```{r library-packages, message=FALSE}
+library(mice)
+library(tidyr)
+library(dplyr)
+library(vegan)
+library(CBASS)
+library(ggplot2)
+```
+
+## Explore the Data
+
+Prepare data
+
+```{r prepare-data}
+data <- cbass_dataset
+data <- preprocess_dataset(data) %>% arrange(Temperature, Species, Condition)
+```
+
+Pivot the data to get PAM values as the table with Temperature as column names
+
+```{r pivot-data}
+pivoted_data <- pivot_wider(
+  data,
+  id_cols = c(Date, Site, Condition, Species, Genotype),
+  names_from = Temperature, values_from = PAM)
+# Display the result
+head(pivoted_data)
+```
+
+Check Missing Values
+
+```{r missing-values}
+# Have a look at missing data
+md.pattern(pivoted_data)
+```
+
+## Clean-up the Data
+
+For now we can just discard NAs, but we can also implement imputation for some data.
+
+```{r remove-nas}
+# Remove columns with too much NA and then omit the rest
+clean_data <- pivoted_data %>% select(-`33`, -`37`) %>% na.omit()
+```
+
+Make MDS
+
+```{r mds-ordination}
+# MDS ordination
+mds <- metaMDS(clean_data[,6:ncol(clean_data)], distance = "euclidean")
+mds <- as.data.frame(mds$points)
+mds$Species <- clean_data$Species
+mds$Site <- clean_data$Site
+mds$Condition <- clean_data$Condition
+```
+
+Plot results
+
+```{r plot-mds}
+ggplot(mds, aes(x = MDS1, y = MDS2, color = Species, shape = Site, linetype = Condition)) +
+  geom_point(size = 3) +
+   stat_ellipse() +
+  scale_color_brewer(palette = "Set2") # colorblind-friendly palette
+```
+
+OK, this is a nice picture that tells us nothing about the dependency of `PAM` from `Temperature`. And what's better for live.
+
+## Try perMANOVA
+
+```{r run-permanova}
+permanova <- adonis2(
+  clean_data[,6:ncol(clean_data)] ~ Site * Condition,
+  data = clean_data,
+  strata = clean_data$Species,
+  method = "euclidean")
+permanova
+```
+
+Check if we can apply perMANOVA
+
+```{r make-PCoA-ordination}
+dist <- vegdist(clean_data[,6:ncol(clean_data)], method  = "euclidean")
+PCO <- betadisper(dist, clean_data$Species)
+plot(PCO, main = "PCoA ordination")
+```
+
+```{r}
+anova(PCO)
+```
