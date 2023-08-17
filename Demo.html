@@ -144,19 +144,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cbass_dataset <span class="ot">&lt;-</span> <span class="fu">preprocess_dataset</span>(cbass_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2023-08-07 19:22:05.455585 [INFO] `Site` column was converted to factor.
-2023-08-07 19:22:05.455917 [INFO] `Condition` column was converted to factor.
-2023-08-07 19:22:05.456128 [INFO] `Species` column was converted to factor.
-2023-08-07 19:22:05.456317 [INFO] `Genotype` column was converted to factor.
-2023-08-07 19:22:05.45646 [INFO] `PAM` column was converted to numeric.
-2023-08-07 19:22:05.456602 [INFO] Removing rows with missing data...</code></pre>
+<pre><code>2023-08-17 16:59:56.840805 [INFO] `Site` column was converted to factor.
+2023-08-17 16:59:56.841129 [INFO] `Condition` column was converted to factor.
+2023-08-17 16:59:56.841341 [INFO] `Species` column was converted to factor.
+2023-08-17 16:59:56.841527 [INFO] `Genotype` column was converted to factor.
+2023-08-17 16:59:56.841671 [INFO] `PAM` column was converted to numeric.
+2023-08-17 16:59:56.841807 [INFO] Removing rows with missing data...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_cbass_dataset</span>(cbass_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2023-08-07 19:22:05.458036 [INFO] Checking if the dataset has all mandatory columns...
-2023-08-07 19:22:05.458246 [INFO] Checking if the dataset has enough temperature values...
-2023-08-07 19:22:05.4584 [INFO] Your dataset passes all checks!
-2023-08-07 19:22:05.458503 [INFO] The dataset contains:
+<pre><code>2023-08-17 16:59:56.843166 [INFO] Checking if the dataset has all mandatory columns...
+2023-08-17 16:59:56.843375 [INFO] Checking if the dataset has enough temperature values...
+2023-08-17 16:59:56.843523 [INFO] Your dataset passes all checks!
+2023-08-17 16:59:56.84362 [INFO] The dataset contains:
 * 3 unique Sites
 * 2 unique Conditions
 * 2 unique Species
@@ -201,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can choose colorblind-friendly palettes with <code>display.brewer.all(colorblindFriendly = T)</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  ed50_df, <span class="fu">aes</span>(<span class="at">x=</span>Condition, <span class="at">y=</span>ED50, <span class="at">color =</span> Species)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  ed50_df, <span class="fu">aes</span>(<span class="at">x =</span> Condition, <span class="at">y =</span> ED50, <span class="at">color =</span> Species)) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Site) <span class="sc">+</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
