@@ -84,6 +84,36 @@ ggplot(mds, aes(x = MDS1, y = MDS2, color = Species, shape = Site, linetype = Co
 
 OK, this is a nice picture that tells us nothing about the dependency of `PAM` from `Temperature`. And what's better for live.
 
+Coefficients of Variation. Ideally, these should be below 15-20 %.
+
+```{r get-variation-coefficients}
+CVs <- clean_data %>%
+  group_by(Site, Condition, Species) %>%
+  summarise(
+    CV_29 = sd(`29`) / mean(`29`) * 100,
+    CV_35 = sd(`35`) / mean(`35`) * 100,
+    CV_38 = sd(`38`) / mean(`38`) * 100,
+    CV_41 = sd(`41`) / mean(`41`) * 100
+  )
+```
+
+Visualize:
+
+```{r}
+# Reshape the data to a longer format
+cv_data_long <- CVs %>%
+  pivot_longer(cols = starts_with("CV"), names_to = "Temperature", values_to = "CV")
+
+ggplot(
+  cv_data_long, aes(x = Temperature, y = CV, color = Species)) +
+  geom_boxplot() +
+  facet_grid(~Site) +
+  labs(x = "Temperature", y = "Coefficient of Variation (%)") +
+  scale_color_brewer(palette = "Set2")
+```
+
+I suppose it should be almost fine, for 41 they are almost bleached.
+
 ## Try perMANOVA
 
 ```{r run-permanova}
@@ -103,6 +133,15 @@ PCO <- betadisper(dist, clean_data$Species)
 plot(PCO, main = "PCoA ordination")
 ```
 
-```{r}
+```{r anova-pco}
 anova(PCO)
+```
+
+# Experimenting with Linear Models
+
+The main idea remains the same. PAM linear depends on Temperature, so linear models should be more suitable than multivariate statistics here?
+
+```{r plot-pam-dist}
+ggplot(data, aes(PAM)) +
+  geom_histogram(bins = 30)
 ```

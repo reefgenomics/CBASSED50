@@ -129,12 +129,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> cbass_dataset</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">preprocess_dataset</span>(data) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(Temperature, Species, Condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2023-08-08 18:31:39.306298 [INFO] `Site` column was converted to factor.
-2023-08-08 18:31:39.306612 [INFO] `Condition` column was converted to factor.
-2023-08-08 18:31:39.306816 [INFO] `Species` column was converted to factor.
-2023-08-08 18:31:39.306999 [INFO] `Genotype` column was converted to factor.
-2023-08-08 18:31:39.30714 [INFO] `PAM` column was converted to numeric.
-2023-08-08 18:31:39.307278 [INFO] Removing rows with missing data...</code></pre>
+<pre><code>2023-08-17 17:01:05.817294 [INFO] `Site` column was converted to factor.
+2023-08-17 17:01:05.817549 [INFO] `Condition` column was converted to factor.
+2023-08-17 17:01:05.817697 [INFO] `Species` column was converted to factor.
+2023-08-17 17:01:05.817833 [INFO] `Genotype` column was converted to factor.
+2023-08-17 17:01:05.817936 [INFO] `PAM` column was converted to numeric.
+2023-08-17 17:01:05.818038 [INFO] Removing rows with missing data...</code></pre>
 </div>
 </div>
 <p>Pivot the data to get PAM values as the table with Temperature as column names</p>
@@ -187,48 +187,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mds <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(clean_data[,<span class="dv">6</span><span class="sc">:</span><span class="fu">ncol</span>(clean_data)], <span class="at">distance =</span> <span class="st">"euclidean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Run 0 stress 0.04170669 
-Run 1 stress 0.0913129 
-Run 2 stress 0.09145147 
-Run 3 stress 0.06371107 
-Run 4 stress 0.04170668 
+Run 1 stress 0.04170669 
 ... New best solution
-... Procrustes: rmse 5.230974e-06  max resid 1.983874e-05 
+... Procrustes: rmse 2.046092e-05  max resid 7.461085e-05 
 ... Similar to previous best
-Run 5 stress 0.04170668 
+Run 2 stress 0.08233164 
+Run 3 stress 0.103631 
+Run 4 stress 0.04170669 
 ... New best solution
-... Procrustes: rmse 1.012157e-05  max resid 4.39922e-05 
+... Procrustes: rmse 1.808245e-05  max resid 7.018491e-05 
 ... Similar to previous best
-Run 6 stress 0.04170669 
-... Procrustes: rmse 6.951955e-06  max resid 3.043388e-05 
-... Similar to previous best
-Run 7 stress 0.09148579 
-Run 8 stress 0.04170668 
+Run 5 stress 0.07739795 
+Run 6 stress 0.06439367 
+Run 7 stress 0.1002826 
+Run 8 stress 0.06439928 
+Run 9 stress 0.08112619 
+Run 10 stress 0.06439808 
+Run 11 stress 0.07375875 
+Run 12 stress 0.1020079 
+Run 13 stress 0.1107124 
+Run 14 stress 0.04170668 
 ... New best solution
-... Procrustes: rmse 5.80493e-06  max resid 2.653132e-05 
+... Procrustes: rmse 3.796466e-06  max resid 1.948228e-05 
 ... Similar to previous best
-Run 9 stress 0.04170669 
-... Procrustes: rmse 4.450424e-06  max resid 1.49016e-05 
+Run 15 stress 0.04170669 
+... Procrustes: rmse 1.540867e-05  max resid 5.558791e-05 
 ... Similar to previous best
-Run 10 stress 0.04170669 
-... Procrustes: rmse 7.19981e-06  max resid 2.783143e-05 
+Run 16 stress 0.07545236 
+Run 17 stress 0.04170668 
+... New best solution
+... Procrustes: rmse 1.384278e-05  max resid 6.213673e-05 
 ... Similar to previous best
-Run 11 stress 0.08162556 
-Run 12 stress 0.04170669 
-... Procrustes: rmse 9.974311e-06  max resid 3.812188e-05 
+Run 18 stress 0.04170668 
+... New best solution
+... Procrustes: rmse 1.328409e-05  max resid 5.982762e-05 
 ... Similar to previous best
-Run 13 stress 0.07739795 
-Run 14 stress 0.04170669 
-... Procrustes: rmse 1.216787e-05  max resid 4.535274e-05 
+Run 19 stress 0.04170669 
+... Procrustes: rmse 1.656001e-05  max resid 6.206971e-05 
 ... Similar to previous best
-Run 15 stress 0.06371107 
-Run 16 stress 0.07689933 
-Run 17 stress 0.07736845 
-Run 18 stress 0.08534731 
-Run 19 stress 0.06371107 
-Run 20 stress 0.04170668 
-... Procrustes: rmse 9.161456e-06  max resid 3.553667e-05 
-... Similar to previous best
-*** Best solution repeated 6 times</code></pre>
+Run 20 stress 0.06439366 
+*** Best solution repeated 2 times</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mds <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mds<span class="sc">$</span>points)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mds<span class="sc">$</span>Species <span class="ot">&lt;-</span> clean_data<span class="sc">$</span>Species</span>
@@ -239,22 +237,55 @@ Run 20 stress 0.04170668
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds, <span class="fu">aes</span>(<span class="at">x =</span> MDS1, <span class="at">y =</span> MDS2, <span class="at">color =</span> Species, <span class="at">shape =</span> Site, <span class="at">linetype =</span> Condition)) <span class="sc">+</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_ellipse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="co"># colorblind-friendly palette</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="MultivariateAnalysis_files/figure-html/plot-mds-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>OK, this is a nice picture that tells us nothing about the dependency of <code>PAM</code> from <code>Temperature</code>. And what’s better for live.</p>
+<p>Coefficients of Variation. Ideally, these should be below 15-20 %.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>CVs <span class="ot">&lt;-</span> clean_data <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Site, Condition, Species) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_29 =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">29</span><span class="st">`</span>) <span class="sc">/</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">29</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_35 =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">35</span><span class="st">`</span>) <span class="sc">/</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">35</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_38 =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">38</span><span class="st">`</span>) <span class="sc">/</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">38</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_41 =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">41</span><span class="st">`</span>) <span class="sc">/</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">41</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Site', 'Condition'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+</div>
+<p>Visualize:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data to a longer format</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cv_data_long <span class="ot">&lt;-</span> CVs <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"CV"</span>), <span class="at">names_to =</span> <span class="st">"Temperature"</span>, <span class="at">values_to =</span> <span class="st">"CV"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  cv_data_long, <span class="fu">aes</span>(<span class="at">x =</span> Temperature, <span class="at">y =</span> CV, <span class="at">color =</span> Species)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Site) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Temperature"</span>, <span class="at">y =</span> <span class="st">"Coefficient of Variation (%)"</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="MultivariateAnalysis_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I suppose it should be almost fine, for 41 they are almost bleached.</p>
 </section>
 <section id="try-permanova" class="level2">
 <h2 class="anchored" data-anchor-id="try-permanova">Try perMANOVA</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>permanova <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  clean_data[,<span class="dv">6</span><span class="sc">:</span><span class="fu">ncol</span>(clean_data)] <span class="sc">~</span> Site <span class="sc">*</span> Condition,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> clean_data,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata =</span> clean_data<span class="sc">$</span>Species,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>permanova</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>permanova <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  clean_data[,<span class="dv">6</span><span class="sc">:</span><span class="fu">ncol</span>(clean_data)] <span class="sc">~</span> Site <span class="sc">*</span> Condition,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> clean_data,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata =</span> clean_data<span class="sc">$</span>Species,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>permanova</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Permutation test for adonis under reduced model
 Terms added sequentially (first to last)
@@ -264,7 +295,7 @@ Number of permutations: 999
 
 adonis2(formula = clean_data[, 6:ncol(clean_data)] ~ Site * Condition, data = clean_data, method = "euclidean", strata = clean_data$Species)
           Df SumOfSqs      R2       F Pr(&gt;F)    
-Site       1  0.03915 0.07649  5.3231  0.045 *  
+Site       1  0.03915 0.07649  5.3231  0.048 *  
 Condition  1  0.12699 0.24811 17.2660  0.001 ***
 Residual  47  0.34568 0.67539                   
 Total     49  0.51182 1.00000                   
@@ -274,15 +305,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Check if we can apply perMANOVA</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(clean_data[,<span class="dv">6</span><span class="sc">:</span><span class="fu">ncol</span>(clean_data)], <span class="at">method  =</span> <span class="st">"euclidean"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>PCO <span class="ot">&lt;-</span> <span class="fu">betadisper</span>(dist, clean_data<span class="sc">$</span>Species)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PCO, <span class="at">main =</span> <span class="st">"PCoA ordination"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(clean_data[,<span class="dv">6</span><span class="sc">:</span><span class="fu">ncol</span>(clean_data)], <span class="at">method  =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>PCO <span class="ot">&lt;-</span> <span class="fu">betadisper</span>(dist, clean_data<span class="sc">$</span>Species)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PCO, <span class="at">main =</span> <span class="st">"PCoA ordination"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="MultivariateAnalysis_files/figure-html/make-PCoA-ordination-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(PCO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(PCO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -292,6 +323,17 @@ Groups     1 0.037145 0.037145  16.064 0.0002125 ***
 Residuals 48 0.110990 0.002312                      
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="experimenting-with-linear-models" class="level1">
+<h1>Experimenting with Linear Models</h1>
+<p>The main idea remains the same. PAM linear depends on Temperature, so linear models should be more suitable than multivariate statistics here?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(PAM)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="MultivariateAnalysis_files/figure-html/plot-pam-dist-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
