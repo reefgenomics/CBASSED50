@@ -40,7 +40,7 @@ Pivot the data to get PAM values as the table with Temperature as column names
 ```{r pivot-data}
 pivoted_data <- pivot_wider(
   data,
-  id_cols = c(Date, Site, Condition, Species, Genotype),
+  id_cols = c(Date, Site, Condition, Species, Genotype, Timepoint),
   names_from = Temperature, values_from = PAM)
 # Display the result
 head(pivoted_data)
