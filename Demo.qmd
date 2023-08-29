@@ -11,7 +11,7 @@ CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <h
 
 ## Install CBASSED50
 
-```{r install-cbass, message=FALSE}
+```{r install-cbassed50, message=FALSE}
 if(!require(devtools)){
     install.packages("devtools")
 }
@@ -140,5 +140,10 @@ ggplot(result_df,
                         color = Species),
             size = 3, angle = 90, check_overlap = T) +
   facet_grid(Condition ~ Site) +
+  # to add the real PAM and compare with predicted values
+  geom_point(data = cbass_dataset,
+             aes(x = Temperature,
+                 y = PAM,
+                 color = Species)) +
   scale_color_brewer(palette = "Set2") # colorblind-friendly palette
 ```
