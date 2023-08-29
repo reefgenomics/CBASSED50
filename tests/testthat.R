@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(CBASS)
+library(CBASSED50)
 
-test_check("CBASS")
+test_check("CBASSED50")
