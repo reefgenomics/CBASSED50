@@ -1,22 +1,22 @@
 ---
-title: "CBASS Demo"
+title: "CBASSED50 Demo"
 author: "Yulia Iakovleva"
 format: html
 editor: visual
 ---
 
-## About CBASS
+## About CBASSED50
 
-CBASS allows you to process CBASS data. To learn more about CBASS see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
+CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
 
-## Install CBASS
+## Install CBASSED50
 
 ```{r install-cbass, message=FALSE}
 if(!require(devtools)){
     install.packages("devtools")
 }
 
-devtools::install_github("greenjune-ship-it/CBASS", quiet = TRUE, force = TRUE)
+devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TRUE)
 ```
 
 ## Load Packages
@@ -25,7 +25,7 @@ devtools::install_github("greenjune-ship-it/CBASS", quiet = TRUE, force = TRUE)
 library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
-library(CBASS)
+library(CBASSED50)
 ```
 
 ## Preprocess and Validate Data
@@ -51,7 +51,7 @@ First you need to decide which grouping property you want to use. For example, I
 Create models:
 
 ```{r fititng-dose-responce-models, warning=FALSE}
-grouping_properties <- c("Site", "Condition", "Species", "Genotype")
+grouping_properties <- c("Site", "Condition", "Species", "Genotype", "Timepoint")
 drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
 ```
