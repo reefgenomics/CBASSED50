@@ -5,9 +5,11 @@ format: html
 editor: visual
 ---
 
-## About CBASSED50
+# About CBASSED50
 
 CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
+
+# Get Started
 
 ## Install CBASSED50
 
@@ -23,17 +25,37 @@ devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TR
 
 ```{r library-packages, message=FALSE}
 library(dplyr)
+library(tidyr)
 library(ggplot2)
+library(readxl)
+library(rstudioapi)
 library(RColorBrewer)
 library(CBASSED50)
 ```
+
+## Specify Project Directory and Working Environment
+
+Note, the `selectFile` function from the `rstudioapi` package works only in interactive execution and doesn't work on rendering.
+
+```{r specify-working-directory}
+input_data_path <- selectFile(filter = "Excel files (*.xls | *.xlsx)")
+
+# the logic that could be potentially hidden inside the package
+cbass_dataset <- read_excel(input_data_path)
+knitr::opts_knit$set(root.dir = dirname(input_data_path))
+rlog::log_info(paste("Your current directory is", getwd()))
+rlog::log_info(paste("Your input filename is", basename(input_data_path)))
+```
+
+# Analyze
 
 ## Preprocess and Validate Data
 
 Load the provided example data set:
 
 ```{r load-data}
-data("cbass_dataset")
+# to load internal dataset that is provided with the R package
+# data("cbass_dataset")
 head(cbass_dataset)
 ```
 
@@ -78,6 +100,13 @@ You can choose colorblind-friendly palettes with `display.brewer.all(colorblindF
 ggplot(
   ed50_df, aes(x = Condition, y = ED50, color = Species)) +
   geom_boxplot() + 
+  stat_summary(
+    fun = mean, 
+    geom = "text", 
+    aes(label = round(..y.., 2)),
+    position = position_dodge(width = 0.75),
+    vjust = -1
+  ) +
   facet_grid(~Site) +
   scale_color_brewer(palette = "Set2")
 ```
