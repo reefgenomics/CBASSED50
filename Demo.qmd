@@ -90,6 +90,7 @@ ed50_df <-
   distinct()
 
 head(ed50_df)
+write.csv(ed50_df, "ed50_df.csv", row.names = FALSE)
 ```
 
 ED50 Boxplot.
@@ -97,18 +98,21 @@ ED50 Boxplot.
 You can choose colorblind-friendly palettes with `display.brewer.all(colorblindFriendly = T)`.
 
 ```{r display-ed50}
-ggplot(
+ed50_boxplot <- ggplot(
   ed50_df, aes(x = Condition, y = ED50, color = Species)) +
   geom_boxplot() + 
   stat_summary(
     fun = mean, 
     geom = "text", 
-    aes(label = round(..y.., 2)),
+    aes(label = round(after_stat(y), 2)),
     position = position_dodge(width = 0.75),
     vjust = -1
   ) +
   facet_grid(~Site) +
   scale_color_brewer(palette = "Set2")
+
+ggsave("ed50_boxplot.pdf", ed50_boxplot, width = 16, height = 9)
+ed50_boxplot
 ```
 
 ## Temperature Response Curve
@@ -139,6 +143,9 @@ summary_ed50_df <- ed50_df %>%
   group_by(Site, Condition, Species) %>%
   summarise(Mean_ED50 = mean(ED50),
             SD_ED50 = sd(ED50))
+
+summary_ed50_df
+write.csv(summary_ed50_df, "summary_ed50_df.csv", row.names = FALSE)
 ```
 
 Join predictions and mean ED50 data:
@@ -152,7 +159,7 @@ result_df <- predictions_df %>%
 Plot data:
 
 ```{r plot-temperature-responce-curve}
-ggplot(result_df,
+tempresp_curve <- ggplot(result_df,
        aes(x = Temperature,
            y = PredictedPAM,
            group = GroupingProperty)) +
@@ -175,4 +182,7 @@ ggplot(result_df,
                  y = PAM,
                  color = Species)) +
   scale_color_brewer(palette = "Set2") # colorblind-friendly palette
+
+ggsave("tempresp_curve.pdf", tempresp_curve, width = 16, height = 9)
+tempresp_curve
 ```
