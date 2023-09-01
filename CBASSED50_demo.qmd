@@ -1,0 +1,201 @@
+---
+title: "CBASSED50 Demo"
+author: "Yulia Iakovleva, Christian Voolstra"
+format: html
+editor: visual
+---
+
+# About CBASSED50
+
+CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
+
+# Get Started
+
+## Install CBASSED50
+
+```{r install-cbassed50, message=FALSE}
+# if(!require(devtools)){
+#    install.packages("devtools")
+# }
+# 
+# devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TRUE)
+```
+
+## Load Packages
+
+```{r library-packages, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(rstudioapi)
+library(RColorBrewer)
+library(CBASSED50)
+```
+
+## Specify Project Directory and Working Environment
+
+Note, the `selectFile` function from the `rstudioapi` package works only in interactive execution and doesn't work on rendering.
+
+```{r specify-working-directory}
+input_data_path <- selectFile(filter = "Excel files (*.xls | *.xlsx)")
+
+# the logic that could be potentially hidden inside the package
+cbass_dataset <- read_excel(input_data_path)
+knitr::opts_knit$set(root.dir = dirname(input_data_path))
+# to specify the prefix for output files
+output_prefix <- tools::file_path_sans_ext(basename(input_data_path))
+rlog::log_info(paste("Your current directory is", getwd()))
+rlog::log_info(paste("Your input filename is", basename(input_data_path)))
+```
+
+# Analyze
+
+## Preprocess and Validate Data
+
+Load the provided example data set:
+
+```{r load-data}
+# to load internal dataset that is provided with the R package
+# data("cbass_dataset")
+head(cbass_dataset)
+```
+
+Make your data tidy and validate:
+
+```{r process-and-validate-cbass-dataset}
+# uncomment if you want to preprocess the dataset
+# cbass_dataset <- preprocess_dataset(cbass_dataset)
+validate_cbass_dataset(cbass_dataset)
+```
+
+## Explore ED50
+
+First you need to decide which grouping property you want to use. For example, I want to merge `Site` , `Condition`, `Species`, `Genotype` as one merged grouping property.
+
+Create models:
+
+```{r fititng-dose-responce-models, warning=FALSE}
+grouping_properties <- c("Site", "Condition", "Species", "Genotype", "Timepoint")
+drm_formula <- "PAM ~ Temperature"
+models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
+```
+
+Get ED50 from models:
+
+```{r get-ed50}
+ed50 <- get_ed50_by_grouping_property(models)
+cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties)
+
+ed50_df <- 
+  left_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
+  select(names(ed50), all_of(grouping_properties)) %>%
+  distinct()
+
+head(ed50_df)
+write.csv(ed50_df,
+          paste(output_prefix, "ED50df.csv", sep = '_'),
+          row.names = FALSE)
+```
+
+ED50 Boxplot.
+
+You can choose colorblind-friendly palettes with `display.brewer.all(colorblindFriendly = T)`.
+
+```{r display-ed50}
+ed50_boxplot <- ggplot(
+  ed50_df, aes(x = Condition, y = ED50, color = Species)) +
+  geom_boxplot() + 
+  stat_summary(
+    fun = mean, 
+    geom = "text", 
+    aes(label = round(after_stat(y), 2)),
+    position = position_dodge(width = 0.75),
+    vjust = -1
+  ) +
+  facet_grid(~Site) +
+  scale_color_brewer(palette = "Set2")
+
+ggsave(
+  paste(output_prefix, "ED50boxplot.pdf", sep = '_'),
+  ed50_boxplot, width = 16, height = 9)
+ed50_boxplot
+```
+
+## Temperature Response Curve
+
+Predict PAM values for selected temperature range:
+
+```{r predict-PAM-values}
+# the default number of values for range of temperatures is 100
+temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
+predictions <- get_predicted_pam_values(models, temp_ranges)
+```
+
+Preprocess data for visualization:
+
+```{r preprocess-pam-predictions}
+predictions_df <- 
+  left_join(predictions,
+            cbass_dataset %>% select(c(all_of(grouping_properties), GroupingProperty)),
+            by = "GroupingProperty",
+            relationship = "many-to-many") %>%
+  distinct()
+```
+
+Get means of ED50:
+
+```{r get-ed50-means}
+summary_ed50_df <- ed50_df %>%
+  group_by(Site, Condition, Species) %>%
+  summarise(Mean_ED50 = mean(ED50),
+            SD_ED50 = sd(ED50))
+
+summary_ed50_df
+write.csv(
+  summary_ed50_df,
+  paste(output_prefix, "summaryED50df.csv", sep = '_'),
+  row.names = FALSE)
+```
+
+Join predictions and mean ED50 data:
+
+```{r join-predicitons-and-mean-ed50}
+result_df <- predictions_df %>%
+  left_join(summary_ed50_df, by = c("Site", "Condition", "Species")) %>%
+  mutate(Temperature = as.numeric(as.character(Temperature)))
+```
+
+Plot data:
+
+```{r plot-temperature-responce-curve}
+tempresp_curve <- ggplot(result_df,
+       aes(x = Temperature,
+           y = PredictedPAM,
+           group = GroupingProperty)) +
+  geom_line(aes(color = Species)) +
+  geom_segment(aes(x = Mean_ED50,
+                   y = 0,
+                   xend = Mean_ED50,
+                   yend = max(PredictedPAM),
+                   color = Species),
+               linetype = 3) +
+  geom_text(mapping=aes(x = Mean_ED50,
+                        y = max(PredictedPAM) + 0.01,
+                        label = round(Mean_ED50, 2),
+                        color = Species),
+            size = 3, angle = 90, check_overlap = T) +
+  facet_grid(Condition ~ Site) +
+  # to add the real PAM and compare with predicted values
+  geom_point(data = cbass_dataset,
+             aes(x = Temperature,
+                 y = PAM,
+                 color = Species)) +
+  scale_color_brewer(palette = "Set2") # colorblind-friendly palette
+
+ggsave(
+  paste(output_prefix, "temprespcurve.pdf", sep = '_'),
+  tempresp_curve,
+  width = 16, height = 9)
+tempresp_curve
+```
