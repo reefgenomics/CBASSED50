@@ -5,8 +5,11 @@ The CBASSED50 R package to process CBASS data.
 # Get Started
 
 To get started download [CBASSED50_demo.qmd](https://github.com/greenjune-ship-it/CBASSED50/blob/main/CBASSED50_demo.qmd). The GitHub allows to do this directly from the web interface:
+
 <p align="center">
-  <img src="https://github.com/greenjune-ship-it/CBASSED50/assets/83506881/b6c9f376-f4b6-46f8-87c2-dce0ccb50ad3">
+
+<img src="https://github.com/greenjune-ship-it/CBASSED50/assets/83506881/b6c9f376-f4b6-46f8-87c2-dce0ccb50ad3"/>
+
 </p>
 
 This is a document with notebook interface that contains explanatory text together with the code.
