@@ -13,12 +13,14 @@ CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <h
 
 ## Install CBASSED50
 
+You need to execute this chunk only one to get the `CBASSED50` package installed.
+
 ```{r install-cbassed50, message=FALSE}
-# if(!require(devtools)){
-#    install.packages("devtools")
-# }
-# 
-# devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TRUE)
+if(!require(devtools)){
+   install.packages("devtools")
+}
+
+devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TRUE)
 ```
 
 ## Load Packages
@@ -33,7 +35,48 @@ library(RColorBrewer)
 library(CBASSED50)
 ```
 
-## Specify Project Directory and Working Environment
+# Define Data Source
+
+## Internal Dataset
+
+The first time you may want to run the whole code with the data set that is already provided with the `CBASSED50` package.
+
+If you want to specify your own data set, go further to the next chunk.
+
+To load this data run the following chunk of code:
+
+```{r load-data}
+# to load internal dataset that is provided with the R package
+data("cbass_dataset")
+# make sure that dataset is loaded and display several first rows
+head(cbass_dataset)
+```
+
+If you want to know more about our internal data set, you can call the R Documentation:
+
+```{r about-dataset}
+?cbass_dataset
+```
+
+## Custom Dataset
+
+### Requirements for Custom Data
+
+Your data should contain mandatory columns to pass reprocessing and validation steps.
+
+To retrieve the list of mandatory data columns, call the internal `mandatory_columns` function:
+
+```{r get-mandatory-columns}
+mandatory_columns()
+```
+
+Your data shouldn't contain any missing data, otherwise the row with missing values will be discarded.
+
+### Specify Project Directory and Working Environment
+
+If you want to load and analyze your data, run the following chunk of the code.
+
+You don't need to execute the chunk below if you use the internal `cbass_dataset`.
 
 Note, the `selectFile` function from the `rstudioapi` package works only in interactive execution and doesn't work on rendering.
 
@@ -53,19 +96,11 @@ rlog::log_info(paste("Your input filename is", basename(input_data_path)))
 
 ## Preprocess and Validate Data
 
-Load the provided example data set:
-
-```{r load-data}
-# to load internal dataset that is provided with the R package
-# data("cbass_dataset")
-head(cbass_dataset)
-```
-
 Make your data tidy and validate:
 
 ```{r process-and-validate-cbass-dataset}
 # uncomment if you want to preprocess the dataset
-# cbass_dataset <- preprocess_dataset(cbass_dataset)
+cbass_dataset <- preprocess_dataset(cbass_dataset)
 validate_cbass_dataset(cbass_dataset)
 ```
 
@@ -199,3 +234,5 @@ ggsave(
   width = 16, height = 9)
 tempresp_curve
 ```
+
+Now you are ready to interpret your results! :)
