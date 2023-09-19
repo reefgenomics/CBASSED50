@@ -35,4 +35,4 @@ sudo apt-get install liblapack-dev libblas-dev
 
 # User Support
 
-You can always report the GitHub [issue](https://github.com/greenjune-ship-it/CBASSED50/issues) or email the mainteiner: [yulia.iakovleva\@uni-konstanz.de](yulia.iakovleva@uni-konstanz.de).
+You can always report the GitHub [issue](https://github.com/greenjune-ship-it/CBASSED50/issues) or email the current maintainer: [yulia.iakovleva\@uni-konstanz.de](mailto:yulia.iakovleva@uni-konstanz.de).
