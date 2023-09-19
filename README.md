@@ -2,6 +2,18 @@
 
 The CBASSED50 R package to process CBASS data.
 
+# Get Started
+
+To get started download [CBASSED50_demo.qmd](https://github.com/greenjune-ship-it/CBASSED50/blob/main/CBASSED50_demo.qmd). The GitHub allows to do this directly from the web interface:
+
+This is a document with notebook interface that contains explanatory text together with the code.
+
+# Contributing
+
+If you want to contribute to a project and make it better, your help is very welcome.
+
+You can always report an [issue](https://github.com/greenjune-ship-it/CBASSED50/issues) or fork this repository, implement/fix your feature and create a pull request.
+
 # FAQ
 
 ### Error installing package 'mvtnorm'
