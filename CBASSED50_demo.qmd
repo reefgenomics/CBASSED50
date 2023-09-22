@@ -74,7 +74,7 @@ mandatory_columns()
 
 Your data shouldn't contain any missing data, otherwise the row with missing values will be discarded.
 
-### Specify Project Directory and Working Environment
+### Specify Project Directory and Working Environment for Custom Data
 
 If you want to load and analyze your data, run the following chunk of the code.
 
