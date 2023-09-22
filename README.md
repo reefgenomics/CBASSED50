@@ -1,6 +1,6 @@
 # CBASSED50
 
-The CBASSED50 R package to process CBASS-derived PAM data. Minimal requirements are PAM data (or data from any other continous variable that decreases with temperature, e.g. relative bleaching scores) from 4 fragments subjected to 4 temperature profiles of at least 2 colonies from 1 coral species from 1 site. Please refer to [https://aslopubs.onlinelibrary.wiley.com/doi/10.1002/lom3.10555] for in-depth information regarding CBASS acute thermal stress assays, ED50 thermal thresholds, etc. 
+The CBASSED50 R package to process CBASS-derived PAM data. Minimal requirements are PAM data (or data from any other continous variable that decreases with temperature, e.g. relative bleaching scores) from 4 fragments subjected to 4 temperature profiles of at least 2 colonies from 1 coral species from 1 site. Please refer to the [CBASS method paper] (https://aslopubs.onlinelibrary.wiley.com/doi/10.1002/lom3.10555) for in-depth information regarding CBASS acute thermal stress assays, ED50 thermal thresholds, etc. 
 
 # Get Started
 
