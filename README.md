@@ -23,7 +23,11 @@ Open the document in [RStudio](https://quarto.org/docs/get-started/hello/rstudio
 RStudio will offer to install missing packages required for running the 
 Demo, please do this:
 
-![img.png](img.png)
+<p align="center">
+
+<img src="https://github.com/greenjune-ship-it/CBASSED50/assets/83506881/c90752eb-a487-4560-825d-ac5854f5920f"/>
+
+</p>
 
 ## Install CBASSED50
 
