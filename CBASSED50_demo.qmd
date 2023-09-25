@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TRUE)
+devtools::install_github("greenjune-ship-it/CBASSED50", force = TRUE)
 ```
 
 ## Load Packages
@@ -238,3 +238,9 @@ tempresp_curve
 ```
 
 Now you are ready to interpret your results! :)
+
+# Cite Us
+
+If you use this software, please cite it as below.
+
+> Yulia Iakovleva & Christian R Voolstra. (2023). CBASSED50: R package to process CBASS-derived PAM data. Zenodo. <https://doi.org/10.5281/ZENODO.8370644>.
