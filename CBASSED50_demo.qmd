@@ -109,7 +109,7 @@ validate_cbass_dataset(cbass_dataset)
 
 ## Explore ED50
 
-First you need to decide which grouping property you want to use. For example, I want to merge `Site` , `Condition`, `Species`, `Genotype` as one merged grouping property.
+First you need to decide which grouping property you want to use. For example, I want to group by all combinations of values that come from `Site` , `Condition`, `Species`, `Genotype`, and `Timepoint` columns as one merged grouping property.
 
 Create models:
 
