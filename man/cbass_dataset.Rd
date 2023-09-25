@@ -3,9 +3,15 @@
 \docType{data}
 \name{cbass_dataset}
 \alias{cbass_dataset}
-\title{Sample Dataset: A dataset containing experimental data.}
+\title{CBASS Dataset: A dataset containing example experimental data.}
+\description{
+This dataset provides experimental data with various attributes for demonstration and testing purposes.
+}
+\usage{
+cbass_dataset
+}
 \format{
-A data frame with 7 observations and 10 variables:
+A data frame with 300 observations and 9 variables:
   \describe{
     \item{Date}{A character vector representing the date of the observation.}
     \item{Country}{A character vector representing the country of the observation.}
@@ -18,15 +24,7 @@ A data frame with 7 observations and 10 variables:
     \item{PAM}{A numeric vector representing the PAM value of the observation.}
   }
 }
-\usage{
-data(sample_dataset)
-}
-\description{
-This dataset provides experimental data with various attributes for demonstration and testing purposes.
-}
 \examples{
 # Load the sample dataset
 data(sample_dataset)
-
 }
-\keyword{datasets}
