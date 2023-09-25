@@ -6,6 +6,8 @@ Evensen, N. R., Parker, K. E., Oliver, T. A., Palumbi, S. R., Logan, C. A., Ryan
 
 # Get Started
 
+## Demo File
+
 To get started download [CBASSED50_demo.qmd](https://github.com/greenjune-ship-it/CBASSED50/blob/main/CBASSED50_demo.qmd). The GitHub allows to do this directly from the web interface:
 
 <p align="center">
@@ -14,7 +16,24 @@ To get started download [CBASSED50_demo.qmd](https://github.com/greenjune-ship-i
 
 </p>
 
-This is a document with notebook interface that contains explanatory text together with the code.
+This is a document with notebook interface that contains explanatory text 
+together with the code.
+Open the document in [RStudio](https://quarto.org/docs/get-started/hello/rstudio.html) and explore it.
+
+RStudio will offer to install missing packages required for running the 
+Demo, please do this:
+
+![img.png](img.png)
+
+## Install CBASSED50
+
+```r
+if(!require(devtools)){
+   install.packages("devtools")
+}
+
+devtools::install_github("greenjune-ship-it/CBASSED50")
+```
 
 # Contributing
 
@@ -30,7 +49,7 @@ In Ubuntu you may face the issue with 'mvtnorm' dependency installation.
 
 To solve it, install the following libraries:
 
-```         
+```commandline
 sudo apt-get install gfortran
 sudo apt-get install liblapack-dev libblas-dev
 ```
@@ -38,3 +57,13 @@ sudo apt-get install liblapack-dev libblas-dev
 # User Support
 
 You can always report the GitHub [issue](https://github.com/greenjune-ship-it/CBASSED50/issues) or email the current maintainer: [yulia.iakovleva\@uni-konstanz.de](mailto:yulia.iakovleva@uni-konstanz.de).
+
+# Cite Us
+
+If you use this software, please cite it as below:
+
+```commandline
+Yulia Iakovleva & Christian R Voolstra. (2023).
+CBASSED50: R package to process CBASS-derived PAM data.
+Zenodo. https://doi.org/10.5281/ZENODO.8370644.
+```
