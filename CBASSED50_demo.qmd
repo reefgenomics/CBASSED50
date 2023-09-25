@@ -1,13 +1,13 @@
 ---
 title: "CBASSED50 Demo"
-author: "Yulia Iakovleva, Christian Voolstra"
+author: "Yulia Iakovleva, Christian R Voolstra"
 format: html
 editor: visual
 ---
 
 # About CBASSED50
 
-CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>.
+CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <https://aslopubs.onlinelibrary.wiley.com/doi/10.1002/lom3.10555>.
 
 # Get Started
 
@@ -36,6 +36,8 @@ library(CBASSED50)
 ```
 
 # Define Data Source
+
+Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below).
 
 ## Internal Dataset
 
@@ -72,7 +74,7 @@ mandatory_columns()
 
 Your data shouldn't contain any missing data, otherwise the row with missing values will be discarded.
 
-### Specify Project Directory and Working Environment
+### Specify Project Directory and Working Environment for Custom Data
 
 If you want to load and analyze your data, run the following chunk of the code.
 
