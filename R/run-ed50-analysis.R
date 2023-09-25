@@ -108,7 +108,7 @@ get_ed50_by_grouping_property <- function(models) {
   results <- lapply(names(models), function(model_name) {
     coefficients <- models[[model_name]]$coefficients
     intercept <- coefficients["ED50:(Intercept)"]
-    data.frame(ED50 = intercept, GroupingProperty = model_name)
+    data.frame(ED50 = round(intercept, digits = 2), GroupingProperty = model_name)
   })
 
   # Combine the results into a single dataframe
