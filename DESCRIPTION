@@ -1,7 +1,7 @@
 Package: CBASSED50
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.0
+Version: 0.1.1
 Author: Yulia Iakovleva
 Maintainer: Yulia Iakovleva <yulia_iakovleva@uni-konstanz.de>
 Description: The CBASS package allows you to process CBASS data.
