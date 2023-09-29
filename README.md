@@ -91,5 +91,5 @@ If you use this software, please cite it as below:
 ``` commandline
 Yulia Iakovleva & Christian R Voolstra. (2023).
 CBASSED50: R package to process CBASS-derived PAM data.
-Zenodo. https://doi.org/10.5281/ZENODO.8370644.
+Zenodo. https://doi.org/10.5281/zenodo.8370644.
 ```
