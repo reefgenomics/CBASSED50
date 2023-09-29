@@ -1,11 +1,11 @@
 cff-version: 1.1.0
 message: "If you use this software, please cite it as below."
 authors:
-  - family-names: "Yulia"
-    given-names: "Iakovleva"
+  - family-names: "Iakovleva"
+    given-names: "Yulia"
     orcid: https://orcid.org/0000-0002-0202-7245
-  - family-names: "Christian R"
-    given-names: "Voolstra"
+  - family-names: "Voolstra"
+    given-names: "Christian R"
     orcid: https://orcid.org/0000-0003-4555-3795
 title: "CBASSED50: R package to process CBASS-derived PAM data"
 version: 0.1.1
