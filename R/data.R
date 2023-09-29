@@ -1,8 +1,13 @@
-#' Sample Dataset: A dataset containing experimental data.
+#' CBASS Dataset
 #'
-#' This dataset provides experimental data with various attributes for demonstration and testing purposes.
+#' A dataset containing example experimental data.
 #'
-#' @format A data frame with 7 observations and 10 variables:
+#' This dataset provides experimental data with various attributes for
+#' demonstration and testing purposes.
+#'
+#' @docType data
+#' @name cbass_dataset
+#' @format A data frame with 300 observations and 9 variables:
 #'   \describe{
 #'     \item{Date}{A character vector representing the date of the observation.}
 #'     \item{Country}{A character vector representing the country of the observation.}
@@ -15,10 +20,10 @@
 #'     \item{PAM}{A numeric vector representing the PAM value of the observation.}
 #'   }
 #'
-#' @usage data(sample_dataset)
-#'
 #' @examples
 #' # Load the sample dataset
-#' data(sample_dataset)
+#' data(cbass_dataset)
+#' head(cbass_dataset)
 #'
+#' @usage data(cbass_dataset)
 "cbass_dataset"

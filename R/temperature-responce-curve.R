@@ -30,6 +30,20 @@ predict_temperature_values <- function(models, temp_range) {
   return(predictions)
 }
 
+#' Transform Predictions to a Long-Format DataFrame
+#'
+#' This function takes a list of predictions and converts them into a long-format
+#' data frame. Each prediction corresponds to a different temperature range.
+#'
+#' @param predictions A list of data frames where each data frame represents
+#'   predictions for a specific temperature range. The data frames should have
+#'   a common grouping property.
+#'
+#' @return A long-format data frame containing the transformed predictions with
+#'   columns for "GroupingProperty," "Temperature," and "PredictedPAM."
+#'
+#' @importFrom dplyr mutate rename arrange
+#' @importFrom reshape2 melt
 transform_predictions_to_long_dataframe <- function(predictions) {
   grouping_property <- "GroupingProperty"
   data.frame(do.call(rbind, predictions)) %>%

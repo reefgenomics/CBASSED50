@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("greenjune-ship-it/CBASSED50", quiet = TRUE, force = TRUE)
+devtools::install_github("greenjune-ship-it/CBASSED50")
 ```
 
 ## Load Packages
@@ -50,6 +50,7 @@ To load this data run the following chunk of code:
 ```{r load-data}
 # to load internal dataset that is provided with the R package
 data("cbass_dataset")
+output_prefix <- "demo"
 # make sure that dataset is loaded and display several first rows
 head(cbass_dataset)
 ```
@@ -108,7 +109,7 @@ validate_cbass_dataset(cbass_dataset)
 
 ## Explore ED50
 
-First you need to decide which grouping property you want to use. For example, I want to merge `Site` , `Condition`, `Species`, `Genotype` as one merged grouping property.
+First you need to decide which grouping property you want to use. For example, I want to group by all combinations of values that come from `Site` , `Condition`, `Species`, `Genotype`, and `Timepoint` columns as one merged grouping property.
 
 Create models:
 
@@ -238,3 +239,23 @@ tempresp_curve
 ```
 
 Now you are ready to interpret your results! :)
+
+# Explore the Output
+
+By the end of this demo you will have 4 output files:
+
+-   `demo_ED50boxplot.pdf`
+
+-   `demo_temprespcurve.pdf`
+
+-   `demo_ED50df.csv`
+
+-   `demo_summaryED50df.csv`
+
+If you choose to use a custom data set, please note that the output file names will start with the input file's name, rather than `demo_`. This feature ensures that the output files are easily identifiable and associated with the specific input data you provided.
+
+# Cite Us
+
+If you use this software, please cite it as below.
+
+> Yulia Iakovleva & Christian R Voolstra. (2023). CBASSED50: R package to process CBASS-derived PAM data. Zenodo. <https://doi.org/10.5281/ZENODO.8370644>.
