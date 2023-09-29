@@ -1,6 +1,6 @@
 # CBASSED50
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8370645.svg)](https://doi.org/10.5281/zenodo.8370645)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8392163.svg)](https://doi.org/10.5281/zenodo.8392163)
 
 ## Overview
 
