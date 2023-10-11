@@ -13,7 +13,7 @@ CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <h
 
 ## Install CBASSED50
 
-You need to execute this chunk only one to get the `CBASSED50` package installed.
+You need to execute this chunk only ones to get the `CBASSED50` package installed.
 
 ```{r install-cbassed50, message=FALSE}
 if(!require(devtools)){
