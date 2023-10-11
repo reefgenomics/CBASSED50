@@ -10,7 +10,7 @@
 #' print(mandatory_cols)
 #'
 #' [1] "Date"        "Country"     "Site"        "Condition"   "Species"
-#' [6] "Genotype"    "Temperature" "PAM"
+#' [6] "Genotype"    "Temperature" "Timepoint"   "PAM"
 #'
 #' @export
 mandatory_columns <- function() {
@@ -23,6 +23,7 @@ mandatory_columns <- function() {
       "Species",
       "Genotype",
       "Temperature",
+      "Timepoint",
       "PAM"
     )
   )
