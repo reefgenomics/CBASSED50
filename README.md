@@ -22,7 +22,7 @@ To get started download [CBASSED50_demo.qmd](https://github.com/greenjune-ship-i
 
 This is a document with a notebook interface that contains explanatory text together with the code. Open the document in [RStudio](https://quarto.org/docs/get-started/hello/rstudio.html) and explore it.
 
-RStudio will offer to install missing packages required for running the Demo, please do this:
+RStudio will offer to install missing packages required for running the [CBASSED50_demo.qmd](https://github.com/greenjune-ship-it/CBASSED50/blob/main/CBASSED50_demo.qmd), please do this:
 
 <p align="center">
 
