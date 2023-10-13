@@ -42,6 +42,10 @@ if(!require(devtools)){
 devtools::install_github("greenjune-ship-it/CBASSED50")
 ```
 
+### Input file format
+
+text will come soon ... :)
+
 ## Contributing
 
 If you want to contribute to a project and make it better, your help is very welcome.
