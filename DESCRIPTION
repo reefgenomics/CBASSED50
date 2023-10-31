@@ -3,11 +3,12 @@ Package: CBASSED50
 Title: R Package to Process CBASS-derived PAM Data
 Version: 0.1.1
 Authors@R: c(
-    person("Yulia", "Iakovleva", "yulia_iakovleva@uni-konstanz.de", role = c("aut", "cre"),
+    person(given = "Yulia", family = "Iakovleva",
+            email = "yulia_iakovleva@uni-konstanz.de", role = c("aut", "cre"),
             comment = c(ORCID = "0000-0002-0202-7245")),
-    person("Christian R", "Voolstra", "christian.voolstra@uni-konstanz.de", role = "aut",
-            comment = c(ORCID = "0000-0003-4555-3795"))
-  )
+    person(given = "Christian", family = "Voolstra", middle = "Robert",
+            email = "christian.voolstra@uni-konstanz.de", role = c("aut"),
+            comment = c(ORCID = "0000-0003-4555-3795")))
 Maintainer: Yulia Iakovleva <yulia_iakovleva@uni-konstanz.de>
 Description: The CBASSED50 R package to process CBASS-derived PAM data.
 License: MIT + file LICENSE
