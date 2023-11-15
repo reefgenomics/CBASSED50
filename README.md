@@ -44,7 +44,18 @@ devtools::install_github("greenjune-ship-it/CBASSED50")
 
 ### Input file format
 
-text will come soon ... :)
+An example can be downloaded here: ADD LINK to file
+
+To use the the demo, user has to provide an input file in the form of XLSX Microsoft Excel; the following columns are mandatory:
+- Date: format YYYYMMDD
+- Country: format 3-digit iso country code https://countrycode.org
+- Site: free text field (e.g., name of reef)
+- Condition: Descriptor to set apart samples from the same species and site, e.g. probiotic treatment vs. control; nursery vs. wild; diseased vs. healthy; etc. pp.; can be used to designate experimental treatments besides heat stress
+- Species: free text field; we recommend: providing the name of the coral as accurate as possible, e.g. Porites lutea or Porites sp.
+- Genotype: free text field; denotes samples/fragments/nubbins from distinct colonies in a given dataset; we recommend to use integers, i.e. 1, 2, 3, 4, 5, … etc.
+- Temperature: CBASS treatment temperatures; must be ≥ 4 different temperatures; must be integer; e.g. 30, 33, 36, 39 (typical CBASS temperature ranges are average summer mean MMM, MMM+3C, MMM+6C, MMM+9C)
+- Timepoint: timepoint of PAM measurements in minutes from start of the thermal cycling profile; typically: 420 (7 hours after start, i.e., after ramping up, heat-hold, ramping down) or 1080 (18 hours after start, i.e. at the end of the CBASS thermal cycling profile); differences in ED50s between timepoints 420 and 1080 may be indicative of resilience/recovery (if 1080 ED50 > 420 ED50) or collapse (if 1080 ED50 < 420 ED50)
+- PAM: Fv/Fm value of a given sample (format: ≥0 and ≤1, e.g. 0.387); note that technically any continuous variable can be used for ED50 calculation (e.g., coral whitening; black/white pixel intensity; etc.) and be provided in this column
 
 ## Contributing
 
