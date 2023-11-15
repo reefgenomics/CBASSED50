@@ -44,7 +44,7 @@ devtools::install_github("greenjune-ship-it/CBASSED50")
 
 ### Input file format
 
-An example can be downloaded here: ADD LINK to file
+An example can be downloaded here: ADD LINK to file; these are not real reef locations and coral species :)
 
 To use the the demo, user has to provide an input file in the form of XLSX Microsoft Excel; the following columns are mandatory:
 - Date: format YYYYMMDD
