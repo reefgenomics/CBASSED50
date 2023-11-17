@@ -37,20 +37,20 @@ library(CBASSED50)
 
 # Define Data Source
 
-Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below).
+Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below). The internal dataset is also provided in `examples` folder together with the output files.
 
 ## Internal Dataset
 
-The first time you may want to run the whole code with the data set that is already provided with the `CBASSED50` package.
+The first time you may want to run the whole code with the dataset that is already provided with the `CBASSED50` package.
 
-If you want to specify your own data set, go further to the next chunk.
+If you want to specify your own dataset, go further to the next chunk.
 
 To load this data run the following chunk of code:
 
 ```{r load-data}
 # to load internal dataset that is provided with the R package
 data("cbass_dataset")
-output_prefix <- "demo"
+output_prefix <- "examples/outputs/demo"
 # make sure that dataset is loaded and display several first rows
 head(cbass_dataset)
 ```
@@ -84,15 +84,19 @@ You don't need to execute the chunk below if you use the internal `cbass_dataset
 Note, the `selectFile` function from the `rstudioapi` package works only in interactive execution and doesn't work on rendering.
 
 ```{r specify-working-directory}
-input_data_path <- selectFile(filter = "Excel files (*.xls | *.xlsx)")
+# Get the input file path
+input_data_path <- selectFile(
+  caption = "Select Input File",
+  filter = "Data files (*.xls | *.xlsx | *.csv | *.txt)")
 
-# the logic that could be potentially hidden inside the package
-cbass_dataset <- read_excel(input_data_path)
-knitr::opts_knit$set(root.dir = dirname(input_data_path))
+# Read data based on file format
+cbass_dataset <- CBASSED50::read_data(input_data_path)
 # to specify the prefix for output files
-output_prefix <- tools::file_path_sans_ext(basename(input_data_path))
+output_prefix <- tools::file_path_sans_ext(input_data_path)
+
 rlog::log_info(paste("Your current directory is", getwd()))
 rlog::log_info(paste("Your input filename is", basename(input_data_path)))
+rlog::log_info(paste("The output files will be written into", output_prefix))
 ```
 
 # Analyze
@@ -142,7 +146,7 @@ You can choose colorblind-friendly palettes with `display.brewer.all(colorblindF
 
 ```{r display-ed50}
 ed50_boxplot <- ggplot(
-  ed50_df, aes(x = Condition, y = ED50, color = Species)) +
+  ed50_df, aes(x = Species, y = ED50, color = Condition)) +
   geom_boxplot() + 
   stat_summary(
     fun = mean, 
@@ -170,12 +174,15 @@ temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
 predictions <- get_predicted_pam_values(models, temp_ranges)
 ```
 
+You may get a warning `NaNs produced`. This can happen if PAM values at a higher temperature exceed PAM values at a lower temperature (the model assumes decreasing PAM values with increasing temperatures).
+
 Preprocess data for visualization:
 
 ```{r preprocess-pam-predictions}
 predictions_df <- 
   left_join(predictions,
-            cbass_dataset %>% select(c(all_of(grouping_properties), GroupingProperty)),
+            cbass_dataset %>% 
+              select(c(all_of(grouping_properties), GroupingProperty)),
             by = "GroupingProperty",
             relationship = "many-to-many") %>%
   distinct()
@@ -186,8 +193,9 @@ Get means of ED50:
 ```{r get-ed50-means}
 summary_ed50_df <- ed50_df %>%
   group_by(Site, Condition, Species) %>%
-  summarise(Mean_ED50 = mean(ED50),
-            SD_ED50 = sd(ED50))
+  summarise(Mean_ED50 = round(mean(ED50), 2),
+            SD_ED50 = round(sd(ED50), 2),
+            SE_ED50 = round(sd(ED50) / sqrt(n()), 2))
 
 summary_ed50_df
 write.csv(
@@ -211,24 +219,24 @@ tempresp_curve <- ggplot(result_df,
        aes(x = Temperature,
            y = PredictedPAM,
            group = GroupingProperty)) +
-  geom_line(aes(color = Species)) +
+  geom_line(aes(color = Condition)) +
   geom_segment(aes(x = Mean_ED50,
                    y = 0,
                    xend = Mean_ED50,
                    yend = max(PredictedPAM),
-                   color = Species),
+                   color = Condition),
                linetype = 3) +
   geom_text(mapping=aes(x = Mean_ED50,
                         y = max(PredictedPAM) + 0.01,
                         label = round(Mean_ED50, 2),
-                        color = Species),
+                        color = Condition),
             size = 3, angle = 90, check_overlap = T) +
-  facet_grid(Condition ~ Site) +
+  facet_grid(Species ~ Site) +
   # to add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
                  y = PAM,
-                 color = Species)) +
+                 color = Condition)) +
   scale_color_brewer(palette = "Set2") # colorblind-friendly palette
 
 ggsave(

@@ -1,3 +1,32 @@
+#' Read Data Function
+#'
+#' Reads data from a file based on its format (Excel or CSV).
+#'
+#' @param file_path Character string specifying the path to the input file.
+#' @return A data frame containing the read data.
+#' @details This function determines the file format based on the file extension
+#' and uses appropriate methods to read data from either Excel (xls, xlsx) or
+#' CSV (csv, txt) files.
+#' @examples
+#' # Read data from an Excel file
+#' read_data("path/to/excel_file.xlsx")
+#'
+#' # Read data from a CSV file
+#' read_data("path/to/csv_file.csv")
+#'
+#' @export
+read_data <- function(file_path) {
+  ext <- tools::file_ext(file_path)
+
+  if (ext %in% c("xls", "xlsx")) {
+    return(read_excel(file_path))
+  } else if (ext %in% c("csv", "txt")) {
+    return(read.csv(file_path))
+  } else {
+    stop("Unsupported file format. Please provide an Excel (xls, xlsx) or CSV (csv, txt) file.")
+  }
+}
+
 #' Get the names of mandatory columns for the dataset.
 #'
 #' This function returns a character vector containing the names of columns that are

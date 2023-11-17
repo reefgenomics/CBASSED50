@@ -53,7 +53,7 @@ read them in R.
 The following columns are mandatory:
 
 - `Date` format YYYYMMDD.
-- `Country` format 3-digit [ISO country code](https://countrycode.org).
+- `Country` format 3-letter [ISO country code](https://countrycode.org).
 - `Site` free text field (e.g., name of the reef).
 - `Condition` Descriptor to set apart samples from the same species and 
   site, e.g. probiotic treatment vs. control; nursery vs. wild; diseased vs.
