@@ -12,21 +12,21 @@ Evensen, N. R., Parker, K. E., Oliver, T. A., Palumbi, S. R., Logan, C. A., Ryan
 
 ### Demo File
 
-To get started download [CBASSED50_demo.qmd](https://github.com/greenjune-ship-it/CBASSED50/blob/main/CBASSED50_demo.qmd). GitHub allows you to do this directly from the web interface:
+To get started download [CBASSED50_demo.qmd](https://github.com/reefgenomics/CBASSED50/blob/main/CBASSED50_demo.qmd). GitHub allows you to do this directly from the web interface:
 
 <p align="center">
 
-<img src="https://github.com/greenjune-ship-it/CBASSED50/assets/83506881/b6c9f376-f4b6-46f8-87c2-dce0ccb50ad3"/>
+<img src="https://github.com/reefgenomics/CBASSED50/assets/83506881/b6c9f376-f4b6-46f8-87c2-dce0ccb50ad3"/>
 
 </p>
 
 This is a document with a notebook interface that contains explanatory text together with the code. Open the document in [RStudio](https://quarto.org/docs/get-started/hello/rstudio.html) and explore it.
 
-RStudio will offer to install missing packages required for running the [CBASSED50_demo.qmd](https://github.com/greenjune-ship-it/CBASSED50/blob/main/CBASSED50_demo.qmd), please do this:
+RStudio will offer to install missing packages required for running the [CBASSED50_demo.qmd](https://github.com/reefgenomics/CBASSED50/blob/main/CBASSED50_demo.qmd), please do this:
 
 <p align="center">
 
-<img src="https://github.com/greenjune-ship-it/CBASSED50/assets/83506881/c90752eb-a487-4560-825d-ac5854f5920f"/>
+<img src="https://github.com/reefgenomics/CBASSED50/assets/83506881/c90752eb-a487-4560-825d-ac5854f5920f"/>
 
 </p>
 
@@ -39,7 +39,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("greenjune-ship-it/CBASSED50")
+devtools::install_github("reefgenomics/CBASSED50")
 ```
 
 ### Input file format
@@ -98,7 +98,7 @@ This is how your dataset should look like:
 
 If you want to contribute to a project and make it better, your help is very welcome.
 
-You can always report an [issue](https://github.com/greenjune-ship-it/CBASSED50/issues) or fork this repository, implement/fix your feature, and create a pull request.
+You can always report an [issue](https://github.com/reefgenomics/CBASSED50/issues) or fork this repository, implement/fix your feature, and create a pull request.
 
 ## FAQ
 
@@ -134,7 +134,7 @@ sudo apt-get install cmake
 
 ## Getting Help
 
-You can always report the GitHub [issue](https://github.com/greenjune-ship-it/CBASSED50/issues) or email the current maintainer: [yulia.iakovleva\@uni-konstanz.de](mailto:yulia.iakovleva@uni-konstanz.de).
+You can always report the GitHub [issue](https://github.com/reefgenomics/CBASSED50/issues) or email the current maintainer: [yulia_iakovleva@proton.me](mailto:yulia_iakovleva@proton.me).
 
 ## Cite Us
 
