@@ -18,6 +18,6 @@ mandatory_cols <- mandatory_columns()
 print(mandatory_cols)
 
 [1] "Date"        "Country"     "Site"        "Condition"   "Species"
-[6] "Genotype"    "Temperature" "PAM"
+[6] "Genotype"    "Temperature" "Timepoint"   "PAM"
 
 }
