@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("greenjune-ship-it/CBASSED50")
+devtools::install_github("reefgenomics/CBASSED50")
 ```
 
 ## Load Packages
