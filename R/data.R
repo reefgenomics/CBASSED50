@@ -26,4 +26,6 @@
 #' head(cbass_dataset)
 #'
 #' @usage data(cbass_dataset)
+#'
+#' @export
 "cbass_dataset"
