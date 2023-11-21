@@ -65,7 +65,7 @@ The following columns are mandatory:
   distinct colonies in a given dataset; we recommend to use integers, i.e. 1, 2, 3, 4, 5, etc.
 - `Temperature` CBASS treatment temperatures; must be ≥ 4 different 
   temperatures; must be integer; e.g. 30, 33, 36, 39. Typical CBASS 
-  temperature ranges are average summer mean MMM, MMM+3C, MMM+6C, MMM+9C).
+  temperature ranges are average summer mean MMM, MMM+3°C, MMM+6°C, MMM+9°C).
 - `Timepoint` timepoint of PAM measurements in minutes from start of the 
   thermal cycling profile; typically: 420 (7 hours after start, i.e., after 
   ramping up, heat-hold, ramping down) or 1080 (18 hours after start, i.e. 
