@@ -60,7 +60,7 @@ The following columns are mandatory:
   healthy; can be used to designate experimental treatments besides heat 
   stress. If no other treatments, write 'not available'.
 - `Species` free text field; we recommend providing the name of the coral 
-  as accurate as possible, e.g. _Porites lutea_ or _Porites sp._
+  as accurate as possible, e.g. _Porites lutea_ or _Porites_ sp.
 - `Genotype` free text field; denotes samples/fragments/nubbins from 
   distinct colonies in a given dataset; we recommend to use integers, i.e. 1, 2, 3, 4, 5, etc.
 - `Temperature` CBASS treatment temperatures; must be ≥ 4 different 
