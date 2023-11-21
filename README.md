@@ -58,8 +58,7 @@ The following columns are mandatory:
 - `Condition` Descriptor to set apart samples from the same species and 
   site, e.g. probiotic treatment vs. control; nursery vs. wild; diseased vs.
   healthy; can be used to designate experimental treatments besides heat 
-  stress. If you don't have any additional conditions besides the heat 
-  stress, provide the same condition value, e.g. `Experiment`.
+  stress. If no other treatments, write 'not available'.
 - `Species` free text field; we recommend providing the name of the coral 
   as accurate as possible, e.g. _Porites lutea_ or _Porites sp._
 - `Genotype` free text field; denotes samples/fragments/nubbins from 
