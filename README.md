@@ -44,11 +44,9 @@ devtools::install_github("reefgenomics/CBASSED50")
 
 ### Input file format
 
-An example can be downloaded from this repository.
+An example [inputfile](https://github.com/reefgenomics/CBASSED50/blob/main/examples/cbass_dataset.csv) can be downloaded from this repository.
 
-To use the demo, you can provide an input file in XLSX format to proceed in 
-interactive way or use any other data formats if you are familiar how to 
-read them in R.
+The R package contains an internal dataset. Alternativley, you can run demo using your own inputfile for processing (CSV or XLSX format).
 
 The following columns are mandatory:
 
@@ -77,7 +75,7 @@ The following columns are mandatory:
   (e.g., coral whitening; black/white pixel intensity; etc.) and be 
   provided in this column.
 
-This is how your dataset should look like:
+This is how your input file should look like:
 
 |   Date   | Country |    Site    | Condition |      Species      | Genotype | Temperature | Timepoint |   PAM   |
 |----------|---------|------------|-----------|-------------------|----------|-------------|-----------|---------|
