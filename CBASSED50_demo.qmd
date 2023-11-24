@@ -13,14 +13,14 @@ CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <h
 
 ## Install CBASSED50
 
-You need to execute this chunk only ones to get the `CBASSED50` package installed.
+You need to execute this chunk only once to get the `CBASSED50` package installed. If there is a new release, please run to update package components.
 
 ```{r install-cbassed50, message=FALSE}
 if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50")
+devtools::install_github("reefgenomics/CBASSED50", force=TRUE)
 ```
 
 ## Load Packages
@@ -37,25 +37,25 @@ library(CBASSED50)
 
 # Define Data Source
 
-Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below). The internal dataset is also provided in `examples` folder together with the output files.
+Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below). The internal dataset is also provided in [`examples`](https://github.com/reefgenomics/CBASSED50/tree/main/examples) folder together with the output files.
 
 ## Internal Dataset
 
-The first time you may want to run the whole code with the dataset that is already provided with the `CBASSED50` package.
+The first time you may want to run the code with the dataset that is already provided with the `CBASSED50` package.
 
 If you want to specify your own dataset, go further to the next chunk.
 
-To load this data run the following chunk of code:
+To load the internal dataset, run the following chunk of code:
 
 ```{r load-data}
 # to load internal dataset that is provided with the R package
 data("cbass_dataset")
-output_prefix <- "examples/outputs/demo"
+output_prefix <- "demo"
 # make sure that dataset is loaded and display several first rows
 head(cbass_dataset)
 ```
 
-If you want to know more about our internal data set, you can call the R Documentation:
+If you want to know more about our internal dataset, you can call the R documentation:
 
 ```{r about-dataset}
 ?cbass_dataset
@@ -65,7 +65,7 @@ If you want to know more about our internal data set, you can call the R Documen
 
 ### Requirements for Custom Data
 
-Your data should contain mandatory columns to pass reprocessing and validation steps.
+Your data must contain mandatory columns to pass phwreprocessing and validation steps.
 
 To retrieve the list of mandatory data columns, call the internal `mandatory_columns` function:
 
@@ -86,11 +86,10 @@ Note, the `selectFile` function from the `rstudioapi` package works only in inte
 ```{r specify-working-directory}
 # Get the input file path
 input_data_path <- selectFile(
-  caption = "Select Input File",
-  filter = "Data files (*.xls | *.xlsx | *.csv | *.txt)")
+  caption = "Select XLSX or CSV Input File")
 
 # Read data based on file format
-cbass_dataset <- CBASSED50::read_data(input_data_path)
+cbass_dataset <- read_data(input_data_path)
 # to specify the prefix for output files
 output_prefix <- tools::file_path_sans_ext(input_data_path)
 

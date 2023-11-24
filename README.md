@@ -44,7 +44,7 @@ devtools::install_github("reefgenomics/CBASSED50")
 
 ### Input file format
 
-An example [inputfile](https://github.com/reefgenomics/CBASSED50/blob/main/examples/cbass_dataset.csv) can be downloaded from this repository.
+An example [input file](https://github.com/reefgenomics/CBASSED50/blob/main/examples/cbass_dataset.csv) can be downloaded from this repository.
 
 The R package contains an internal dataset. Alternativley, you can run demo using your own inputfile for processing (CSV or XLSX format).
 
