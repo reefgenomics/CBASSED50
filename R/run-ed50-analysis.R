@@ -75,7 +75,9 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 
   models <- lapply(unique(dataset[[grouping_property]]), function(group_value) {
     subset_data <- dataset[dataset[[grouping_property]] == group_value, ]
-    model <- drc::drm(formula, data = subset_data, fct = drc::LL.3(names = c('Slope', 'Max', 'ED50')))
+    model <- drc::drm(formula, data = subset_data,
+                      curveid = Genotype,
+                      fct = drc::LL.3(names = c('Hill', 'Max', 'ED50')))
   })
 
   # Create a named list of models
