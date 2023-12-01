@@ -128,7 +128,8 @@ Get ED50 from models:
 
 ```{r get-ed50}
 ed50 <- get_ed50_by_grouping_property(models)
-cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties)
+cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties) %>%
+  mutate(GroupingProperty = paste(GroupingProperty, Genotype, sep = "_"))
 
 ed50_df <- 
   left_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
@@ -182,7 +183,7 @@ Preprocess data for visualization:
 ```{r preprocess-pam-predictions}
 predictions_df <- 
   left_join(predictions,
-            cbass_dataset %>% 
+            define_grouping_property(cbass_dataset, grouping_properties) %>% 
               select(c(all_of(grouping_properties), GroupingProperty)),
             by = "GroupingProperty",
             relationship = "many-to-many") %>%
