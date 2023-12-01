@@ -75,9 +75,7 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 
   models <- lapply(unique(dataset[[grouping_property]]), function(group_value) {
     subset_data <- dataset[dataset[[grouping_property]] == group_value, ]
-    model <- drc::drm(formula, data = subset_data,
-                      curveid = Genotype,
-                      fct = drc::LL.3(names = c('Hill', 'Max', 'ED50')))
+    model <- drc::drm(formula, data = subset_data, fct = drc::LL.3(names = c('Hill', 'Max', 'ED50')))
   })
 
   # Create a named list of models
@@ -105,12 +103,17 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 #' #   ED50     GroupingProperty
 #' # 1 ED50_value_1 Group1
 #' # 2 ED50_value_2 Group2
-get_ed50_by_grouping_property <- function(models) {
+function(models) {
   # Extract the model name and intercept using lapply
   results <- lapply(names(models), function(model_name) {
     coefficients <- models[[model_name]]$coefficients
-    intercept <- coefficients["ED50:(Intercept)"]
-    data.frame(ED50 = round(intercept, digits = 2), GroupingProperty = model_name)
+    ed50_indexes <- grep("^ED50", names(coefficients))
+    ed50_raw_values <- coefficients[ed50_indexes]
+    ed50_values <- unname(ed50_raw_values)
+    genotype_names <- sub("^ED50:", "", names(ed50_raw_values))
+    data.frame(
+      ED50 = round(ed50_values, digits = 2),
+      GroupingProperty = paste(model_name, genotype_names, sep = "_"))
   })
 
   # Combine the results into a single dataframe
