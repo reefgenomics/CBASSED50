@@ -103,7 +103,7 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 #' #   ED50     GroupingProperty
 #' # 1 ED50_value_1 Group1
 #' # 2 ED50_value_2 Group2
-function(models) {
+get_ed50_by_grouping_property <- function(models) {
   # Extract the model name and intercept using lapply
   results <- lapply(names(models), function(model_name) {
     coefficients <- models[[model_name]]$coefficients
