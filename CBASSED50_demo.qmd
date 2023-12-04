@@ -48,10 +48,10 @@ If you want to specify your own dataset, go further to the next chunk.
 To load the internal dataset, run the following chunk of code:
 
 ```{r load-data}
-# to load internal dataset that is provided with the R package
+# To load internal dataset that is provided with the R package
 data("cbass_dataset")
 output_prefix <- "demo"
-# make sure that dataset is loaded and display several first rows
+# Make sure that dataset is loaded and display several first rows
 head(cbass_dataset)
 ```
 
@@ -90,7 +90,7 @@ input_data_path <- selectFile(
 
 # Read data based on file format
 cbass_dataset <- read_data(input_data_path)
-# to specify the prefix for output files
+# To specify the prefix for output files
 output_prefix <- tools::file_path_sans_ext(input_data_path)
 
 rlog::log_info(paste("Your current directory is", getwd()))
@@ -105,7 +105,6 @@ rlog::log_info(paste("The output files will be written into", output_prefix))
 Make your data tidy and validate:
 
 ```{r process-and-validate-cbass-dataset}
-# uncomment if you want to preprocess the dataset
 cbass_dataset <- preprocess_dataset(cbass_dataset)
 validate_cbass_dataset(cbass_dataset)
 ```
@@ -168,10 +167,39 @@ ed50_boxplot
 
 ## Temperature Response Curve
 
+Before predicting PAM values let's explore if everything is fine with each genotype of our dataset:
+
+```{r check-curves-without-curveid, warning=FALSE}
+exploratory_curve <-
+  ggplot(data = cbass_dataset,
+       aes(
+         x = Temperature,
+         y = PAM,
+         # You can play aroung the group value
+         group = GroupingProperty,
+         color = Genotype,
+         shape = Genotype)) +
+  geom_point() +
+  geom_smooth(
+    method = drc::drm,
+    method.args = list(
+      fct = drc::LL.3()),
+    se = FALSE
+  ) +
+  facet_grid(Species ~ Site) +
+  scale_shape_manual(values = seq(0, length(unique(cbass_dataset$Genotype)) - 1 ))
+  scale_color_brewer(palette = "Paired") # Colorblind-friendly palette
+
+ggsave(
+  paste(output_prefix, "prelim_temprespcurve.pdf", sep = '_'),
+  exploratory_curve, width = 16, height = 9)
+exploratory_curve
+```
+
 Predict PAM values for selected temperature range:
 
 ```{r predict-PAM-values}
-# the default number of values for range of temperatures is 100
+# The default number of values for range of temperatures is 100
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
 predictions <- get_predicted_pam_values(models, temp_ranges)
 ```
@@ -234,12 +262,12 @@ tempresp_curve <- ggplot(result_df,
                         color = Condition),
             size = 3, angle = 90, check_overlap = T) +
   facet_grid(Species ~ Site) +
-  # to add the real PAM and compare with predicted values
+  # To add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
                  y = PAM,
                  color = Condition)) +
-  scale_color_brewer(palette = "Set2") # colorblind-friendly palette
+  scale_color_brewer(palette = "Set2") # Colorblind-friendly palette
 
 ggsave(
   paste(output_prefix, "temprespcurve.pdf", sep = '_'),
@@ -255,6 +283,8 @@ Now you are ready to interpret your results! :)
 By the end of this demo you will have 4 output files:
 
 -   `demo_ED50boxplot.pdf`
+
+-   `demo_prelim_temprespcurve.pdf`
 
 -   `demo_temprespcurve.pdf`
 
