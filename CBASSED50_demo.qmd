@@ -238,8 +238,7 @@ Join predictions and mean ED50 data:
 
 ```{r join-predicitons-and-mean-ed50}
 result_df <- predictions_df %>%
-  left_join(summary_ed50_df, by = c("Site", "Condition", "Species")) %>%
-  mutate(Temperature = as.numeric(as.character(Temperature)))
+  left_join(summary_ed50_df, by = c("Site", "Condition", "Species"))
 ```
 
 Plot data:
@@ -248,26 +247,29 @@ Plot data:
 tempresp_curve <- ggplot(result_df,
        aes(x = Temperature,
            y = PredictedPAM,
-           group = GroupingProperty)) +
-  geom_line(aes(color = Condition)) +
+           group = GroupingProperty,
+           # You can customize the group here
+           color = Condition)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = Upper,
+                  ymax = Lower,
+                  fill = Condition),
+              alpha = 0.2,
+              linetype = "dashed") +
   geom_segment(aes(x = Mean_ED50,
                    y = 0,
                    xend = Mean_ED50,
-                   yend = max(PredictedPAM),
-                   color = Condition),
+                   yend = max(Upper)),
                linetype = 3) +
   geom_text(mapping=aes(x = Mean_ED50,
-                        y = max(PredictedPAM) + 0.01,
-                        label = round(Mean_ED50, 2),
-                        color = Condition),
+                        y = max(Upper) + 0.01,
+                        label = round(Mean_ED50, 2)),
             size = 3, angle = 90, check_overlap = T) +
   facet_grid(Species ~ Site) +
   # To add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
-                 y = PAM,
-                 color = Condition)) +
-  scale_color_brewer(palette = "Set2") # Colorblind-friendly palette
+                 y = PAM))
 
 ggsave(
   paste(output_prefix, "temprespcurve.pdf", sep = '_'),

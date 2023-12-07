@@ -23,7 +23,9 @@ define_temperature_ranges <- function(temperatures, n = 100) {
 predict_temperature_values <- function(models, temp_range) {
   predictions <- lapply(
     models, function(model) {
-      predictions <- predict(model, data.frame(Temperature = temp_range))
+      predictions <- predict(model,
+                             data.frame(Temperature = temp_range),
+                             interval="confidence")
       predictions
     }
   )
@@ -43,15 +45,16 @@ predict_temperature_values <- function(models, temp_range) {
 #'   columns for "GroupingProperty," "Temperature," and "PredictedPAM."
 #'
 #' @importFrom dplyr mutate rename arrange
-#' @importFrom reshape2 melt
-transform_predictions_to_long_dataframe <- function(predictions) {
+transform_predictions_to_long_dataframe <- function(predictions, temp_range) {
   grouping_property <- "GroupingProperty"
-  data.frame(do.call(rbind, predictions)) %>%
-    setNames(round(temp_ranges, 2)) %>%
-    mutate(!!grouping_property := rownames(.)) %>%
-    reshape2::melt(id.vars = grouping_property) %>%
-    rename(Temperature = variable, PredictedPAM = value) %>%
-    arrange(grouping_property)
+  data.frame(do.call(rbind, Map(cbind, predictions, GroupingProperty = names(predictions)))) %>%
+    mutate(
+      Temperature = rep(round(temp_range, 2), length(predictions)),
+      Prediction = as.numeric(Prediction),
+      Upper = as.numeric(Upper),
+      Lower = as.numeric(Lower)
+      ) %>%
+    rename(PredictedPAM = Prediction)
 }
 
 #' Get Predicted PAM Values
@@ -79,6 +82,7 @@ transform_predictions_to_long_dataframe <- function(predictions) {
 #' @keywords predicted PAM values, temperature range, model
 get_predicted_pam_values <- function(models, temp_range) {
   predictions <- predict_temperature_values(models, temp_range)  # Assuming the function predict_temperature_values() is defined elsewhere
-  result <- transform_predictions_to_long_dataframe(predictions)  # Assuming the function transform_predictions_to_long_dataframe() is defined elsewhere
+  result <- transform_predictions_to_long_dataframe(predictions, temp_range)  # Assuming the function transform_predictions_to_long_dataframe() is defined elsewhere
   return(result)
 }
+
