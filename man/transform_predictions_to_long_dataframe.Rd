@@ -4,7 +4,7 @@
 \alias{transform_predictions_to_long_dataframe}
 \title{Transform Predictions to a Long-Format DataFrame}
 \usage{
-transform_predictions_to_long_dataframe(predictions)
+transform_predictions_to_long_dataframe(predictions, temp_range)
 }
 \arguments{
 \item{predictions}{A list of data frames where each data frame represents
