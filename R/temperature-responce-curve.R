@@ -25,7 +25,8 @@ predict_temperature_values <- function(models, temp_range) {
     models, function(model) {
       predictions <- predict(model,
                              data.frame(Temperature = temp_range),
-                             interval="confidence")
+                             interval="confidence",
+                             level = 0.95)
       predictions
     }
   )
