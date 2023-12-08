@@ -175,19 +175,18 @@ exploratory_curve <-
        aes(
          x = Temperature,
          y = PAM,
-         # You can play aroung the group value
+         # You can play aroung the group value (e.g., Species, Site, Condition)
          group = GroupingProperty,
-         color = Genotype,
-         shape = Genotype)) +
-  geom_point() +
+         color = Genotype)) +
   geom_smooth(
     method = drc::drm,
     method.args = list(
       fct = drc::LL.3()),
-    se = FALSE
+    se = FALSE,
+    size = 0.7
   ) +
-  facet_grid(Species ~ Site) +
-  scale_shape_manual(values = seq(0, length(unique(cbass_dataset$Genotype)) - 1 )) +
+  geom_point(size = 1.5) +
+  facet_grid(Species ~ Site ~ Condition) +
   scale_color_brewer(palette = "Paired") # Colorblind-friendly palette
 
 ggsave(
@@ -198,7 +197,7 @@ exploratory_curve
 
 Predict PAM values for selected temperature range:
 
-```{r predict-PAM-values}
+```{r predict-PAM-values, warning=FALSE}
 # The default number of values for range of temperatures is 100
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
 predictions <- get_predicted_pam_values(models, temp_ranges)
