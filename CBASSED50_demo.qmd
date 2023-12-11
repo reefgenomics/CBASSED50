@@ -224,6 +224,8 @@ summary_ed50_df <- ed50_df %>%
   summarise(Mean_ED50 = mean(ED50),
             SD_ED50 = sd(ED50),
             SE_ED50 = sd(ED50) / sqrt(n()),
+            # The value 0.975 corresponds to the upper tail probability
+            # for a two-tailed t-distribution with a 95% 
             Conf_Int_lower = Mean_ED50 - qt(0.975, df = n() - 1) * SE_ED50,
             Conf_Int_upper = Mean_ED50 + qt(0.975, df = n() - 1) * SE_ED50) %>%
   mutate(across(c(Mean_ED50,
