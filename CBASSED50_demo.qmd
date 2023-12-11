@@ -221,9 +221,15 @@ Get means of ED50:
 ```{r get-ed50-means}
 summary_ed50_df <- ed50_df %>%
   group_by(Site, Condition, Species) %>%
-  summarise(Mean_ED50 = round(mean(ED50), 2),
-            SD_ED50 = round(sd(ED50), 2),
-            SE_ED50 = round(sd(ED50) / sqrt(n()), 2))
+  summarise(Mean_ED50 = mean(ED50),
+            SD_ED50 = sd(ED50),
+            SE_ED50 = sd(ED50) / sqrt(n()),
+            Conf_Int_lower = Mean_ED50 - qt(0.975, df = n() - 1) * SE_ED50,
+            Conf_Int_upper = Mean_ED50 + qt(0.975, df = n() - 1) * SE_ED50) %>%
+  mutate(across(c(Mean_ED50,
+                  SD_ED50, SE_ED50,
+                  Conf_Int_lower, Conf_Int_upper
+                  ), ~round(., 2)))
 
 summary_ed50_df
 write.csv(
