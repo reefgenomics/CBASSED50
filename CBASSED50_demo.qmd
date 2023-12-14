@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50", force=TRUE)
+devtools::install_github("reefgenomics/CBASSED50@1.2.3", force=TRUE)
 ```
 
 ## Load Packages
@@ -201,7 +201,7 @@ Predict PAM values for selected temperature range:
 # First fit models without curveid
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE)
 # The default number of values for range of temperatures is 100
-temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
+temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n=100)
 predictions <- get_predicted_pam_values(models, temp_ranges)
 ```
 
@@ -229,12 +229,9 @@ summary_ed50_df <- ed50_df %>%
             SE_ED50 = sd(ED50) / sqrt(n()),
             # The value 0.975 corresponds to the upper tail probability
             # for a two-tailed t-distribution with a 95% 
-            Conf_Int_lower = Mean_ED50 - qt(0.975, df = n() - 1) * SE_ED50,
-            Conf_Int_upper = Mean_ED50 + qt(0.975, df = n() - 1) * SE_ED50) %>%
-  mutate(across(c(Mean_ED50,
-                  SD_ED50, SE_ED50,
-                  Conf_Int_lower, Conf_Int_upper
-                  ), ~round(., 2)))
+            Conf_Int = qt(0.975, df = n() - 1) * SE_ED50) %>%
+  mutate(across(c(Mean_ED50, SD_ED50, SE_ED50,
+                  Conf_Int), ~round(., 2)))
 
 summary_ed50_df
 write.csv(
