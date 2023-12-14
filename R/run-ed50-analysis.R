@@ -41,6 +41,7 @@ define_grouping_property <-
 #' @param dataset A data frame containing the dataset on which to fit the DRMs.
 #' @param grouping_properties A character vector specifying the names of columns in the dataset that will be used as grouping properties for fitting separate DRMs.
 #' @param drm_formula A formula specifying the dynamic regression model to be fitted. This formula should follow the standard R formula syntax (e.g., y ~ x1 + x2).
+#' @param is_curveid A boolean value indicating if you want to use this parameter to fit the model
 #'
 #' @return A list of fitted DRM models, with each element corresponding to a unique combination of grouping property values.
 #' @export
@@ -49,7 +50,7 @@ define_grouping_property <-
 #' fit_drms(data, c("Site", "Condition", "Species", "Genotype"), "PAM ~ Temperature")
 #'
 #' @keywords modeling
-fit_drms <- function(dataset, grouping_properties, drm_formula) {
+fit_drms <- function(dataset, grouping_properties, drm_formula, is_curveid = FALSE) {
   # Input validation
   if (!is.data.frame(dataset)) {
     stop("Input dataset must be a data frame.")
@@ -75,10 +76,18 @@ fit_drms <- function(dataset, grouping_properties, drm_formula) {
 
   models <- lapply(unique(dataset[[grouping_property]]), function(group_value) {
     subset_data <- dataset[dataset[[grouping_property]] == group_value, ]
-    model <- drc::drm(
-      formula, data = subset_data,
-      curveid = Genotype,
-      fct = drc::LL.3(names = c('Hill', 'Max', 'ED50')))
+
+    # Conditionally include curveid argument
+    if (is_curveid) {
+      model <- drc::drm(
+        formula, data = subset_data,
+        curveid = Genotype,
+        fct = drc::LL.3(names = c('Hill', 'Max', 'ED50')))
+    } else {
+      model <- drc::drm(
+        formula, data = subset_data,
+        fct = drc::LL.3(names = c('Hill', 'Max', 'ED50')))
+    }
   })
 
   # Create a named list of models
@@ -116,7 +125,8 @@ get_ed50_by_grouping_property <- function(models) {
     genotype_names <- sub("^ED50:", "", names(ed50_raw_values))
     data.frame(
       ED50 = round(ed50_values, digits = 2),
-      GroupingProperty = paste(model_name, genotype_names, sep = "_"))
+      GroupingProperty = paste(model_name, genotype_names, sep = "_")) %>%
+      mutate(GroupingProperty = gsub("_\\(Intercept\\)", "", GroupingProperty))
   })
 
   # Combine the results into a single dataframe
