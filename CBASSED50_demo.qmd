@@ -120,7 +120,7 @@ Create models:
 ```{r fititng-dose-responce-models, warning=FALSE}
 grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
 drm_formula <- "PAM ~ Temperature"
-models <- fit_drms(cbass_dataset, grouping_properties, drm_formula)
+models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = TRUE)
 ```
 
 Get ED50 from models:
