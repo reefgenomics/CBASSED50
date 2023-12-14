@@ -156,7 +156,7 @@ ed50_boxplot <- ggplot(
     position = position_dodge(width = 0.75),
     vjust = -1
   ) +
-  facet_grid(~Site) +
+  facet_grid(~ Site) +
   scale_color_brewer(palette = "Set2")
 
 ggsave(
@@ -198,6 +198,8 @@ exploratory_curve
 Predict PAM values for selected temperature range:
 
 ```{r predict-PAM-values, warning=FALSE}
+# First fit models without curveid
+models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE)
 # The default number of values for range of temperatures is 100
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature)
 predictions <- get_predicted_pam_values(models, temp_ranges)
@@ -221,7 +223,7 @@ Get means of ED50:
 
 ```{r get-ed50-means}
 summary_ed50_df <- ed50_df %>%
-  group_by(Site, Condition, Species) %>%
+  group_by(Site, Condition, Species, Timepoint) %>%
   summarise(Mean_ED50 = mean(ED50),
             SD_ED50 = sd(ED50),
             SE_ED50 = sd(ED50) / sqrt(n()),
@@ -245,7 +247,7 @@ Join predictions and mean ED50 data:
 
 ```{r join-predicitons-and-mean-ed50}
 result_df <- predictions_df %>%
-  left_join(summary_ed50_df, by = c("Site", "Condition", "Species"))
+  left_join(summary_ed50_df, by = c("Site", "Condition", "Species", "Timepoint"))
 ```
 
 Plot data:
@@ -272,7 +274,7 @@ tempresp_curve <- ggplot(result_df,
                         y = max(Upper) + 0.01,
                         label = round(Mean_ED50, 2)),
             size = 3, angle = 90, check_overlap = T) +
-  facet_grid(Species ~ Site) +
+  facet_grid(Species ~ Site ~ Condition) +
   # To add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
