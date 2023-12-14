@@ -8,6 +8,7 @@ test_that("mandatory_columns returns the correct vector of mandatory columns", {
     "Species",
     "Genotype",
     "Temperature",
+    "Timepoint",
     "PAM"
   )
   result <- mandatory_columns()
@@ -24,6 +25,7 @@ test_that("dataset_has_mandatory_columns returns TRUE when all mandatory columns
     Species = c("Species 1", "Species 2", "Species 3"),
     Genotype = c("Genotype A", "Genotype B", "Genotype C"),
     Temperature = c(30.2, 31.5, 29.8),
+    Timepoint = c(420, 420, 420),
     PAM = c(0.5, 0.6, 0.8)
   )
 
@@ -103,6 +105,7 @@ test_that("validate_cbass_dataset returns TRUE for a valid dataset", {
     Species = c("Species 1", "Species 2", "Species 3", "Species 1"),
     Genotype = c("Genotype A", "Genotype B", "Genotype C", "Genotype B"),
     Temperature = c(30.2, 31.5, 29.8, 29.0),
+    Timepoint = c(420, 420, 420, 420),
     PAM = c(0.5, 0.6, 0.8, 0.7)
   )
 
