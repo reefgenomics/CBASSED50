@@ -123,7 +123,7 @@ drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = TRUE)
 ```
 
-Get ED50 from models:
+Get ED50s from models:
 
 ```{r get-ed50}
 ed50 <- get_ed50_by_grouping_property(models)
@@ -141,7 +141,7 @@ write.csv(ed50_df,
           row.names = FALSE)
 ```
 
-ED50 Boxplot.
+ED50 Boxplots:
 
 You can choose colorblind-friendly palettes with `display.brewer.all(colorblindFriendly = T)`.
 
@@ -167,7 +167,7 @@ ed50_boxplot
 
 ## Temperature Response Curve
 
-Before predicting PAM values let's explore if everything is fine with each genotype of our dataset:
+Before predicting PAM values for plotting, let's explore if everything is fine with each genotype of the dataset:
 
 ```{r check-curves-without-curveid, warning=FALSE}
 exploratory_curve <-
@@ -175,7 +175,7 @@ exploratory_curve <-
        aes(
          x = Temperature,
          y = PAM,
-         # You can play aroung the group value (e.g., Species, Site, Condition)
+         # You can play around with the group value (e.g., Species, Site, Condition)
          group = GroupingProperty,
          color = Genotype)) +
   geom_smooth(
@@ -195,7 +195,7 @@ ggsave(
 exploratory_curve
 ```
 
-Predict PAM values for selected temperature range:
+Predict PAM values for assayed temperature range:
 
 ```{r predict-PAM-values, warning=FALSE}
 # First fit models without curveid
@@ -207,7 +207,7 @@ predictions <- get_predicted_pam_values(models, temp_ranges)
 
 You may get a warning `NaNs produced`. This can happen if PAM values at a higher temperature exceed PAM values at a lower temperature (the model assumes decreasing PAM values with increasing temperatures).
 
-Preprocess data for visualization:
+Pre-process data for visualization:
 
 ```{r preprocess-pam-predictions}
 predictions_df <- 
@@ -219,7 +219,7 @@ predictions_df <-
   distinct()
 ```
 
-Get means of ED50:
+Get ED50 summary statistics for groupings:
 
 ```{r get-ed50-means}
 summary_ed50_df <- ed50_df %>%
@@ -240,14 +240,14 @@ write.csv(
   row.names = FALSE)
 ```
 
-Join predictions and mean ED50 data:
+Join predictions and ED50 summary data:
 
 ```{r join-predicitons-and-mean-ed50}
 result_df <- predictions_df %>%
   left_join(summary_ed50_df, by = c("Site", "Condition", "Species", "Timepoint"))
 ```
 
-Plot data:
+Plot ED50 curves for groupings:
 
 ```{r plot-temperature-responce-curve}
 tempresp_curve <- ggplot(result_df,
@@ -284,6 +284,8 @@ ggsave(
 tempresp_curve
 ```
 
+Curves display the predicted PAM values, the 95% confidence intervals, and mean ED50s for groupings (vertical line).
+
 Now you are ready to interpret your results! :)
 
 # Explore the Output
@@ -300,7 +302,7 @@ By the end of this demo you will have 4 output files:
 
 -   `demo_summaryED50df.csv`
 
-If you choose to use a custom data set, please note that the output file names will start with the input file's name, rather than `demo_`. This feature ensures that the output files are easily identifiable and associated with the specific input data you provided.
+If you choose to use a custom dataset, please note that the output filenames will start with the input filename, rather than `demo_`. This feature ensures that the output files are easily identifiable and associated with the specific input data provided.
 
 # Cite Us
 
