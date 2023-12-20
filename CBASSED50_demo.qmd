@@ -65,7 +65,7 @@ If you want to know more about our internal dataset, you can call the R document
 
 ### Requirements for Custom Data
 
-Your data must contain mandatory columns to pass phwreprocessing and validation steps.
+Your data must contain mandatory columns to pass pre-processing and validation steps.
 
 To retrieve the list of mandatory data columns, call the internal `mandatory_columns` function:
 
