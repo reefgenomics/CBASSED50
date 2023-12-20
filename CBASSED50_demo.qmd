@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50@0.1.3", force=TRUE)
+devtools::install_github("reefgenomics/CBASSED50@0.1.4", force=TRUE)
 ```
 
 ## Load Packages
@@ -268,14 +268,15 @@ tempresp_curve <- ggplot(result_df,
                    yend = max(Upper)),
                linetype = 3) +
   geom_text(mapping=aes(x = Mean_ED50,
-                        y = max(Upper) + 0.01,
+                        y = max(Upper) + 0.05,
                         label = round(Mean_ED50, 2)),
             size = 3, angle = 90, check_overlap = T) +
   facet_grid(Species ~ Site ~ Condition) +
   # To add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
-                 y = PAM))
+                 y = PAM)) +
+  scale_y_continuous(expand = c(0, 0.2))
 
 ggsave(
   paste(output_prefix, "temprespcurve.pdf", sep = '_'),
