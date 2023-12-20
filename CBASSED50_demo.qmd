@@ -113,7 +113,7 @@ validate_cbass_dataset(cbass_dataset)
 
 First you need to decide which grouping property you want to use. For example, you want to group by all combinations of values that come from `Site` , `Condition`, `Species`, and `Timepoint` columns as one merged grouping property.
 
-⚠️ Note, you should never use `Genotype` as a grouping property because we use this column as a `curveid` argument for `drm` modeling (see more about it [here](https://doseresponse.github.io/drc/reference/drm.html)).
+⚠️ Note, you should never use `Genotype` as a grouping property because this column is used as a `curveid` argument for `drm` modeling (see more about it [here](https://doseresponse.github.io/drc/reference/drm.html)).
 
 Create models:
 
