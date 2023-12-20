@@ -268,7 +268,7 @@ tempresp_curve <- ggplot(result_df,
                    yend = max(Upper)),
                linetype = 3) +
   geom_text(mapping=aes(x = Mean_ED50,
-                        y = max(Upper) + 0.05,
+                        y = max(Upper) + 0.12,
                         label = round(Mean_ED50, 2)),
             size = 3, angle = 90, check_overlap = T) +
   facet_grid(Species ~ Site ~ Condition) +
