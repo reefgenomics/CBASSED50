@@ -37,7 +37,7 @@ library(CBASSED50)
 
 # Define Data Source
 
-Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familiar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below). The internal dataset is also provided in [`examples`](https://github.com/reefgenomics/CBASSED50/tree/main/examples) folder together with the output files.
+Here you can choose to either run a provided "Internal Dataset" or your own "Custom Dataset". To become familiar with the input file format and check that everything is running smoothly, we suggest to run the "Internal Dataset" first (see below). The internal dataset is also provided in the [`examples`](https://github.com/reefgenomics/CBASSED50/tree/main/examples) folder together with the output files.
 
 ## Internal Dataset
 
