@@ -39,7 +39,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50")
+devtools::install_github("reefgenomics/CBASSED50@0.1.4", force=TRUE)
 ```
 
 ### Input file format
