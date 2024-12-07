@@ -134,3 +134,58 @@ get_ed50_by_grouping_property <- function(models) {
   rownames(df) <- NULL
   return(df)
 }
+
+#' Get ED05s, ED50s and ED95s by Grouping Property
+#'
+#' This function takes a list of models and extracts the ED05s, ED50s and ED95s values for each model based on a specified grouping property.
+#' The ED05s, ED50s and ED95s values is extracted from the model's coefficients and is associated with the intercept term.
+#'
+#' @param models A list of models where each element represents a model object containing coefficients.
+#'
+#' @return A data frame containing the ED50 values along with their corresponding grouping property.
+#'         Each row represents a model's ED50 value and its associated grouping property.
+#'
+#' @export
+#'
+#' @examples
+#' #' eds_data <- get_all_ed_by_grouping_property(model_list)
+#'
+#' # Resulting data frame structure:
+#' #   ED05         ED50         ED95         GroupingProperty
+#' # 1 ED05_value_1 ED50_value_1 ED95_value_1 Group1
+#' # 2 ED05_value_2 ED50_value_2 ED95_value_2 Group2
+get_all_ed_by_grouping_property <- function(models) {
+  # Extract the model name and intercept using lapply
+  results <- lapply(names(models), function(model_name) {
+    coefficients <- models[[model_name]]$coefficients
+    ed50_indexes <- grep("^ED50", names(coefficients))
+    ed50_raw_values <- coefficients[ed50_indexes]
+    ed50_values <- unname(ed50_raw_values)
+    genotype_names <- sub("^ED50:", "", names(ed50_raw_values))
+    # Run ED() and store the result
+    ed95_df <- as.data.frame(drc::ED(models[[model_name]], c(95), display = F))
+    ed05_df <- as.data.frame(drc::ED(models[[model_name]], c(5), display = F))
+
+    # Extract genotype names from row names
+    ed95_df$Genotype <- gsub(":95", "", rownames(ed95_df))
+    ed05_df$Genotype <- gsub(":05", "", rownames(ed95_df))
+    # Select only the Genotype and Estimate columns
+    rownames(ed95_df) <- ed95_df$Genotype
+    rownames(ed05_df) <- ed05_df$Genotype
+
+    # Extract genotype names from row names
+    ed95_df$Genotype <- gsub("e:", "", ed95_df$Genotype)
+    ed05_df$Genotype <- gsub("e:", "", ed95_df$Genotype)
+    data.frame(
+      ED05 = round(ed05_df$Estimate, digits = 2),
+      ED50 = round(ed50_values, digits = 2),
+      ED95 = round(ed95_df$Estimate, digits = 2),
+      GroupingProperty = paste(model_name, genotype_names, sep = "_")) %>%
+      mutate(GroupingProperty = gsub("_\\(Intercept\\)", "", GroupingProperty))
+  })
+
+  # Combine the results into a single dataframe
+  df <- do.call(rbind, results)
+  rownames(df) <- NULL
+  return(df)
+}
