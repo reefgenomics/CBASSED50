@@ -86,4 +86,3 @@ get_predicted_pam_values <- function(models, temp_range) {
   result <- transform_predictions_to_long_dataframe(predictions, temp_range)  # Assuming the function transform_predictions_to_long_dataframe() is defined elsewhere
   return(result)
 }
-
