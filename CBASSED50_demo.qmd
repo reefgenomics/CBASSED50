@@ -1,6 +1,6 @@
 ---
 title: "CBASSED50 Demo"
-author: "Yulia Iakovleva, Christian R Voolstra"
+author: "Luigi Colin, Yulia Iakovleva, Christian R Voolstra"
 format: html
 editor: visual
 ---
@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50@0.1.4", force=TRUE)
+devtools::install_github("reefgenomics/CBASSED50@0.1.5", force=TRUE)
 ```
 
 ## Load Packages
@@ -109,7 +109,7 @@ cbass_dataset <- preprocess_dataset(cbass_dataset)
 validate_cbass_dataset(cbass_dataset)
 ```
 
-## Explore ED50
+## Explore ED5s, ED50s, and ED95s
 
 First you need to decide which grouping property you want to use. For example, you want to group by all combinations of values that come from `Site` , `Condition`, `Species`, and `Timepoint` columns as one merged grouping property.
 
@@ -123,31 +123,31 @@ drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = TRUE)
 ```
 
-Get ED50s from models:
+Get ED5s, ED50s, and ED95s from models:
 
-```{r get-ed50}
-ed50 <- get_ed50_by_grouping_property(models)
+```{r get-eds}
+eds <- get_all_ed_by_grouping_property(models)
 cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties) %>%
   mutate(GroupingProperty = paste(GroupingProperty, Genotype, sep = "_"))
 
-ed50_df <- 
-  left_join(ed50, cbass_dataset, by = "GroupingProperty") %>%
-  select(names(ed50), all_of(grouping_properties)) %>%
+eds_df <- 
+  left_join(eds, cbass_dataset, by = "GroupingProperty") %>%
+  select(names(eds), all_of(grouping_properties)) %>%
   distinct()
 
-head(ed50_df)
-write.csv(ed50_df,
-          paste(output_prefix, "ED50df.csv", sep = '_'),
+head(eds_df)
+write.csv(eds_df,
+          paste(output_prefix, "EDsdf.csv", sep = '_'),
           row.names = FALSE)
 ```
 
-ED50 Boxplots:
+ED5s, ED50s, and ED95s Boxplots:
 
 You can choose colorblind-friendly palettes with `display.brewer.all(colorblindFriendly = T)`.
 
 ```{r display-ed50}
-ed50_boxplot <- ggplot(
-  ed50_df, aes(x = Species, y = ED50, color = Condition)) +
+eds_boxplot <- eds_df %>% ggplot(
+  aes(x = Species, y = ED50, color = Condition)) +
   geom_boxplot() + 
   stat_summary(
     fun = mean, 
@@ -157,12 +157,13 @@ ed50_boxplot <- ggplot(
     vjust = -1
   ) +
   facet_grid(~ Site) +
+  ylab("ED50s - Temperatures [C°]")+
   scale_color_brewer(palette = "Set2")
 
 ggsave(
-  paste(output_prefix, "ED50boxplot.pdf", sep = '_'),
-  ed50_boxplot, width = 16, height = 9)
-ed50_boxplot
+  paste(output_prefix, "EDs_boxplot.pdf", sep = '_'),
+  eds_boxplot, width = 16, height = 9)
+eds_boxplot
 ```
 
 ## Temperature Response Curve
@@ -219,35 +220,44 @@ predictions_df <-
   distinct()
 ```
 
-Get ED50 summary statistics for groupings:
+Get ED5s, ED50s, and ED95s summary statistics for groupings:
 
 ```{r get-ed50-means}
-summary_ed50_df <- ed50_df %>%
+summary_eds_df <- eds_df %>%
   group_by(Site, Condition, Species, Timepoint) %>%
-  summarise(Mean_ED50 = mean(ED50),
+    summarise(Mean_ED5 = mean(ED5),
+            SD_ED5 = sd(ED5),
+            SE_ED5 = sd(ED5) / sqrt(n()),
+            Conf_Int_5 = qt(0.975, df = n() - 1) * SE_ED5,
+            Mean_ED50 = mean(ED50),
             SD_ED50 = sd(ED50),
             SE_ED50 = sd(ED50) / sqrt(n()),
+            Conf_Int_50 = qt(0.975, df = n() - 1) * SE_ED50,
+            Mean_ED95 = mean(ED95),
+            SD_ED95 = sd(ED95),
+            SE_ED95 = sd(ED95) / sqrt(n()),
             # The value 0.975 corresponds to the upper tail probability
             # for a two-tailed t-distribution with a 95% 
-            Conf_Int = qt(0.975, df = n() - 1) * SE_ED50) %>%
+            Conf_Int_95 = qt(0.975, df = n() - 1) * SE_ED95 %>%
+            #Conf_Int = qt(0.975, df = n() - 1) * SE_ED50) %>%
   mutate(across(c(Mean_ED50, SD_ED50, SE_ED50,
-                  Conf_Int), ~round(., 2)))
+                  Conf_Int_5,Conf_Int_50,Conf_Int_95), ~round(., 2)))
 
-summary_ed50_df
+summary_eds_df
 write.csv(
-  summary_ed50_df,
-  paste(output_prefix, "summaryED50df.csv", sep = '_'),
+  summary_eds_df,
+  paste(output_prefix, "summaryEDs_df.csv", sep = '_'),
   row.names = FALSE)
 ```
 
-Join predictions and ED50 summary data:
+Join predictions and ED5s, ED50s, and ED95s summary data:
 
 ```{r join-predicitons-and-mean-ed50}
 result_df <- predictions_df %>%
-  left_join(summary_ed50_df, by = c("Site", "Condition", "Species", "Timepoint"))
+  left_join(summary_eds_df, by = c("Site", "Condition", "Species", "Timepoint"))
 ```
 
-Plot ED50 curves for groupings:
+Plot ED5s, ED50s, and ED95s curves for groupings:
 
 ```{r plot-temperature-responce-curve}
 tempresp_curve <- ggplot(result_df,
@@ -262,6 +272,15 @@ tempresp_curve <- ggplot(result_df,
                   fill = Condition),
               alpha = 0.2,
               linetype = "dashed") +
+  geom_segment(aes(x = Mean_ED5,
+                   y = 0,
+                   xend = Mean_ED5,
+                   yend = max(Upper)),
+               linetype = 3) +
+  geom_text(mapping=aes(x = Mean_ED5,
+                        y = max(Upper) + 0.12,
+                        label = round(Mean_ED5, 2)),
+            size = 3, angle = 90, check_overlap = T) +
   geom_segment(aes(x = Mean_ED50,
                    y = 0,
                    xend = Mean_ED50,
@@ -271,11 +290,21 @@ tempresp_curve <- ggplot(result_df,
                         y = max(Upper) + 0.12,
                         label = round(Mean_ED50, 2)),
             size = 3, angle = 90, check_overlap = T) +
+  geom_segment(aes(x = Mean_ED95,
+                   y = 0,
+                   xend = Mean_ED95,
+                   yend = max(Upper)),
+               linetype = 3) +
+  geom_text(mapping=aes(x = Mean_ED95,
+                        y = max(Upper) + 0.12,
+                        label = round(Mean_ED95, 2)),
+            size = 3, angle = 90, check_overlap = T) +
   facet_grid(Species ~ Site ~ Condition) +
   # To add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
                  y = PAM)) +
+                 xlab("Temperature [C°]")+
   scale_y_continuous(expand = c(0, 0.2))
 
 ggsave(
@@ -285,7 +314,7 @@ ggsave(
 tempresp_curve
 ```
 
-Curves display the predicted PAM values, the 95% confidence intervals, and mean ED50s for groupings (vertical line).
+Curves display the predicted PAM values, the 95% confidence intervals, and mean ED5s, ED50s, and ED95s for groupings (vertical line).
 
 Now you are ready to interpret your results! :)
 
@@ -293,15 +322,15 @@ Now you are ready to interpret your results! :)
 
 By the end of this demo you will have 4 output files:
 
--   `demo_ED50boxplot.pdf`
+-   `demo_EDs_boxplot.pdf`
 
 -   `demo_prelim_temprespcurve.pdf`
 
 -   `demo_temprespcurve.pdf`
 
--   `demo_ED50df.csv`
+-   `demo_EDs_df.csv`
 
--   `demo_summaryED50df.csv`
+-   `demo_summaryEDs_df.csv`
 
 If you choose to use a custom dataset, please note that the output filenames will start with the input filename, rather than `demo_`. This feature ensures that the output files are easily identifiable and associated with the specific input data provided.
 
