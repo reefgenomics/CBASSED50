@@ -151,9 +151,9 @@ get_ed50_by_grouping_property <- function(models) {
 #' #' eds_data <- get_all_ed_by_grouping_property(model_list)
 #'
 #' # Resulting data frame structure:
-#' #   ED05         ED50         ED95         GroupingProperty
-#' # 1 ED05_value_1 ED50_value_1 ED95_value_1 Group1
-#' # 2 ED05_value_2 ED50_value_2 ED95_value_2 Group2
+#' #   ED5         ED50         ED95         GroupingProperty
+#' # 1 ED5_value_1 ED50_value_1 ED95_value_1 Group1
+#' # 2 ED5_value_2 ED50_value_2 ED95_value_2 Group2
 get_all_ed_by_grouping_property <- function(models) {
   # Extract the model name and intercept using lapply
   results <- lapply(names(models), function(model_name) {
@@ -164,20 +164,20 @@ get_all_ed_by_grouping_property <- function(models) {
     genotype_names <- sub("^ED50:", "", names(ed50_raw_values))
     # Run ED() and store the result
     ed95_df <- as.data.frame(drc::ED(models[[model_name]], c(95), display = F))
-    ed05_df <- as.data.frame(drc::ED(models[[model_name]], c(5), display = F))
+    ed5_df <- as.data.frame(drc::ED(models[[model_name]], c(5), display = F))
 
     # Extract genotype names from row names
     ed95_df$Genotype <- gsub(":95", "", rownames(ed95_df))
-    ed05_df$Genotype <- gsub(":05", "", rownames(ed95_df))
+    ed5_df$Genotype <- gsub(":05", "", rownames(ed95_df))
     # Select only the Genotype and Estimate columns
     rownames(ed95_df) <- ed95_df$Genotype
-    rownames(ed05_df) <- ed05_df$Genotype
+    rownames(ed5_df) <- ed5_df$Genotype
 
     # Extract genotype names from row names
     ed95_df$Genotype <- gsub("e:", "", ed95_df$Genotype)
-    ed05_df$Genotype <- gsub("e:", "", ed95_df$Genotype)
+    ed5_df$Genotype <- gsub("e:", "", ed95_df$Genotype)
     data.frame(
-      ED05 = round(ed05_df$Estimate, digits = 2),
+      ED5 = round(ed5_df$Estimate, digits = 2),
       ED50 = round(ed50_values, digits = 2),
       ED95 = round(ed95_df$Estimate, digits = 2),
       GroupingProperty = paste(model_name, genotype_names, sep = "_")) %>%
