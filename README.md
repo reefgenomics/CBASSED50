@@ -13,7 +13,7 @@ Evensen, N. R., Parker, K. E., Oliver, T. A., Palumbi, S. R., Logan, C. A., Ryan
 <details> 
 <summary><strong>Updates</strong></summary>
 <ul>
-  <li>Release 0.1.5: Minor documentation updates Added ED5 and ED95 to functions</li>
+  <li>Release 0.1.5: Added ED5 and ED95 to functions and minor documentation updates </li>
 </ul>
 </details>
 
