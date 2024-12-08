@@ -152,7 +152,7 @@ eds_boxplot <- eds_df %>% ggplot(
   stat_summary(
     fun = mean, 
     geom = "text", 
-    aes(label = round(after_stat(y), 2)),
+    aes(label = round(after_stat(y), 2)), show.legend = F,
     position = position_dodge(width = 0.75),
     vjust = -1
   ) +
@@ -238,8 +238,7 @@ summary_eds_df <- eds_df %>%
             SE_ED95 = sd(ED95) / sqrt(n()),
             # The value 0.975 corresponds to the upper tail probability
             # for a two-tailed t-distribution with a 95% 
-            Conf_Int_95 = qt(0.975, df = n() - 1) * SE_ED95 %>%
-            #Conf_Int = qt(0.975, df = n() - 1) * SE_ED50) %>%
+            Conf_Int_95 = qt(0.975, df = n() - 1) * SE_ED95) %>%
   mutate(across(c(Mean_ED50, SD_ED50, SE_ED50,
                   Conf_Int_5,Conf_Int_50,Conf_Int_95), ~round(., 2)))
 
