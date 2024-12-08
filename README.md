@@ -1,6 +1,6 @@
 # CBASSED50
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10423471.svg)](https://doi.org/10.5281/zenodo.10423471)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14295140.svg)](https://doi.org/10.5281/zenodo.14295140)
 
 ## Overview
 
@@ -9,6 +9,13 @@ R package to process CBASS-derived PAM data. Minimal requirements are PAM data (
 Evensen, N. R., Parker, K. E., Oliver, T. A., Palumbi, S. R., Logan, C. A., Ryan, J. S., Klepac, C. N., Perna, G., Warner, M. E., Voolstra, C. R., & Barshis, D. J. (2023). The Coral Bleaching Automated Stress System (CBASS): A low‐cost, portable system for standardized empirical assessments of coral thermal limits. Limnology and Oceanography, Methods / ASLO, 21(7), 421--434. <https://doi.org/10.1002/lom3.10555>
 
 ## Get Started
+
+<details> 
+<summary><strong>Updates</strong></summary>
+<ul>
+  <li>Release 0.1.5: Minor documentation updates Added ED5 and ED95 to functions</li>
+</ul>
+</details>
 
 ### Demo File
 
@@ -39,7 +46,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50@0.1.4", force=TRUE)
+devtools::install_github("reefgenomics/CBASSED50@0.1.5", force=TRUE)
 ```
 
 ### Input file format
