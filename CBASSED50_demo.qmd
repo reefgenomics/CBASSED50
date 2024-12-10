@@ -20,7 +20,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50@0.1.5", force=TRUE)
+devtools::install_github("reefgenomics/CBASSED50@0.1.5.1", force=TRUE)
 ```
 
 ## Load Packages
