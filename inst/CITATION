@@ -1,0 +1,14 @@
+citHeader("To cite package 'CBASSED50' in publications, please use:")
+
+citEntry <- list(
+  bibentry(
+    bibtype = "Manual",
+    title = "CBASSED50: R package to process CBASS-derived PAM data.",
+    author = as.person(c("Yulia Iakovleva <https://orcid.org/0000-0002-0202-7245>",
+                         "Luigi Colin <https://orcid.org/0000-0002-6966-2817>",
+                         "Christian R Voolstra <https://orcid.org/0000-0003-4555-3795>")),
+    year = "2023",
+    note = "R package version 0.2",
+    doi = "10.5281/zenodo.8370644"
+  )
+)
