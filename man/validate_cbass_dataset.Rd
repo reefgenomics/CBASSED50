@@ -19,9 +19,10 @@ If any mandatory columns are missing, it raises an error with the list of missin
 \examples{
 # Assuming a dataset named 'cbass_dataset' is available in the environment
 data(cbass_dataset)
-processed_dataset <- process_and_validate_cbass_dataset(cbass_dataset)
+preprocessed_data <- preprocess_dataset(cbass_dataset)
+validate_cbass_dataset(preprocessed_data)
 
 }
 \seealso{
-\code{\link{dataset_has_mandatory_columns}}, \code{\link{convert_columns}}, \code{\link{check_enough_unique_temperature_values}}
+\code{\link{dataset_has_mandatory_columns}}, \code{\link{convert_columns}}, \code{\link{check_enough_unique_temperatures_values}}
 }

@@ -9,14 +9,17 @@ define_temperature_ranges(temperatures, n = 100)
 \arguments{
 \item{temperatures}{A numeric vector containing temperature values.}
 
-\item{n}{An integer specifying the length of the output sequence. Default is 100.}
+\item{n}{An integer specifying the length of the output sequence.
+Default is 100.}
 }
 \value{
-A numeric vector containing a sequence of temperature values ranging from the minimum temperature
-to the maximum temperature plus 1, evenly spaced based on the specified length.
+A numeric vector containing a sequence of temperature values
+ranging from the minimum temperature to the maximum temperature
+plus 1, evenly spaced based on the specified length.
 }
 \description{
-This function takes a vector of temperatures and generates a sequence of temperature values that span the range of input temperatures.
+This function takes a vector of temperatures and generates
+a sequence of temperature values that span the range of input temperatures.
 }
 \examples{
 temperatures <- c(10, 15, 20, 25, 30)

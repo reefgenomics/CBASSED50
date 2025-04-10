@@ -22,9 +22,9 @@ CSV (csv, txt) files.
 }
 \examples{
 # Read data from an Excel file
-read_data("path/to/excel_file.xlsx")
+# read_data("path/to/excel_file.xlsx")
 
 # Read data from a CSV file
-read_data("path/to/csv_file.csv")
+# read_data("path/to/csv_file.csv")
 
 }

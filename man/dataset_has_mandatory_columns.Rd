@@ -35,5 +35,4 @@ missing_columns_data <- data.frame(Label = c("A", "B", "C"),
 
 dataset_has_mandatory_columns(missing_columns_data)
 # Output: FALSE
-
 }

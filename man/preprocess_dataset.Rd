@@ -19,7 +19,7 @@ before further analysis or modeling.
 }
 \examples{
 # Load a sample dataset
-data("cbass_dataset")
+data(cbass_dataset)
 # Preprocess the dataset
-preprocessed_data <- preprocess_data(cbass_dataset)
+preprocessed_data <- preprocess_dataset(cbass_dataset)
 }

@@ -17,7 +17,7 @@ considered mandatory for a dataset to meet certain requirements.
 mandatory_cols <- mandatory_columns()
 print(mandatory_cols)
 
-[1] "Date"        "Country"     "Site"        "Condition"   "Species"
-[6] "Genotype"    "Temperature" "Timepoint"   "PAM"
+# [1] "Date"        "Country"     "Site"        "Condition"   "Species"
+# [6] "Genotype"    "Temperature" "Timepoint"   "PAM"
 
 }

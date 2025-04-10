@@ -19,19 +19,29 @@ This function takes a list of models and a temperature range, and generates pred
 }
 \examples{
 # Load models and temperature range
-models <- list(model1, model2, model3)  # Replace with actual model objects
-temp_range <- define_temperature_ranges(temperatures)  # Replace with temperature range
+# To load internal dataset that is provided with the R package
+data("cbass_dataset")
+cbass_dataset <- preprocess_dataset(cbass_dataset)
+grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
+drm_formula <- "PAM ~ Temperature"
+
+# Make list of model
+models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE)
+temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n = 100)
 
 # Get predicted PAM values
-predicted_pam <- get_predicted_pam_values(models, temp_range)
+predicted_pam <- get_predicted_pam_values(models, temp_ranges)
 
 }
 \seealso{
 \code{\link{predict_temperature_values}}, \code{\link{transform_predictions_to_long_dataframe}}, \code{\link{define_temperature_ranges}}
+\link{predict_temperature_values}
+\link{transform_predictions_to_long_dataframe}
+\link{define_temperature_ranges}
 }
 \keyword{PAM}
 \keyword{model}
 \keyword{predicted}
-\keyword{range,}
+\keyword{range}
 \keyword{temperature}
-\keyword{values,}
+\keyword{values}
