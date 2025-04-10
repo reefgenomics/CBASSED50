@@ -1,7 +1,7 @@
 Type: Package
 Package: CBASSED50
 Title: R Package to Process CBASS-Derived PAM Data
-Version: 0.2
+Version: 0.2.0
 Authors@R: c(
     person(given = "Yulia", family = "Iakovleva",
             email = "yulia_iakovleva@uni-konstanz.de", role = c("aut"),

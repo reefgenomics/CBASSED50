@@ -11,6 +11,6 @@ authors:
     given-names: "Christian R"
     orcid: https://orcid.org/0000-0003-4555-3795
 title: "CBASSED50: R package to process CBASS-derived PAM data"
-version: 0.2
+version: 0.2.0
 doi: 10.5281/zenodo.8370644
 date-released: 2023-09-25
