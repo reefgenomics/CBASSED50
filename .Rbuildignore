@@ -3,3 +3,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^CBASSED50_demo.qmd$
+^examples$
+^README\.md$
+^\.vscode$
+^\.git$
+^\.gitignore$
+^CITATION\.cff$
