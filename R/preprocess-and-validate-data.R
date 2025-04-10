@@ -7,12 +7,16 @@
 #' @details This function determines the file format based on the file extension
 #' and uses appropriate methods to read data from either Excel (xls, xlsx) or
 #' CSV (csv, txt) files.
+#' 
+#' @importFrom utils read.csv
+#' @importFrom readxl read_excel
+#' 
 #' @examples
 #' # Read data from an Excel file
-#' read_data("path/to/excel_file.xlsx")
+#' # read_data("path/to/excel_file.xlsx")
 #'
 #' # Read data from a CSV file
-#' read_data("path/to/csv_file.csv")
+#' # read_data("path/to/csv_file.csv")
 #'
 #' @export
 read_data <- function(file_path) {
@@ -38,8 +42,8 @@ read_data <- function(file_path) {
 #' mandatory_cols <- mandatory_columns()
 #' print(mandatory_cols)
 #'
-#' [1] "Date"        "Country"     "Site"        "Condition"   "Species"
-#' [6] "Genotype"    "Temperature" "Timepoint"   "PAM"
+#' # [1] "Date"        "Country"     "Site"        "Condition"   "Species"
+#' # [6] "Genotype"    "Temperature" "Timepoint"   "PAM"
 #'
 #' @export
 mandatory_columns <- function() {
@@ -87,7 +91,7 @@ mandatory_columns <- function() {
 #'
 #' dataset_has_mandatory_columns(missing_columns_data)
 #' # Output: FALSE
-#'
+#' @export
 dataset_has_mandatory_columns <- function(dataset) {
   result <- all(mandatory_columns() %in% names(dataset))
   return(result)
@@ -101,6 +105,8 @@ dataset_has_mandatory_columns <- function(dataset) {
 #' @param dataset A data frame containing the dataset to be checked and modified.
 #'
 #' @return A modified version of the input dataset with the specified columns converted to factors or numeric types, as appropriate.
+#' 
+#' @export
 #'
 #' @examples
 #' # Sample dataset
@@ -160,11 +166,13 @@ convert_columns <- function(dataset) {
 #' @return Logical value (TRUE or FALSE) indicating whether there are enough unique
 #'         temperature values (at least 4) in the dataset.
 #'
+#' @export
+#'
 #' @examples
 #' data <- data.frame(Temperature = c(25, 30, 25, 35, 28, 28))
 #' check_enough_unique_temperatures_values(data)
 #' # Output: TRUE
-check_enough_unique_temperature_values <- function(dataset) {
+check_enough_unique_temperatures_values <- function(dataset) {
   if (length(unique(dataset$Temperature)) < 4) {
     return(FALSE)
   }
@@ -181,13 +189,14 @@ check_enough_unique_temperature_values <- function(dataset) {
 #'
 #' @return A preprocessed data frame with converted and validated column data types.
 #'
+#' @importFrom stats complete.cases
 #' @export
 #'
 #' @examples
 #' # Load a sample dataset
-#' data("cbass_dataset")
+#' data(cbass_dataset)
 #' # Preprocess the dataset
-#' preprocessed_data <- preprocess_data(cbass_dataset)
+#' preprocessed_data <- preprocess_dataset(cbass_dataset)
 preprocess_dataset <- function(dataset) {
   dataset <- convert_columns(dataset)
   rlog::log_info("Removing rows with missing data...")
@@ -204,7 +213,7 @@ preprocess_dataset <- function(dataset) {
 #'
 #' @return A processed and validated CBASS dataset with appropriate data types for its columns.
 #'
-#' @seealso \code{\link{dataset_has_mandatory_columns}}, \code{\link{convert_columns}}, \code{\link{check_enough_unique_temperature_values}}
+#' @seealso \code{\link{dataset_has_mandatory_columns}}, \code{\link{convert_columns}}, \code{\link{check_enough_unique_temperatures_values}}
 #'
 #' @importFrom rlog log_info log_error
 #' @importFrom glue glue
@@ -212,7 +221,8 @@ preprocess_dataset <- function(dataset) {
 #' @examples
 #' # Assuming a dataset named 'cbass_dataset' is available in the environment
 #' data(cbass_dataset)
-#' processed_dataset <- process_and_validate_cbass_dataset(cbass_dataset)
+#' preprocessed_data <- preprocess_dataset(cbass_dataset)
+#' validate_cbass_dataset(preprocessed_data)
 #'
 #' @export
 validate_cbass_dataset <- function(dataset) {
@@ -227,7 +237,7 @@ validate_cbass_dataset <- function(dataset) {
     ))
   }
   rlog::log_info("Checking if the dataset has enough temperature values...")
-  if (!check_enough_unique_temperature_values(dataset)) {
+  if (!check_enough_unique_temperatures_values(dataset)) {
     stop(rlog::log_error(
       glue::glue(
         "Dataset does not have enough unique temperature values: ",
