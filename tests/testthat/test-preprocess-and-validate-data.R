@@ -67,16 +67,16 @@ test_that("convert_columns converts columns to the correct types", {
   expect_type(modified_data$PAM, "double")
 })
 
-# Tests for the `check_enough_unique_temperature_values` function
-test_that("check_enough_unique_temperature_values returns TRUE when there are enough unique values", {
+# Tests for the `check_enough_unique_temperatures_values` function
+test_that("check_enough_unique_temperatures_values returns TRUE when there are enough unique values", {
   data <- data.frame(Temperature = c(25, 30, 25, 35, 28, 28))
-  result <- check_enough_unique_temperature_values(data)
+  result <- check_enough_unique_temperatures_values(data)
   expect_true(result)
 })
 
-test_that("check_enough_unique_temperature_values returns FALSE when there are not enough unique values", {
+test_that("check_enough_unique_temperatures_values returns FALSE when there are not enough unique values", {
   data <- data.frame(Temperature = c(25, 25, 25, 25))
-  result <- check_enough_unique_temperature_values(data)
+  result <- check_enough_unique_temperatures_values(data)
   expect_false(result)
 })
 
