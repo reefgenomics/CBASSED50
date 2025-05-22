@@ -145,7 +145,7 @@ You can always report the GitHub [issue](https://github.com/reefgenomics/CBASSED
 If you use this software, please cite it as below:
 
 ``` commandline
-Yulia Iakovleva & Christian R Voolstra. (2023).
+Iakovleva, Y., Colin, L., & Voolstra, C. R. (2024).
 CBASSED50: R package to process CBASS-derived PAM data.
 Zenodo. https://doi.org/10.5281/zenodo.8370644.
 ```
