@@ -18,12 +18,20 @@ The function is designed to ensure that certain columns are represented as facto
 }
 \examples{
 # Sample dataset
-data <- data.frame(Site = c("A", "B", "C"),
-                   Condition = c("Control", "Experimental", "Control"),
-                   Species = c("Species1", "Species2", "Species1"),
-                   Genotype = c("GenotypeA", "GenotypeB", "GenotypeA"),
-                   Temperature = c("25", "28", "30"),
-                   PAM = c("0.4", "0.6", "0.7"))
+data <- data.frame(
+                Project = c("Project A", "Project A", "Project B"),
+                Date = c("2023-07-31", "2023-08-01", "2023-08-02"),
+                Site = c("Site X", "Site Y", "Site Z"),
+                Country = c("Country A", "Country B", "Country C"),
+                Latitude = c(34.05, 36.16, 40.71),
+                Longitude = c(-118.24, -115.15, -74.01),
+                Species = c("Species 1", "Species 2", "Species 3"),
+                Genotype = c("Genotype A", "Genotype B", "Genotype C"),
+                Condition = c("Condition 1", "Condition 2", "Condition 3"),
+                Timepoint = c("Timepoint 1", "Timepoint 1", "Timepoint 2"),
+                Temperature = c(30.2, 31.5, 29.8),
+                Pam_value = c(0.5, 0.6, 0.8)
+                )
 
 # Convert columns in the dataset
 modified_data <- convert_columns(data)

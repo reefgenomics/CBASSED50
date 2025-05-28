@@ -16,15 +16,13 @@ A data frame containing the read data.
 Reads data from a file based on its format (Excel or CSV).
 }
 \details{
-This function determines the file format based on the file extension
-and uses appropriate methods to read data from either Excel (xls, xlsx) or
-CSV (csv, txt) files.
+This function determines the file format based on the file extension and uses appropriate methods to read data from either Excel (xls, xlsx) or CSV (csv, txt) files.
 }
 \examples{
 # Read data from an Excel file
-# read_data("path/to/excel_file.xlsx")
+read_data(system.file("extdata", "example.xlsx", package = "CBASSED50"))
 
 # Read data from a CSV file
-# read_data("path/to/csv_file.csv")
+read_data(system.file("extdata", "example.csv", package = "CBASSED50"))
 
 }

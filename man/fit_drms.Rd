@@ -15,16 +15,12 @@ fit_drms(
 \arguments{
 \item{dataset}{A data frame containing the dataset on which to fit the DRMs.}
 
-\item{grouping_properties}{A character vector specifying the names of columns
-in the dataset that will be used as grouping properties
-for fitting separate DRMs.}
+\item{grouping_properties}{A character vector specifying the names of columns in the dataset that will be used as grouping properties for fitting separate DRMs.}
 
-\item{drm_formula}{A formula specifying the dynamic regression model
-to be fitted. This formula should follow the standard R formula syntax
-(e.g., y ~ x1 + x2).}
+\item{drm_formula}{A formula specifying the dynamic regression model to be fitted.
+This formula should follow the standard R formula syntax (e.g., y ~ x1 + x2).}
 
-\item{is_curveid}{A boolean value indicating
-if you want to use this parameter to fit the model}
+\item{is_curveid}{A boolean value indicating if you want to use this parameter to fit the model}
 
 \item{LL.4}{Logical. If TRUE, the LL.4 model is used instead of LL.3.
 LL.3 is preferred, as PAM data is expected to never be lower than zero.
@@ -44,7 +40,7 @@ data(cbass_dataset)
 preprocessed_data <- preprocess_dataset(cbass_dataset)
 fit_drms(preprocessed_data,
        c("Site", "Condition", "Species", "Genotype"),
-        "PAM ~ Temperature")
+        "Pam_value ~ Temperature")
 
 }
 \keyword{modeling}

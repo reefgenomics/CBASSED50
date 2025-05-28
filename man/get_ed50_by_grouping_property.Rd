@@ -18,7 +18,12 @@ This function takes a list of models and extracts the ED50 value for each model 
 The ED50 value is extracted from the model's coefficients and is associated with the intercept term.
 }
 \examples{
-#' ed50_data <- get_ed50_by_grouping_property(model_list)
+data(cbass_dataset)
+preprocessed_data <- preprocess_dataset(cbass_dataset)
+model_list <-fit_drms(preprocessed_data,
+           c("Site", "Condition", "Species", "Genotype"),
+            "Pam_value ~ Temperature")
+ed50_data <- get_ed50_by_grouping_property(model_list)
 
 # Resulting data frame structure:
 #   ED50     GroupingProperty

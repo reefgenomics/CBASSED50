@@ -7,17 +7,13 @@
 predict_temperature_values(models, temp_range)
 }
 \arguments{
-\item{models}{A list of models where each element represents
-a model object containing coefficients.}
+\item{models}{A list of models where each element represents a model object containing coefficients.}
 
-\item{temp_range}{the temperature range to be used for predictions
-from the function define_temperature_ranges}
+\item{temp_range}{the temperature range to be used for predictions from the function define_temperature_ranges}
 }
 \value{
-A data frame containing the predicted PAM values for each temperature
-along with their corresponding grouping property.
-Each row represents a model's predicted PAM value
-and its associated grouping property and confidence interval.
+A data frame containing the predicted PAM values for each temperature along with their corresponding grouping property. 
+Each row represents a model's predicted PAM value and its associated grouping property and confidence interval.
 }
 \description{
 This function takes a list of models and generates
@@ -29,7 +25,7 @@ preprocessed_data <- preprocess_dataset(cbass_dataset)
 
 models <- fit_drms(preprocessed_data,
                  c("Site", "Condition", "Species", "Timepoint"),
-                   "PAM ~ Temperature", is_curveid = TRUE)
+                   "Pam_value ~ Temperature", is_curveid = TRUE)
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n = 100)
 predict_temperature_values(models, temp_ranges)
 

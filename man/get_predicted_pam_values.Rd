@@ -23,13 +23,13 @@ This function takes a list of models and a temperature range, and generates pred
 data("cbass_dataset")
 cbass_dataset <- preprocess_dataset(cbass_dataset)
 grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
-drm_formula <- "PAM ~ Temperature"
+drm_formula <- "Pam_value ~ Temperature"
 
 # Make list of model
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE)
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n = 100)
 
-# Get predicted PAM values
+# Get predicted Pam_value values
 predicted_pam <- get_predicted_pam_values(models, temp_ranges)
 
 }

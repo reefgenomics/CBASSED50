@@ -7,13 +7,10 @@
 check_enough_unique_temperatures_values(dataset)
 }
 \arguments{
-\item{dataset}{The input dataset containing the 'Temperature' column to be analyzed.
-The 'Temperature' column should be numeric representing
-temperature values.}
+\item{dataset}{The input dataset containing the 'Temperature' column to be analyzed. The 'Temperature' column should be numeric representing temperature values.}
 }
 \value{
-Logical value (TRUE or FALSE) indicating whether there are enough unique
-        temperature values (at least 4) in the dataset.
+Logical value (TRUE or FALSE) indicating whether there are enough unique temperature values (at least 4) in the dataset.
 }
 \description{
 Check if the dataset contains enough unique temperature values

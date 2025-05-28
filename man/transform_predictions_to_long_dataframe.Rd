@@ -7,15 +7,12 @@
 transform_predictions_to_long_dataframe(predictions, temp_range)
 }
 \arguments{
-\item{predictions}{A list of data frames where each data frame represents
-predictions for a specific temperature range. The data frames should have
-a common grouping property.}
+\item{predictions}{A list of data frames where each data frame represents predictions for a specific temperature range. The data frames should have a common grouping property.}
 
 \item{temp_range}{the temperature range to be used for predictions from the function define_temperature_ranges}
 }
 \value{
-A long-format data frame containing the transformed predictions with
-  columns for "GroupingProperty," "Temperature," and "PredictedPAM."
+A long-format data frame containing the transformed predictions with columns for "GroupingProperty," "Temperature," and "PredictedPAM."
 }
 \description{
 This function takes a list of predictions and converts them into a long-format

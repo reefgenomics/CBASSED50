@@ -17,8 +17,7 @@ define_grouping_property(dataset, grouping_properties, sep = "_")
 A data frame with the added 'GroupingProperty' column.
 }
 \description{
-This function creates a new column 'GroupingProperty' in the provided dataset
-by merging specified columns using a specified separator.
+This function creates a new column 'GroupingProperty' in the provided dataset by merging specified columns using a specified separator.
 The new column is created as a factor variable.
 }
 \examples{
