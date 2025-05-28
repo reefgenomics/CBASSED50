@@ -1,5 +1,5 @@
 ---
-title: "CBASSED50 Demo"
+title: "CBASSED50 Tutorial"
 author: "Luigi Colin, Yulia Iakovleva, Christian R Voolstra"
 format: html
 editor: visual
@@ -7,7 +7,13 @@ editor: visual
 
 # About CBASSED50
 
-CBASSED50 allows you to process CBASS data. To learn more about CBASSED50 see <https://aslopubs.onlinelibrary.wiley.com/doi/10.1002/lom3.10555>.
+CBASSED50 Tutorial allows you to process CBASS data. It calculates ED5, ED50, ED95 per colony and per population, and it provides diagnostic plots.
+
+To learn more about CBASS, ED5s, ED50s, and ED95s see
+
+<https://aslopubs.onlinelibrary.wiley.com/doi/10.1002/lom3.10555>
+<https://www.annualreviews.org/content/journals/10.1146/annurev-marine-032223-024511>
+<https://onlinelibrary.wiley.com/doi/10.1111/gcb.15148>
 
 # Get Started
 
@@ -20,7 +26,7 @@ if(!require(devtools)){
    install.packages("devtools")
 }
 
-devtools::install_github("reefgenomics/CBASSED50@0.1.5.1", force=TRUE)
+devtools::install_github("reefgenomics/CBASSED50@0.2", force=TRUE)
 ```
 
 ## Load Packages
@@ -50,7 +56,7 @@ To load the internal dataset, run the following chunk of code:
 ```{r load-data}
 # To load internal dataset that is provided with the R package
 data("cbass_dataset")
-output_prefix <- "demo"
+output_prefix <- "tutorial"
 # Make sure that dataset is loaded and display several first rows
 head(cbass_dataset)
 ```
@@ -117,7 +123,7 @@ First you need to decide which grouping property you want to use. For example, y
 
 Create models:
 
-```{r fititng-dose-responce-models, warning=FALSE}
+```{r fitting-dose-response-models, warning=FALSE}
 grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
 drm_formula <- "PAM ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = TRUE)
@@ -188,7 +194,7 @@ exploratory_curve <-
   ) +
   geom_point(size = 1.5) +
   facet_grid(Species ~ Site ~ Condition) +
-  scale_color_brewer(palette = "Paired") # Colorblind-friendly palette
+  scale_color_brewer(palette = "Set2")
 
 ggsave(
   paste(output_prefix, "prelim_temprespcurve.pdf", sep = '_'),
@@ -199,8 +205,9 @@ exploratory_curve
 Predict PAM values for assayed temperature range:
 
 ```{r predict-PAM-values, warning=FALSE}
-# First fit models without curveid
-models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE)
+# First fit models with curveid = FALSE and with LL.4 = FALSE
+# If you get error messages, try LL.4 = TRUE
+models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE, LL.4 = FALSE)
 # The default number of values for range of temperatures is 100
 temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n=100)
 predictions <- get_predicted_pam_values(models, temp_ranges)
@@ -222,7 +229,7 @@ predictions_df <-
 
 Get ED5s, ED50s, and ED95s summary statistics for groupings:
 
-```{r get-ed50-means}
+```{r get-ed-means}
 summary_eds_df <- eds_df %>%
   group_by(Site, Condition, Species, Timepoint) %>%
     summarise(Mean_ED5 = mean(ED5),
@@ -253,14 +260,14 @@ write.csv(
 
 Join predictions and ED5s, ED50s, and ED95s summary data:
 
-```{r join-predicitons-and-mean-ed50}
+```{r join-predictions-and-mean-ed50}
 result_df <- predictions_df %>%
   left_join(summary_eds_df, by = c("Site", "Condition", "Species", "Timepoint"))
 ```
 
 Plot ED5s, ED50s, and ED95s curves for groupings:
 
-```{r plot-temperature-responce-curve}
+```{r plot-temperature-response-curve}
 tempresp_curve <- ggplot(result_df,
        aes(x = Temperature,
            y = PredictedPAM,
@@ -321,22 +328,22 @@ Now you are ready to interpret your results! :)
 
 # Explore the Output
 
-By the end of this demo you will have 4 output files:
+By the end of this tutorial you will have 4 output files:
 
--   `demo_EDs_boxplot.pdf`
+-   `tutorial_EDs_boxplot.pdf`
 
--   `demo_prelim_temprespcurve.pdf`
+-   `tutorial_prelim_temprespcurve.pdf`
 
--   `demo_temprespcurve.pdf`
+-   `tutorial_temprespcurve.pdf`
 
--   `demo_EDs_df.csv`
+-   `tutorial_EDs_df.csv`
 
--   `demo_summaryEDs_df.csv`
+-   `tutorial_summaryEDs_df.csv`
 
-If you choose to use a custom dataset, please note that the output filenames will start with the input filename, rather than `demo_`. This feature ensures that the output files are easily identifiable and associated with the specific input data provided.
+If you choose to use a custom dataset, please note that the output filenames will start with the input filename, rather than `tutorial_`. This feature ensures that the output files are easily identifiable and associated with the specific input data provided.
 
 # Cite Us
 
 If you use this software, please cite it as below.
 
-> Yulia Iakovleva & Christian R Voolstra. (2023). CBASSED50: R package to process CBASS-derived PAM data. Zenodo. <https://doi.org/10.5281/zenodo.8370644>.
+> Iakovleva, Y., Colin, L., & Voolstra, C. R. (2025). CBASSED50: R package to process CBASS-derived PAM data (0.2). Zenodo.. <https://doi.org/10.5281/zenodo.8370644>.
