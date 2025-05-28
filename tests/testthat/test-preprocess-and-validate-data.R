@@ -1,15 +1,18 @@
 # Test for the `mandatory_columns()` function
 test_that("mandatory_columns returns the correct vector of mandatory columns", {
   expected <- c(
-    "Date",
-    "Country",
-    "Site",
-    "Condition",
-    "Species",
-    "Genotype",
-    "Temperature",
-    "Timepoint",
-    "PAM"
+      "Project",
+      "Date",
+      "Site",
+      "Genotype",
+      "Species",
+      "Country",
+      "Latitude",
+      "Longitude",
+      "Condition",
+      "Temperature",
+      "Timepoint",
+      "Pam_value"
   )
   result <- mandatory_columns()
   expect_equal(result, expected)
@@ -18,15 +21,18 @@ test_that("mandatory_columns returns the correct vector of mandatory columns", {
 # Tests for the `dataset_has_mandatory_columns()` function
 test_that("dataset_has_mandatory_columns returns TRUE when all mandatory columns are present", {
   sample_data <- data.frame(
-    Date = c("2023-07-31", "2023-08-01", "2023-08-02"),
-    Country = c("Country A", "Country B", "Country C"),
-    Site = c("Site X", "Site Y", "Site Z"),
-    Condition = c("Condition 1", "Condition 2", "Condition 3"),
-    Species = c("Species 1", "Species 2", "Species 3"),
-    Genotype = c("Genotype A", "Genotype B", "Genotype C"),
-    Temperature = c(30.2, 31.5, 29.8),
-    Timepoint = c(420, 420, 420),
-    PAM = c(0.5, 0.6, 0.8)
+    Project = c("Project A", "Project A", "Project B", "Project B"),
+    Date = c("2023-07-31", "2023-08-01", "2023-08-02","2023-08-02"),
+    Site = c("Site X", "Site Y", "Site Z", "Site Z"),
+    Country = c("Country A", "Country B", "Country C", "Country C"),
+    Latitude = c(34.05, 36.16, 40.71, 40.71),
+    Longitude = c(-118.24, -115.15, -74.01, -74.01),
+    Species = c("Species 1", "Species 2", "Species 2", "Species 3"),
+    Genotype = c("Genotype A", "Genotype B", "Genotype C", "Genotype D"),
+    Condition = c("Condition 1", "Condition 2","Condition 2", "Condition 3"),
+    Timepoint = c("Timepoint 1", "Timepoint 1", "Timepoint 2", "Timepoint 2"),
+    Temperature = c(30.2, 31.5, 29.8, 35),
+    Pam_value = c(0.5, 0.6, 0.8, 0.3)
   )
 
   result <- dataset_has_mandatory_columns(sample_data)
@@ -46,12 +52,18 @@ test_that("dataset_has_mandatory_columns returns FALSE when any mandatory column
 # Test for the `convert_columns()` function
 test_that("convert_columns converts columns to the correct types", {
   data <- data.frame(
-    Site = c("A", "B", "C"),
-    Condition = c("Control", "Experimental", "Control"),
-    Species = c("Species1", "Species2", "Species1"),
-    Genotype = c("GenotypeA", "GenotypeB", "GenotypeA"),
-    Temperature = c("25", "28", "30"),
-    PAM = c("0.4", "0.6", "0.7")
+    Project = c("Project A", "Project A", "Project B", "Project B"),
+    Date = c("2023-07-31", "2023-08-01", "2023-08-02","2023-08-02"),
+    Site = c("Site X", "Site Y", "Site Z", "Site Z"),
+    Country = c("Country A", "Country B", "Country C", "Country C"),
+    Latitude = c(34.05, 36.16, 40.71, 40.71),
+    Longitude = c(-118.24, -115.15, -74.01, -74.01),
+    Species = c("Species 1", "Species 2", "Species 2", "Species 3"),
+    Genotype = c("Genotype A", "Genotype B", "Genotype C", "Genotype D"),
+    Condition = c("Condition 1", "Condition 2", "Condition 2", "Condition 3"),
+    Timepoint = c("Timepoint 1", "Timepoint 1", "Timepoint 2", "Timepoint 2"),
+    Temperature = c(30.2, 31.5, 29.8, 35),
+    Pam_value = c(0.5, 0.6, 0.8, 0.3)
   )
 
   modified_data <- convert_columns(data)
@@ -62,9 +74,9 @@ test_that("convert_columns converts columns to the correct types", {
   expect_s3_class(modified_data$Species, "factor")
   expect_s3_class(modified_data$Genotype, "factor")
 
-  # Assert that the 'Temperature' and 'PAM' columns are numeric
+  # Assert that the 'Temperature' and 'Pam_value' columns are numeric
   expect_type(modified_data$Temperature, "double")
-  expect_type(modified_data$PAM, "double")
+  expect_type(modified_data$Pam_value, "double")
 })
 
 # Tests for the `check_enough_unique_temperatures_values` function
@@ -83,7 +95,7 @@ test_that("check_enough_unique_temperatures_values returns FALSE when there are 
 # Tests for `validate_cbass_dataset` function
 test_that("validate_cbass_dataset throws an error when mandatory columns are missing", {
   missing_columns_data <- data.frame(
-    Label = c("A", "B", "C"),
+    Genotype = c("A", "B", "C"),
     Date = c("2023-07-31", "2023-08-01", "2023-08-02")
   )
 
@@ -98,15 +110,18 @@ test_that("validate_cbass_dataset throws an error when there are not enough uniq
 
 test_that("validate_cbass_dataset returns TRUE for a valid dataset", {
   sample_data <- data.frame(
-    Date = c("2023-07-31", "2023-08-01", "2023-08-02", "2023-09-02"),
-    Country = c("Country A", "Country B", "Country C", "Country A"),
+    Project = c("Project A", "Project A", "Project B", "Project B"),
+    Date = c("2023-07-31", "2023-08-01", "2023-08-02", "2023-08-02"),
     Site = c("Site X", "Site Y", "Site Z", "Site Z"),
-    Condition = c("Condition 1", "Condition 2", "Condition 3", "Condition 2"),
-    Species = c("Species 1", "Species 2", "Species 3", "Species 1"),
-    Genotype = c("Genotype A", "Genotype B", "Genotype C", "Genotype B"),
-    Temperature = c(30.2, 31.5, 29.8, 29.0),
-    Timepoint = c(420, 420, 420, 420),
-    PAM = c(0.5, 0.6, 0.8, 0.7)
+    Country = c("Country A", "Country B", "Country C", "Country C"),
+    Latitude = c(34.05, 36.16, 40.71, 40.71),
+    Longitude = c(-118.24, -115.15, -74.01, -74.01),
+    Species = c("Species 1", "Species 2", "Species 2", "Species 3"),
+    Genotype = c("Genotype A", "Genotype B", "Genotype C", "Genotype D"),
+    Condition = c("Condition 1", "Condition 2", "Condition 2", "Condition 3"),
+    Timepoint = c("Timepoint 1", "Timepoint 1", "Timepoint 2", "Timepoint 2"),
+    Temperature = c(30.2, 31.5, 29.8, 35),
+    Pam_value = c(0.5, 0.6, 0.8, 0.3)
   )
 
   result <- validate_cbass_dataset(sample_data)
