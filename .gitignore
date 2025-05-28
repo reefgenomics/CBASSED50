@@ -4,7 +4,6 @@
 .Ruserdata
 .Rbuildignore
 .idea/
-*.pdf
 .vscode
 *.tar.gz
 CBASSED50.Rcheck
