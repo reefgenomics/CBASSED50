@@ -132,7 +132,7 @@ models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid =
 Get ED5s, ED50s, and ED95s from models:
 
 ```{r get-eds}
-eds <- get_all_ed_by_grouping_property(models)
+eds <- get_all_eds_by_grouping_property(models)
 cbass_dataset <- define_grouping_property(cbass_dataset, grouping_properties) %>%
   mutate(GroupingProperty = paste(GroupingProperty, Genotype, sep = "_"))
 
