@@ -125,7 +125,7 @@ Create models:
 
 ```{r fitting-dose-response-models, warning=FALSE}
 grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
-drm_formula <- "PAM ~ Temperature"
+drm_formula <- "Pam_value ~ Temperature"
 models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = TRUE)
 ```
 
@@ -181,7 +181,7 @@ exploratory_curve <-
   ggplot(data = cbass_dataset,
        aes(
          x = Temperature,
-         y = PAM,
+         y = Pam_value,
          # You can play around with the group value (e.g., Species, Site, Condition)
          group = GroupingProperty,
          color = Genotype)) +
@@ -311,7 +311,7 @@ tempresp_curve <- ggplot(result_df,
   # To add the real PAM and compare with predicted values
   geom_point(data = cbass_dataset,
              aes(x = Temperature,
-                 y = PAM)) +
+                 y = Pam_value)) +
                  xlab("Temperature [C°]")+
   scale_y_continuous(expand = c(0, 0.2))
 
