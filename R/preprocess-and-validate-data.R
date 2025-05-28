@@ -4,19 +4,17 @@
 #'
 #' @param file_path Character string specifying the path to the input file.
 #' @return A data frame containing the read data.
-#' @details This function determines the file format based on the file extension
-#' and uses appropriate methods to read data from either Excel (xls, xlsx) or
-#' CSV (csv, txt) files.
-#' 
+#' @details This function determines the file format based on the file extension and uses appropriate methods to read data from either Excel (xls, xlsx) or CSV (csv, txt) files.
+#'
 #' @importFrom utils read.csv
 #' @importFrom readxl read_excel
-#' 
+#'
 #' @examples
 #' # Read data from an Excel file
-#' # read_data("path/to/excel_file.xlsx")
+#' read_data(system.file("extdata", "example.xlsx", package = "CBASSED50"))
 #'
 #' # Read data from a CSV file
-#' # read_data("path/to/csv_file.csv")
+#' read_data(system.file("extdata", "example.csv", package = "CBASSED50"))
 #'
 #' @export
 read_data <- function(file_path) {
@@ -42,26 +40,29 @@ read_data <- function(file_path) {
 #' mandatory_cols <- mandatory_columns()
 #' print(mandatory_cols)
 #'
-#' # [1] "Date"        "Country"     "Site"        "Condition"   "Species"
-#' # [6] "Genotype"    "Temperature" "Timepoint"   "PAM"
+#' # [1] "Project"     "Date"        "Site"        "Genotype"   
+#' # [5] "Species"     "Country"     "Latitude"    "Longitude"  
+#' # [9] "Condition"   "Temperature" "Timepoint"   "Pam_value"  
 #'
 #' @export
 mandatory_columns <- function() {
   return(
     c(
+      "Project",
       "Date",
-      "Country",
       "Site",
-      "Condition",
-      "Species",
       "Genotype",
+      "Species",
+      "Country",
+      "Latitude",
+      "Longitude",
+      "Condition",
       "Temperature",
       "Timepoint",
-      "PAM"
+      "Pam_value"
     )
   )
 }
-
 
 #' Check if the dataset has all mandatory columns
 #'
@@ -73,14 +74,20 @@ mandatory_columns <- function() {
 #'
 #' @examples
 #' # Sample dataset
-#' sample_data <- data.frame(Date = c("2023-07-31", "2023-08-01", "2023-08-02"),
-#'                           Country = c("Country A", "Country B", "Country C"),
-#'                           Site = c("Site X", "Site Y", "Site Z"),
-#'                           Condition = c("Condition 1", "Condition 2", "Condition 3"),
-#'                           Species = c("Species 1", "Species 2", "Species 3"),
-#'                           Genotype = c("Genotype A", "Genotype B", "Genotype C"),
-#'                           Temperature = c(30.2, 31.5, 29.8),
-#'                           PAM = c(0.5, 0.6, 0.8))
+#' sample_data <- data.frame(
+#'                 Project = c("Project A", "Project A", "Project B"),
+#'                 Date = c("2023-07-31", "2023-08-01", "2023-08-02"),
+#'                 Site = c("Site X", "Site Y", "Site Z"),
+#'                 Country = c("Country A", "Country B", "Country C"),
+#'                 Latitude = c(34.05, 36.16, 40.71),
+#'                 Longitude = c(-118.24, -115.15, -74.01),
+#'                 Species = c("Species 1", "Species 2", "Species 3"),
+#'                 Genotype = c("Genotype A", "Genotype B", "Genotype C"),
+#'                 Condition = c("Condition 1", "Condition 2", "Condition 3"),
+#'                 Timepoint = c("Timepoint 1", "Timepoint 1", "Timepoint 2"),
+#'                 Temperature = c(30.2, 31.5, 29.8),
+#'                 Pam_value = c(0.5, 0.6, 0.8)
+#'                 )
 #'
 #' dataset_has_mandatory_columns(sample_data)
 #' # Output: TRUE
@@ -105,23 +112,29 @@ dataset_has_mandatory_columns <- function(dataset) {
 #' @param dataset A data frame containing the dataset to be checked and modified.
 #'
 #' @return A modified version of the input dataset with the specified columns converted to factors or numeric types, as appropriate.
-#' 
-#' @export
-#'
 #' @examples
 #' # Sample dataset
-#' data <- data.frame(Site = c("A", "B", "C"),
-#'                    Condition = c("Control", "Experimental", "Control"),
-#'                    Species = c("Species1", "Species2", "Species1"),
-#'                    Genotype = c("GenotypeA", "GenotypeB", "GenotypeA"),
-#'                    Temperature = c("25", "28", "30"),
-#'                    PAM = c("0.4", "0.6", "0.7"))
+#' data <- data.frame(
+#'                 Project = c("Project A", "Project A", "Project B"),
+#'                 Date = c("2023-07-31", "2023-08-01", "2023-08-02"),
+#'                 Site = c("Site X", "Site Y", "Site Z"),
+#'                 Country = c("Country A", "Country B", "Country C"),
+#'                 Latitude = c(34.05, 36.16, 40.71),
+#'                 Longitude = c(-118.24, -115.15, -74.01),
+#'                 Species = c("Species 1", "Species 2", "Species 3"),
+#'                 Genotype = c("Genotype A", "Genotype B", "Genotype C"),
+#'                 Condition = c("Condition 1", "Condition 2", "Condition 3"),
+#'                 Timepoint = c("Timepoint 1", "Timepoint 1", "Timepoint 2"),
+#'                 Temperature = c(30.2, 31.5, 29.8),
+#'                 Pam_value = c(0.5, 0.6, 0.8)
+#'                 )
 #'
 #' # Convert columns in the dataset
 #' modified_data <- convert_columns(data)
 #'
 #' # The 'Site', 'Condition', 'Species', and 'Genotype' columns are now factors,
 #' # and 'Temperature' and 'PAM' columns are now numeric in the modified_data.
+#' @export
 convert_columns <- function(dataset) {
   # Check if the column 'Site' is not a factor, then convert to factor
   if (!is.factor(dataset$Site)) {
@@ -148,30 +161,25 @@ convert_columns <- function(dataset) {
     rlog::log_info("`Temperature` column was converted to numeric.")
     dataset$Temperature <- as.numeric(dataset$Temperature)
   }
-  # Check if the column 'PAM' is not numeric, then convert to numeric
-  if (!is.numeric(dataset$PAM)) {
-    rlog::log_info("`PAM` column was converted to numeric.")
-    dataset$PAM <- as.numeric(dataset$PAM)
+  # Check if the column 'Pam_value' is not numeric, then convert to numeric
+  if (!is.numeric(dataset$Pam_value)) {
+    rlog::log_info("`Pam_value` column was converted to numeric.")
+    dataset$Pam_value <- as.numeric(dataset$Pam_value)
   }
   return(dataset)
 }
 
-
 #' Check if the dataset contains enough unique temperature values
 #'
-#' @param dataset The input dataset containing the 'Temperature' column to be analyzed.
-#'        The 'Temperature' column should be numeric representing
-#'        temperature values.
+#' @param dataset The input dataset containing the 'Temperature' column to be analyzed. The 'Temperature' column should be numeric representing temperature values.
 #'
-#' @return Logical value (TRUE or FALSE) indicating whether there are enough unique
-#'         temperature values (at least 4) in the dataset.
-#'
-#' @export
+#' @return Logical value (TRUE or FALSE) indicating whether there are enough unique temperature values (at least 4) in the dataset.
 #'
 #' @examples
 #' data <- data.frame(Temperature = c(25, 30, 25, 35, 28, 28))
 #' check_enough_unique_temperatures_values(data)
 #' # Output: TRUE
+#' @export
 check_enough_unique_temperatures_values <- function(dataset) {
   if (length(unique(dataset$Temperature)) < 4) {
     return(FALSE)
@@ -190,13 +198,13 @@ check_enough_unique_temperatures_values <- function(dataset) {
 #' @return A preprocessed data frame with converted and validated column data types.
 #'
 #' @importFrom stats complete.cases
-#' @export
 #'
 #' @examples
 #' # Load a sample dataset
 #' data(cbass_dataset)
 #' # Preprocess the dataset
 #' preprocessed_data <- preprocess_dataset(cbass_dataset)
+#' @export
 preprocess_dataset <- function(dataset) {
   dataset <- convert_columns(dataset)
   rlog::log_info("Removing rows with missing data...")

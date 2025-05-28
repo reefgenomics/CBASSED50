@@ -1,14 +1,6 @@
-
-# This line declares global variables to avoid R CMD check warnings about undefined global variables.
-# The specified variable names ("Genotype", "GroupingProperty", "Prediction", "Upper", "Lower") are 
-# used in the script but may not be explicitly defined in the local environment. By using 
-utils::globalVariables(c("Genotype", "GroupingProperty", "Prediction", "Upper", "Lower"))
-
-
 #' Define Grouping Property Column
 #'
-#' This function creates a new column 'GroupingProperty' in the provided dataset
-#' by merging specified columns using a specified separator.
+#' This function creates a new column 'GroupingProperty' in the provided dataset by merging specified columns using a specified separator.
 #' The new column is created as a factor variable.
 #'
 #' @param dataset A data frame where the new 'GroupingProperty' column will be added.
@@ -16,8 +8,6 @@ utils::globalVariables(c("Genotype", "GroupingProperty", "Prediction", "Upper", 
 #' @param sep A character string used as a separator when merging columns (default is "_").
 #'
 #' @return A data frame with the added 'GroupingProperty' column.
-#'
-#' @export
 #'
 #' @examples
 #' # Create a sample data frame
@@ -33,6 +23,7 @@ utils::globalVariables(c("Genotype", "GroupingProperty", "Prediction", "Upper", 
 #' # 1        A           X    10              A-X
 #' # 2        B           Y    20              B-Y
 #' # 3        C           Z    30              C-Z
+#' @export
 define_grouping_property <-
   function(dataset, grouping_properties, sep = "_") {
     dataset$GroupingProperty <- as.factor(do.call(paste, c(dataset[grouping_properties], sep = sep)))
@@ -48,14 +39,10 @@ define_grouping_property <-
 #' using the specified grouping properties and DRM formula.
 #'
 #' @param dataset A data frame containing the dataset on which to fit the DRMs.
-#' @param grouping_properties A character vector specifying the names of columns
-#' in the dataset that will be used as grouping properties
-#' for fitting separate DRMs.
-#' @param drm_formula A formula specifying the dynamic regression model
-#' to be fitted. This formula should follow the standard R formula syntax
-#' (e.g., y ~ x1 + x2).
-#' @param is_curveid A boolean value indicating
-#' if you want to use this parameter to fit the model
+#' @param grouping_properties A character vector specifying the names of columns in the dataset that will be used as grouping properties for fitting separate DRMs.
+#' @param drm_formula A formula specifying the dynamic regression model to be fitted.
+#' This formula should follow the standard R formula syntax (e.g., y ~ x1 + x2).
+#' @param is_curveid A boolean value indicating if you want to use this parameter to fit the model
 #' @param LL.4 Logical. If TRUE, the LL.4 model is used instead of LL.3.
 #' LL.3 is preferred, as PAM data is expected to never be lower than zero.
 #' In cases with overly correlated data and steep slopes, LL.4 allows the
@@ -73,7 +60,7 @@ define_grouping_property <-
 #' preprocessed_data <- preprocess_dataset(cbass_dataset)
 #' fit_drms(preprocessed_data,
 #'        c("Site", "Condition", "Species", "Genotype"),
-#'         "PAM ~ Temperature")
+#'         "Pam_value ~ Temperature")
 #'
 #' @keywords modeling
 fit_drms <- function(dataset, grouping_properties, drm_formula, is_curveid = FALSE, LL.4 = FALSE) {
@@ -103,14 +90,14 @@ fit_drms <- function(dataset, grouping_properties, drm_formula, is_curveid = FAL
   models <- lapply(unique(dataset[[grouping_property]]), function(group_value) {
     subset_data <- dataset[dataset[[grouping_property]] == group_value, ]
 
-    # Conditionaly switch to LL.4 
+    # Conditional switch to LL.4 
     if (LL.4) {
       fct <- drc::LL.4(names = c('Hill', 'Min', 'Max', 'ED50'))
     } else {
       fct <- drc::LL.3(names = c('Hill', 'Max', 'ED50'))
     }
 
-    # Conditionally include curveid argument
+    # Conditional include curveid argument
     if (is_curveid) {
       model <- drc::drm(
         formula, data = subset_data,
@@ -140,15 +127,20 @@ fit_drms <- function(dataset, grouping_properties, drm_formula, is_curveid = FAL
 #'         Each row represents a model's ED50 value and its associated grouping property.
 #'
 #' @importFrom dplyr %>%
-#' @export
 #'
 #' @examples
-#' #' ed50_data <- get_ed50_by_grouping_property(model_list)
+#' data(cbass_dataset)
+#' preprocessed_data <- preprocess_dataset(cbass_dataset)
+#' model_list <-fit_drms(preprocessed_data,
+#'            c("Site", "Condition", "Species", "Genotype"),
+#'             "Pam_value ~ Temperature")
+#' ed50_data <- get_ed50_by_grouping_property(model_list)
 #'
 #' # Resulting data frame structure:
 #' #   ED50     GroupingProperty
 #' # 1 ED50_value_1 Group1
 #' # 2 ED50_value_2 Group2
+#' @export
 get_ed50_by_grouping_property <- function(models) {
   # Extract the model name and intercept using lapply
   results <- lapply(names(models), function(model_name) {
@@ -169,29 +161,33 @@ get_ed50_by_grouping_property <- function(models) {
   return(df)
 }
 
-#' Get ED05s, ED50s and ED95s by Grouping Property
+#' Get ED5s, ED50s and ED95s by Grouping Property
 #'
-#' This function takes a list of models and extracts the ED05s,
+#' This function takes a list of models and extracts the ED5s,
 #' ED50s and ED95s values for each model based on a specified grouping
-#' property. The ED05s, ED50s and ED95s values is extracted from
+#' property. The ED5s, ED50s and ED95s values is extracted from
 #' the model's coefficients and is associated with the intercept term.
 #'
 #' @param models A list of models where each element represents a model object containing coefficients.
 #'
-#' @return A data frame containing the ED50 values along with their corresponding grouping property.
-#'         Each row represents a model's ED50 value and its associated grouping property.
+#' @return A data frame containing the ED50 values along with their corresponding grouping property. Each row represents a model's ED50 value and its associated grouping property.
 #'
 #' @importFrom dplyr %>%
-#' @export
 #'
 #' @examples
-#' #' eds_data <- get_all_ed_by_grouping_property(model_list)
+#' data(cbass_dataset)
+#' preprocessed_data <- preprocess_dataset(cbass_dataset)
+#' model_list <- fit_drms(preprocessed_data,
+#'            c("Site", "Condition", "Species", "Genotype"),
+#'             "Pam_value ~ Temperature", is_curveid = TRUE)
+#' eds_data <- get_all_eds_by_grouping_property(model_list)
 #'
 #' # Resulting data frame structure:
 #' #   ED5         ED50         ED95         GroupingProperty
 #' # 1 ED5_value_1 ED50_value_1 ED95_value_1 Group1
 #' # 2 ED5_value_2 ED50_value_2 ED95_value_2 Group2
-get_all_ed_by_grouping_property <- function(models) {
+#' @export
+get_all_eds_by_grouping_property <- function(models) { #TODO: check all ed are plural 
   # Extract the model name and intercept using lapply
   results <- lapply(names(models), function(model_name) {
     coefficients <- models[[model_name]]$coefficients
