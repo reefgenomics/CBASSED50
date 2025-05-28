@@ -1,19 +1,19 @@
 Type: Package
 Package: CBASSED50
-Title: R Package to Process CBASS-Derived PAM Data
-Version: 0.2.0
+Title: Process CBASS-Derived PAM Data
+Version: 0.2.1
 Authors@R: c(
     person(given = "Yulia", family = "Iakovleva",
-            email = "yulia_iakovleva@uni-konstanz.de", role = c("aut"),
+            role = c("aut"),
             comment = c(ORCID = "0000-0002-0202-7245")),
     person(given = "Luigi", family = "Colin",
-            email = "luigi.colin@uni-konstanz.de", role = c("aut", "cre"),
+            email = "reefgenomics@gmail.com", role = c("aut", "cre"),
             comment = c(ORCID = "0000-0002-6966-2817")),
-    person(given = "Christian Robert", family = "Voolstra",# middle = "Robert",
-            email = "christian.voolstra@uni-konstanz.de", role = c("aut"),
+    person(given = "Christian Robert", family = "Voolstra",
+            role = c("aut"),
             comment = c(ORCID = "0000-0003-4555-3795")))
-Maintainer: Luigi Colin <luigi.colin@uni-konstanz.de>
-Description: The CBASSED50 R package to process CBASS-derived PAM data.
+Maintainer: Luigi Colin <reefgenomics@gmail.com>
+Description: Tools to process CBASS-derived PAM data efficiently. Minimal requirements are PAM-based photosynthetic efficiency data (or data from any other continuous variable that changes with temperature, e.g. relative bleaching scores) from 4 coral samples (nubbins) subjected to 4 temperature profiles of at least 2 colonies from 1 coral species from 1 site. Please refer to the following CBASS (Coral Bleaching Automated Stress System) papers for in-depth information regarding CBASS acute thermal stress assays, experimental design considerations, and ED5/ED50/ED95 thermal parameters: Nicolas R. Evensen et al. (2023) <doi:10.1002/lom3.10555> Christian R. Voolstra et al. (2020) <doi:10.1111/gcb.15148> Christian R. Voolstra et al. (2025) <doi:10.1146/annurev-marine-032223-024511>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -27,8 +27,9 @@ Imports:
     stats,
     utils,
     dplyr,
+    ggplot2,
     readxl,
     glue
 Depends: 
     R (>= 2.10)
-Date: 2025-04-15
+Date: 2025-05-28
