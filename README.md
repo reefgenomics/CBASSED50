@@ -13,13 +13,14 @@ Evensen, N. R., Parker, K. E., Oliver, T. A., Palumbi, S. R., Logan, C. A., Ryan
 <details> 
 <summary><strong>Updates</strong></summary>
 <ul>
+  <li>Release 0.2.0: Added LL.4 option for models and general improvemnts to documentations</li>
   <li>Release 0.1.5: Added ED5 and ED95 to functions and minor documentation updates </li>
 </ul>
 </details>
 
 ### Demo File
 
-To get started download [CBASSED50_demo.qmd](https://github.com/reefgenomics/CBASSED50/blob/main/CBASSED50_demo.qmd). GitHub allows you to do this directly from the web interface:
+To get started download [CBASSED50_tutorial.qmd](CBASSED50_tutorial.qmd). GitHub allows you to do this directly from the web interface:
 
 <p align="center">
 
@@ -29,7 +30,7 @@ To get started download [CBASSED50_demo.qmd](https://github.com/reefgenomics/CBA
 
 This is a document with a notebook interface that contains explanatory text together with the code. Open the document in [RStudio](https://quarto.org/docs/get-started/hello/rstudio.html) and explore it.
 
-RStudio will offer to install missing packages required for running the [CBASSED50_demo.qmd](https://github.com/reefgenomics/CBASSED50/blob/main/CBASSED50_demo.qmd), please do this:
+RStudio will offer to install missing packages required for running the [CBASSED50_tutorial.qmd](CBASSED50_tutorial.qmd), please do this:
 
 <p align="center">
 
@@ -57,8 +58,11 @@ The R package contains an internal dataset. Alternativley, you can run demo usin
 
 The following columns are mandatory:
 
+- `Project` free text field; we recommend to use a unique identifier for 
+  your project, e.g. `202211_DEU_Zugspitze-Feldberg` (YYYYMMDD_Country_Site).
 - `Date` format YYYYMMDD.
 - `Country` format 3-letter [ISO country code](https://countrycode.org).
+- `Latitude` and `Longitude` in decimal degrees (e.g., 47.42123, 10.98632).
 - `Site` free text field (e.g., name of the reef).
 - `Condition` Descriptor to set apart samples from the same species and 
   site, e.g. probiotic treatment vs. control; nursery vs. wild; diseased vs.
@@ -77,26 +81,24 @@ The following columns are mandatory:
   at the end of the CBASS thermal cycling profile); differences in ED50s 
   between timepoints 420 and 1080 may be indicative of resilience/recovery 
   (if 1080 ED50 > 420 ED50) or collapse (if 1080 ED50 < 420 ED50).
-- `PAM` Fv/Fm value of a given sample (format: ≥0 and ≤1, e.g. 0.387); note 
+- `Pam_value` Fv/Fm value of a given sample (format: ≥0 and ≤1, e.g. 0.387); note 
   that technically any continuous variable can be used for ED50 calculation 
   (e.g., coral whitening; black/white pixel intensity; etc.) and be 
   provided in this column.
 
 This is how your input file should look like:
 
-|   Date   | Country |    Site    | Condition |      Species      | Genotype | Temperature | Timepoint |   PAM   |
-|----------|---------|------------|-----------|-------------------|----------|-------------|-----------|---------|
-| 20221113 |   DEU   | Zugspitze   |   Wild    | Acropora germania |    1     |      29     |    420    | 0.608   |
-| 20221113 |   DEU   | Zugspitze   |   Wild    | Acropora germania |    2     |      29     |    420    | 0.651   |
-| 20221113 |   DEU   | Zugspitze   |   Wild    | Acropora germania |    3     |      29     |    420    | 0.558   |
-| 20221113 |   DEU   | Zugspitze   |   Wild    | Acropora germania |    4     |      29     |    420    | 0.635   |
-| 20221113 |   DEU   | Zugspitze   |   Wild    | Acropora germania |    5     |      29     |    420    | 0.618   |
-| 20221114 |   DEU   | Zugspitze   |  Nursery  | Acropora germania |    1     |      29     |    420    | 0.636   |
-| 20221114 |   DEU   | Zugspitze   |  Nursery  | Acropora germania |    2     |      29     |    420    | 0.615   |
-| 20221114 |   DEU   | Zugspitze   |  Nursery  | Acropora germania |    3     |      29     |    420    | 0.64    |
-| 20221114 |   DEU   | Zugspitze   |  Nursery  | Acropora germania |    4     |      29     |    420    | 0.669   |
-| 20221114 |   DEU   | Zugspitze   |  Nursery  | Acropora germania |    5     |      29     |    420    | 0.64    |
-
+| Project                       | Date     | Country | Latitude | Longitude | Site      | Condition | Species           | Genotype | Temperature | Timepoint | Pam_value |
+|-------------------------------|----------|---------|----------|-----------|-----------|-----------|-------------------|----------|-------------|-----------|-----------|
+| 202211_DEU_Zugspitze-Feldberg | 20221114 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 1        | 29          | 420       | 0.636     |
+| 202211_DEU_Zugspitze-Feldberg | 20221114 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 2        | 29          | 420       | 0.615     |
+| 202211_DEU_Zugspitze-Feldberg | 20221114 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 3        | 29          | 420       | 0.64      |
+| 202211_DEU_Zugspitze-Feldberg | 20221114 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 4        | 29          | 420       | 0.669     |
+| 202211_DEU_Zugspitze-Feldberg | 20221114 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 5        | 29          | 420       | 0.64      |
+| 202211_DEU_Zugspitze-Feldberg | 20221115 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 6        | 29          | 420       | 0.664     |
+| 202211_DEU_Zugspitze-Feldberg | 20221115 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 7        | 29          | 420       | 0.638     |
+| 202211_DEU_Zugspitze-Feldberg | 20221115 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 8        | 29          | 420       | 0.685     |
+| 202211_DEU_Zugspitze-Feldberg | 20221115 | DEU     | 47.42123 | 10.98632  | Zugspitze | Nursery   | Acropora germania | 9        | 29          | 420       | 0.658     |
 
 ## Contributing
 
@@ -138,7 +140,7 @@ sudo apt-get install cmake
 
 ## Getting Help
 
-You can always report the GitHub [issue](https://github.com/reefgenomics/CBASSED50/issues) or email the current maintainer: [yulia_iakovleva@proton.me](mailto:yulia_iakovleva@proton.me).
+You can always report the GitHub [issue](https://github.com/reefgenomics/CBASSED50/issues) or email the current maintainer: [luigi.colin@uni-konstanz.de](mailto:luigi.colin@uni-konstanz.de).
 
 ## Cite Us
 
