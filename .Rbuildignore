@@ -3,8 +3,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^data/cbass_dataset\.backup\.rda$
-^CBASSED50_demo.qmd$
 ^CBASSED50_tutorial.qmd$
 ^examples$
 ^README\.md$
