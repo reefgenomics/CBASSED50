@@ -27,17 +27,11 @@ define_temperature_ranges <- function(temperatures, n = 100) {
 #' This function takes a list of models and generates
 #' a sequence of temperature values that span the range of input temperatures.
 #'
-#' @param models A list of models where each element represents
-#' a model object containing coefficients.
-#' @param temp_range the temperature range to be used for predictions
-#'from the function define_temperature_ranges
+#' @param models A list of models where each element represents a model object containing coefficients.
+#' @param temp_range the temperature range to be used for predictions from the function define_temperature_ranges
 #'
-#' @return A data frame containing the predicted PAM values for each temperature
-#' along with their corresponding grouping property.
-#' Each row represents a model's predicted PAM value
-#' and its associated grouping property and confidence interval.
-#'
-#' @export
+#' @return A data frame containing the predicted PAM values for each temperature along with their corresponding grouping property. 
+#' Each row represents a model's predicted PAM value and its associated grouping property and confidence interval.
 #'
 #' @examples
 #' data(cbass_dataset)
@@ -45,7 +39,7 @@ define_temperature_ranges <- function(temperatures, n = 100) {
 #'
 #' models <- fit_drms(preprocessed_data,
 #'                  c("Site", "Condition", "Species", "Timepoint"),
-#'                    "PAM ~ Temperature", is_curveid = TRUE)
+#'                    "Pam_value ~ Temperature", is_curveid = TRUE)
 #' temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n = 100)
 #' predict_temperature_values(models, temp_ranges)
 #' 
@@ -56,6 +50,7 @@ define_temperature_ranges <- function(temperatures, n = 100) {
 # ' # PredictedPAM_4  Min_PAM_4  Max_PAM_4  Group2            temp_1
 # ' # PredictedPAM_5  Min_PAM_5  Max_PAM_5  Group2            temp_2
 # ' # PredictedPAM_6  Min_PAM_6  Max_PAM_6  Group2            temp_3
+#' @export
 predict_temperature_values <- function(models, temp_range) {
   predictions <- lapply(
     models, function(model) {
@@ -74,13 +69,10 @@ predict_temperature_values <- function(models, temp_range) {
 #' This function takes a list of predictions and converts them into a long-format
 #' data frame. Each prediction corresponds to a different temperature range.
 #'
-#' @param predictions A list of data frames where each data frame represents
-#'   predictions for a specific temperature range. The data frames should have
-#'   a common grouping property.
+#' @param predictions A list of data frames where each data frame represents predictions for a specific temperature range. The data frames should have a common grouping property.
 #' @param temp_range the temperature range to be used for predictions from the function define_temperature_ranges
 #'
-#' @return A long-format data frame containing the transformed predictions with
-#'   columns for "GroupingProperty," "Temperature," and "PredictedPAM."
+#' @return A long-format data frame containing the transformed predictions with columns for "GroupingProperty," "Temperature," and "PredictedPAM."
 #'
 #' @importFrom dplyr mutate rename arrange %>%
 transform_predictions_to_long_dataframe <- function(predictions, temp_range) {
@@ -104,7 +96,6 @@ transform_predictions_to_long_dataframe <- function(predictions, temp_range) {
 #'
 #' @return A data frame containing the predicted PAM values along with corresponding temperature values from the given temperature range.
 #'
-#' @export
 #'
 #' @examples
 #' # Load models and temperature range
@@ -112,13 +103,13 @@ transform_predictions_to_long_dataframe <- function(predictions, temp_range) {
 #' data("cbass_dataset")
 #' cbass_dataset <- preprocess_dataset(cbass_dataset)
 #' grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
-#' drm_formula <- "PAM ~ Temperature"
+#' drm_formula <- "Pam_value ~ Temperature"
 #'
 #' # Make list of model
 #' models <- fit_drms(cbass_dataset, grouping_properties, drm_formula, is_curveid = FALSE)
 #' temp_ranges <- define_temperature_ranges(cbass_dataset$Temperature, n = 100)
 #'
-#' # Get predicted PAM values
+#' # Get predicted Pam_value values
 #' predicted_pam <- get_predicted_pam_values(models, temp_ranges)
 #'
 #' @importFrom stats predict
@@ -128,6 +119,7 @@ transform_predictions_to_long_dataframe <- function(predictions, temp_range) {
 #' \link{transform_predictions_to_long_dataframe}
 #' \link{define_temperature_ranges}
 #' @keywords predicted PAM values temperature range model
+#' @export
 get_predicted_pam_values <- function(models, temp_range) {
   predictions <- predict_temperature_values(models, temp_range)  # Assuming the function predict_temperature_values() is defined elsewhere
   result <- transform_predictions_to_long_dataframe(predictions, temp_range)  # Assuming the function transform_predictions_to_long_dataframe() is defined elsewhere
