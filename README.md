@@ -13,7 +13,7 @@ Evensen, N. R., Parker, K. E., Oliver, T. A., Palumbi, S. R., Logan, C. A., Ryan
 <details> 
 <summary><strong>Updates</strong></summary>
 <ul>
-  <li>Release 0.2.0: Added LL.4 option for models and general improvemnts to documentations</li>
+  <li>Release 0.2.0: Now on CRAN. Added LL.4 option for models and general improvements to documentations</li>
   <li>Release 0.1.5: Added ED5 and ED95 to functions and minor documentation updates </li>
 </ul>
 </details>
@@ -40,14 +40,10 @@ RStudio will offer to install missing packages required for running the [CBASSED
 
 ### Install CBASSED50
 
-You can install the latest version of CBASSED50 from GitHub:
+You can install the official version of CBASSED50 from CRAN:
 
 ``` r
-if(!require(devtools)){
-   install.packages("devtools")
-}
-
-devtools::install_github("reefgenomics/CBASSED50@0.1.5", force=TRUE)
+install.packages("CBASSED50")
 ```
 
 ### Input file format
