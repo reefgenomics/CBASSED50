@@ -81,9 +81,9 @@ calculate_eds <- function(cbass_dataset, grouping_properties = c("Site", "Condit
 #' grouping_properties <- c("Site", "Condition", "Species", "Timepoint")
 #'
 #' # Extract the ED5, ED50, and ED95 values as a data frame
-#' fitted_edNs_df <- fit_curve_edN(cbass_dataset, grouping_properties)
+#' fitted_edss_df <- fit_curve_eds(cbass_dataset, grouping_properties)
 #' @export
-fit_curve_edN <- function(cbass_dataset, grouping_properties = c("Site", "Condition", "Species", "Timepoint"), drm_formula = "Pam_value ~ Temperature") {
+fit_curve_eds <- function(cbass_dataset, grouping_properties = c("Site", "Condition", "Species", "Timepoint"), drm_formula = "Pam_value ~ Temperature") {
     processed_dataset <- process_dataset(cbass_dataset, grouping_properties)
 
     summary_eds_df <- calculate_eds(processed_dataset, grouping_properties, drm_formula) %>%
@@ -228,7 +228,7 @@ plot_model_curve <- function(cbass_dataset, grouping_properties = c("Site", "Con
                     by = "GroupingProperty",
                     relationship = "many-to-many") %>%
                     distinct() %>%
-        left_join(fit_curve_edN(processed_dataset, grouping_properties, drm_formula), by = grouping_properties)
+        left_join(fit_curve_eds(processed_dataset, grouping_properties, drm_formula), by = grouping_properties)
 
     tempresp_curve <- ggplot(predictions_df,
         aes(x = Temperature,
