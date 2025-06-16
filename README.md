@@ -44,7 +44,7 @@ RStudio will offer to install missing packages required for running the [CBASSED
 
 ### Install CBASSED50
 
-You can install the official version of CBASSED50 from CRAN:
+Install the current version of CBASSED50 from CRAN:
 
 ``` r
 install.packages("CBASSED50")
