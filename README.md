@@ -140,14 +140,14 @@ sudo apt-get install cmake
 
 ## Getting Help
 
-You can always report the GitHub [issue](https://github.com/reefgenomics/CBASSED50/issues) or email the current maintainer: [luigi.colin@uni-konstanz.de](mailto:luigi.colin@uni-konstanz.de).
+You can always report the GitHub [issue](https://github.com/reefgenomics/CBASSED50/issues) or email the current maintainer: [Luigi Colin](mailto:reefgenomics@gmail.com).
 
 ## Cite Us
 
 If you use this software, please cite it as below:
 
 ``` commandline
-Iakovleva, Y., Colin, L., & Voolstra, C. R. (2024).
+Iakovleva, Y., Colin, L., & Voolstra, C. R. (2025).
 CBASSED50: R package to process CBASS-derived PAM data.
 Zenodo. https://doi.org/10.5281/zenodo.8370644.
 ```
