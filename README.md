@@ -24,7 +24,7 @@ install.packages("CBASSED50")
 
 ### Demo File
 
-To get started download [CBASSED50_tutorial.qmd](CBASSED50_tutorial.qmd). GitHub allows you to do this directly from the web interface:
+Download [CBASSED50_tutorial.qmd](CBASSED50_tutorial.qmd). GitHub allows you to do this directly from the web interface:
 
 <p align="center">
 
